@@ -3,7 +3,7 @@ site_author: Hadi Javeed
 site_description: >-
   Notes about startups, AI, health-care and overall engineering
 repo_name: blog
-site_url: https://hadijaveed.github.io/personal-blog/
+site_url: https://hadijaveed.github.io/personal-blog
 theme:
   name: material
   features:
@@ -49,8 +49,9 @@ theme:
 
 plugins:
   - social
-  - blog
-
+  - glightbox
+  - blog:
+      blog_dir: .
 extra:
   social:
     - icon: fontawesome/brands/github-alt
@@ -73,14 +74,15 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.mark
   - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
 icon:
   logo: logo
 nav:
-  - Blog:
-    - blog/index.md
+  - Thoughts:
+    - index.md
   - About me:
     - "about.md"
   - Subscribe:
