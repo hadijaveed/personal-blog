@@ -1,4 +1,9 @@
-site_name: Hadi Blog
+site_name: Hadi Javeed's blog
+site_author: Hadi Javeed
+site_description: >-
+  Notes about startups, AI, health-care and overall engineering
+repo_name: blog
+site_url: https://hadijaveed.github.io/personal-blog/
 theme:
   name: material
   features:
@@ -11,32 +16,49 @@ theme:
     - content.tabs.link
     - content.code.annotation
     - content.code.copy
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
   language: en
   palette:
-    # - scheme: default
-    #   toggle:
-    #     icon: material/toggle-switch-off-outline 
-    #     name: Switch to dark mode
-    #   primary: teal
-    #   accent: purple 
-    - scheme: slate 
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode    
-      primary: teal
-      accent: lime
+    - scheme: slate
+      primary: black 
+      accent: indigo
 
-# plugins:
-#   - social
+plugins:
+  - social
+  - blog
 
 extra:
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/james-willett
+      link: https://github.com/hadijaveed
     - icon: fontawesome/brands/twitter
-      link: https://twitter.com/TheJamesWillett
+      link: https://twitter.com/hadijpk
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/willettjames/
+      link: https://www.linkedin.com/in/hadijaveed
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -54,6 +76,22 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+icon:
+  logo: logo
+nav:
+  - Blog:
+    - blog/index.md
+  - About me:
+    - "about.md"
+  - Subscribe:
+    - "https://hjaveed.substack.com/subscribe"
+
+  # - Writing:
+  #   - "writing/index.md"
+  # - Hiring:
+  #   - Working with me: "hiring.md"
+  #   - Sample Proposal: "assessment.md"
+  # - Contact: 'contact.md'
 
 copyright: |
-  &copy; 2023 <a href="https://github.com/james-willett"  target="_blank" rel="noopener">James Willett</a>
+  &copy; 2024 <a href="https://github.com/hadijaveed"  target="_blank" rel="noopener">Hadi Javeed</a>
