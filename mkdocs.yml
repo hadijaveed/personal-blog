@@ -7,10 +7,7 @@ site_url: https://hadijaveed.github.io/personal-blog
 theme:
   name: material
   features:
-    - navigation.tabs
-    - navigation.sections
     - toc.integrate
-    - navigation.top
     - search.suggest
     - search.highlight
     - content.tabs.link
@@ -25,31 +22,42 @@ theme:
     - content.tabs.link
     - content.tooltips
     - header.autohide
-    - navigation.expand
-    - navigation.footer
-    - navigation.indexes
+    - navigation.top
     - navigation.instant
     - navigation.instant.prefetch
+    - navigation.expand
+    - navigation.indexes
     - navigation.instant.progress
     - navigation.prune
     - navigation.sections
-    - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
+    # - navigation.footer
     - search.highlight
     - search.share
     - search.suggest
     - toc.follow
   language: en
-  palette:
-    - scheme: slate
-      primary: black 
-      accent: indigo
+  palette: 
+    # Palette toggle for light mode
 
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 plugins:
   - social
   - glightbox
+  - search
   - blog:
       blog_dir: .
 extra:
@@ -78,8 +86,11 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-icon:
-  logo: logo
+
+extra_css:
+  - stylesheets/extra.css
+# icon:
+#   logo: logo
 nav:
   - Thoughts:
     - index.md
