@@ -5,5 +5,18 @@
 } */
 
 /* [data-md-color-scheme="slate"] {
-    --md-hue: 122;
+    --md-hue: ;
 } */
+
+body {
+    background-color: black !important;
+    color: #fff !important;
+}
+
+h1, h2, h3, h4, h5, li {
+    color: #fff !important;
+}
+
+a {
+    color: #9cbcf8 !important;
+}

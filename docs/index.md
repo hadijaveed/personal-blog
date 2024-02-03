@@ -1,8 +1,8 @@
----
+<!-- ---
 hide:
   - navigation
   - toc
----
+--- -->
 
 # Main
 
