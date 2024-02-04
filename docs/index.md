@@ -7,7 +7,7 @@ hide:
 
 ---
 
-[About me](hadijaveed.me/about).
+[About me](./about.md).
 
 Following are my personal thoughts on tech, AI, startups and adoption of AI in Health-Care.
 
