@@ -1,8 +1,13 @@
 ---
+
 hide:
-  - navigation
-  - toc
+
+- navigation
+- toc
+
 ---
+
+[About me](hadijaveed.me/about).
 
 Following are my personal thoughts on tech, AI, startups and adoption of AI in Health-Care.
 

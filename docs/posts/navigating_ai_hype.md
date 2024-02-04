@@ -5,11 +5,6 @@ authors:
 
 date: 2023-05-15
 readtime: 15
-
-# links:
-
-# - first.md
-
 slug: navigating-ai-hype-thinking-about-llms-niche-application
 ---
 
