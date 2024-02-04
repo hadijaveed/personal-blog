@@ -8,7 +8,7 @@ theme:
   logo: assets/logo.jpeg
   favicon: assets/logo.jpeg
   font:
-    text: Roboto
+    text: Raleway
   name: material
   features:
     - toc.integrate
@@ -37,6 +37,7 @@ theme:
     - navigation.top
     - navigation.tracking
     # - navigation.footer
+    - navigation.tabs
     - search.highlight
     - search.share
     - search.suggest
