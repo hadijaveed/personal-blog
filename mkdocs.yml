@@ -118,8 +118,10 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
 nav:
-  - Thoughts:
-    - index.md
+  - Home: 
+    - Blog: 'index.md'
+  # - Thoughts:
+  #   - index.md
   - About me:
     - "about.md"
   - Subscribe to Medium:
