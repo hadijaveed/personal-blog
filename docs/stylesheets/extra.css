@@ -15,13 +15,14 @@ body {
 
 h1, h2, h3, h4, h5 {
     color: #fff !important;
-    font-weight: 400 !important;
+    font-weight: 600 !important;
 }
 
 a {
     color: rgb(138, 192, 247) !important;
 }
 
-p {
+p, li {
     color: #fff !important;
+    font-size: 0.8rem;
 }
