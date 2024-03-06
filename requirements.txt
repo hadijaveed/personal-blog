@@ -3,3 +3,4 @@ mkdocs-material[imaging]
 pillow
 cairosvg
 mkdocs-glightbox
+mkdocs-minify-plugin

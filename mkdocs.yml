@@ -54,6 +54,8 @@ plugins:
   - search
   - blog:
       blog_dir: .
+  - minify:
+      minify_html: true
 extra:
   social:
     - icon: fontawesome/brands/github-alt
