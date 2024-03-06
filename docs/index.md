@@ -11,4 +11,4 @@ Following are my personal thoughts on tech, AI, startups and adoption of AI in H
 
 <hr style="border:1px solid #474545">
 
-# Thoughts
+# Blog / Thoughts
