@@ -3,7 +3,7 @@ site_author: Hadi Javeed
 site_description: >-
   Notes about startups, AI, health-care and overall engineering
 repo_name: blog
-site_url: https://hadijaveed.github.io/personal-blog
+site_url: https://hadijaveed.me
 theme:
   logo: assets/logo.jpeg
   favicon: assets/logo.jpeg
