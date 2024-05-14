@@ -1,10 +1,9 @@
 ---
 
 hide:
-
-- navigation
-- toc
-
+    - navigation
+    - toc
+slug: Introduction
 ---
 
 Following are my personal thoughts on tech, AI, startups and adoption of AI in Health-Care. You could read more about me [here](./about.md)

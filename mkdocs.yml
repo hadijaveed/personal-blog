@@ -8,7 +8,8 @@ theme:
   logo: assets/logo.jpeg
   favicon: assets/logo.jpeg
   font:
-    text: Raleway
+    text: Roboto
+    code: Roboto Mono
   name: material
   features:
     - toc.integrate
@@ -38,6 +39,7 @@ theme:
     - navigation.tracking
     # - navigation.footer
     - navigation.tabs
+    
     - search.highlight
     - search.share
     - search.suggest
@@ -54,6 +56,8 @@ plugins:
   - search
   - blog:
       blog_dir: .
+      post_date_format: yyyy/MM/dd
+      post_url_format: "{date}/{slug}"
   - minify:
       minify_html: true
 extra:
@@ -118,8 +122,8 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
 nav:
-  - Home: 
-    - Blog: 'index.md'
+  # - Home: 
+  - Blog: "index.md"
   # - Thoughts:
   #   - index.md
   - About me:

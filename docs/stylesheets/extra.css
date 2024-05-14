@@ -13,16 +13,21 @@ body {
     color: #fff !important;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     color: #fff !important;
-    font-weight: 600 !important;
+    /* font-weight: 600 !important; */
 }
 
 a {
     color: rgb(138, 192, 247) !important;
 }
 
-p, li {
-    color: #fff !important;
-    font-size: 0.8rem;
+p,
+li {
+    color: #dedede !important;
+    /* font-size: 0.8rem; */
 }
