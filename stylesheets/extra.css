@@ -1,0 +1,33 @@
+/* :root {
+    --md-primary-fg-color: rgb(255 255 255/var(--tw-text-opacity))
+    --md-primary-fg-color--light: rgb(255 255 255/var(--tw-text-opacity));
+    --md-primary-fg-color--dark: #a855f7;
+} */
+
+/* [data-md-color-scheme="slate"] {
+    --md-hue: ;
+} */
+
+body {
+    background-color: rgb(3 7 18) !important;
+    color: #fff !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: #fff !important;
+    /* font-weight: 600 !important; */
+}
+
+a {
+    color: rgb(138, 192, 247) !important;
+}
+
+p,
+li {
+    color: #dedede !important;
+    /* font-size: 0.8rem; */
+}
