@@ -7,6 +7,7 @@ site_url: https://hadijaveed.me
 theme:
   logo: assets/logo.jpeg
   favicon: assets/logo.jpeg
+  custom_dir: overrides
   font:
     text: Fira Sans
     code: Fira Sans
@@ -61,6 +62,7 @@ plugins:
   - minify:
       minify_html: true
 extra:
+  generator: false
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/hadijaveed

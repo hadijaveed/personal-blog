@@ -26,6 +26,7 @@ h4,
 h5 {
     color: rgba(232, 230, 227, 0.8) !important;
     font-weight: 600 !important;
+    /* margin: 1rem 0 !important; */
 }
 
 a {
@@ -35,7 +36,12 @@ a {
 p,
 li {
     color: #dedede !important;
-    /* font-size: 0.8rem; */
+    font-size: 0.7rem;
+}
+
+p:not(li):not(li p) {
+    margin: 1.2rem 0 !important;
+    line-height: 1.2rem !important;
 }
 
 .md-tabs__link {
