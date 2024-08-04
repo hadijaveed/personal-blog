@@ -10,7 +10,7 @@ readtime: 10
 slug: tracing-and-observability-in-llm-applications
 ---
 
-**From Concept to Production with Observability in LLM Applications**
+# From Concept to Production with Observability in LLM Applications
 
 Understanding observability in AI applications, particularly in Large Language Models (LLMs), is crucial. It's all about tracking how your model performs over time, which is especially challenging with text generation outputs. Unlike categorical outputs, text generation can vary widely, making it essential to monitor the behavior and performance of your model closely.
 
