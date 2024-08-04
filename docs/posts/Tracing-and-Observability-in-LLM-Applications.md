@@ -2,6 +2,9 @@
 authors:
     - hjaveed
 
+hide:
+    - toc
+
 date: 2024-03-05
 readtime: 10
 slug: tracing-and-observability-in-llm-applications
