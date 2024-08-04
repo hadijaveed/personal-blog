@@ -10,13 +10,13 @@
 
 body {
     /* background-color: rgb(3 7 18) !important; */
-    background-color: #111010 !important;
-    color: #e8e6e3 !important;
+    background-color: #181a1b !important;
+    color: rgba(232, 230, 227, 0.8) !important;
 }
 
 .md-button--primary {
     background-color: #111010 !important;
-    color: #e8e6e3 !important;
+    color: rgba(232, 230, 227, 0.8) !important;
 }
 
 h1,
@@ -24,7 +24,7 @@ h2,
 h3,
 h4,
 h5 {
-    color: #e8e6e3 !important;
+    color: rgba(232, 230, 227, 0.8) !important;
     font-weight: 600 !important;
 }
 
@@ -39,7 +39,7 @@ li {
 }
 
 .md-tabs__link {
-    color: #e8e6e3 !important;
+    color: rgba(232, 230, 227, 0.8) !important;
 }
 
 .md-grid {
