@@ -36,7 +36,7 @@ a {
 p,
 li {
     color: #dedede !important;
-    /* font-size: 0.7rem; */
+    font-size: 0.9rem;
 }
 
 p:not(li):not(li p) {
