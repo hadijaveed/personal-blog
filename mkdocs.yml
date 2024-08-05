@@ -9,8 +9,8 @@ theme:
   favicon: assets/logo.jpeg
   custom_dir: overrides
   font:
-    text: Fira Sans
-    code: Fira Sans
+    text: Roboto
+    code: Roboto Mono
   name: material
   features:
     # - toc.integrate
