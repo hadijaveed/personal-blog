@@ -33,9 +33,13 @@ a {
     color: rgb(138, 192, 247) !important;
 }
 
+h2 a {
+    color: #d5d2d2 !important;
+}
+
 p,
 li {
-    color: #dedede !important;
+    color: #e2e2e2 !important;
     font-size: 0.9rem;
 }
 
