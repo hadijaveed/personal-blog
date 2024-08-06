@@ -1,0 +1,62 @@
+/* :root {
+    --md-primary-fg-color: rgb(255 255 255/var(--tw-text-opacity))
+    --md-primary-fg-color--light: rgb(255 255 255/var(--tw-text-opacity));
+    --md-primary-fg-color--dark: #a855f7;
+} */
+
+/* [data-md-color-scheme="slate"] {
+    --md-hue: ;
+} */
+
+body {
+    /* background-color: rgb(3 7 18) !important; */
+    background-color: rgb(3 7 18) !important;
+    color: rgba(232, 230, 227, 0.8) !important;
+}
+
+.md-button--primary {
+    background-color: #111010 !important;
+    color: rgba(232, 230, 227, 0.8) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: rgb(243 244 246) !important;
+    font-weight: 500 !important;
+    /* margin: 1rem 0 !important; */
+}
+
+a {
+    color: rgb(138, 192, 247) !important;
+}
+
+h2 a {
+    color: rgb(243 244 246) !important;
+}
+
+p,
+li {
+    color: #d1d5db !important;
+    /* font-size: 0.9rem; */
+}
+
+p:not(li):not(li p) {
+    margin: 1.2rem 0 !important;
+    line-height: 1.2rem !important;
+}
+
+.md-tabs__link {
+    color: rgba(232, 230, 227, 0.8) !important;
+}
+
+.md-grid {
+    max-width: 47rem !important;
+}
+
+.blog-meta-header {
+    color: rgba(232, 230, 227, 0.8) !important;
+    margin-top: 6px;
+}
