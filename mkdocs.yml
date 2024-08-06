@@ -57,6 +57,8 @@ plugins:
   - search
   - blog:
       blog_dir: .
+      blog_toc: true
+      post_dir: posts
       post_date_format: yyyy/MM/dd
       post_url_format: "{date}/{slug}"
   - minify:

@@ -10,7 +10,7 @@
 
 body {
     /* background-color: rgb(3 7 18) !important; */
-    background-color: #181a1b !important;
+    background-color: rgb(3 7 18) !important;
     color: rgba(232, 230, 227, 0.8) !important;
 }
 
@@ -24,7 +24,7 @@ h2,
 h3,
 h4,
 h5 {
-    color: rgba(232, 230, 227, 0.8) !important;
+    color: rgb(243 244 246) !important;
     font-weight: 500 !important;
     /* margin: 1rem 0 !important; */
 }
@@ -34,12 +34,12 @@ a {
 }
 
 h2 a {
-    color: #d5d2d2 !important;
+    color: rgb(243 244 246) !important;
 }
 
 p,
 li {
-    color: #e2e2e2 !important;
+    color: #d1d5db !important;
     /* font-size: 0.9rem; */
 }
 
