@@ -27,10 +27,15 @@ Smoking cessation is best represented as a journey, not a single event. Personal
 Vincere Health realized early on in their journey that creating a platform that allows care team members to build care pathways themselves, instead of hard-coding a program and spending subsequent product and engineering time to tweak it, is the key to creating truly differentiated and personalized experiences. Most of the existing workflow automation no-code tools are not particularly user-friendly or built to solve similar use cases. By building a platform that enables drag and drop care pathways, Vincere Health can empower clinical teams to truly have autonomy, agility to experiment, and flexibility to personalize programs for diverse demographics.
 
 Vincere Health built a nudge engine that allows care teams to create personalized journeys in the following ways:
+
 – Create a care journey for multiple days or months that can track a variety of events on a calendar using their Campaign Studio UI. A campaign includes customized messaging, remote patient monitoring (RPM), and assessments / surveys.
+
 – Define personalized nudges and tasks. Vincere Health uses Twilio’s Programmable Messaging API to power automated SMS messages at specific intervals serving relevant educational content, motivational nudges, behavior enforcement, and medication or appointment reminders for care coordination. When patients respond, Vincere Health integrates the Conversations API with their chatbot so the patient, clinician, and chabot can all take part in a two-way conversation on a single thread while remaining HIPAA-compliant.
+
 – Have the option to define financial reward criteria for achieving certain goals. For example, participants can earn rewards for completing a self-reported survey, a set of tasks, breath tests, or any RPM device test compliance.
+
 – Load preset care plan templates as new participants onboard to provide intervention or design and templetize their own automated care plan.
+
 – Deploy programs with app-less (SMS) experience or using a mobile app via API within minutes.
 
 During the program, Vincere Health collected and aggregated data from participants to measure engagement based on habit compliance. This data allowed care teams to segment participants and take proactive actions.
