@@ -40,7 +40,7 @@ h2 a {
 p,
 li {
     color: #d1d5db !important;
-    /* font-size: 0.9rem; */
+    font-size: 0.9rem;
 }
 
 p:not(li):not(li p) {
