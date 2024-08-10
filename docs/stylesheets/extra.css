@@ -68,7 +68,7 @@ li {
 
 p:not(li):not(li p) {
     margin: 1.2rem 0 !important;
-    line-height: 1.4rem !important;
+    line-height: 1.25rem !important;
 }
 
 .md-tabs__link {
