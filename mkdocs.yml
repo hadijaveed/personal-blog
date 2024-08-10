@@ -67,7 +67,6 @@ extra:
   analytics:
     provider: google
     property: G-XS27CVTCE3
-  disqus: hadi-blog
   generator: false
   social:
     - icon: fontawesome/brands/github-alt

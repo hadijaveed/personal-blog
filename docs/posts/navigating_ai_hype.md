@@ -6,6 +6,7 @@ hide:
 date: 2023-05-15
 readtime: 15
 slug: navigating-ai-hype-thinking-about-llms-niche-application
+comments: true
 ---
 # Navigating the AI Hype and Thinking about Niche LLM Applications
 Recently, there has been a surge of enthusiasm surrounding large language models (LLMs) and generative AI, and justifiably so: LLMs have the power to revolutionize entire industries. Yet, this enthusiasm often gives rise to inevitable hype. It appears somewhat counterintuitive to avoid incorporating “AI” into a product’s presentation, considering the immediate market interest it can generate.
