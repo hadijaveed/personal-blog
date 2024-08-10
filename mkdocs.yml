@@ -64,6 +64,9 @@ plugins:
   - minify:
       minify_html: true
 extra:
+  analytics:
+    provider: google
+    property: G-XS27CVTCE3
   generator: false
   social:
     - icon: fontawesome/brands/github-alt
