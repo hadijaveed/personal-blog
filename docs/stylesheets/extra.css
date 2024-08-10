@@ -8,6 +8,23 @@
     --md-hue: ;
 } */
 
+:root {
+    --md-text-font: ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        "Noto Sans",
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
 body {
     /* background-color: rgb(3 7 18) !important; */
     background-color: rgb(3 7 18) !important;
@@ -45,13 +62,13 @@ li {
 @media screen and (min-width: 680px) {
     p,
     li {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 }
 
 p:not(li):not(li p) {
     margin: 1.2rem 0 !important;
-    line-height: 1.2rem !important;
+    line-height: 1.4rem !important;
 }
 
 .md-tabs__link {
