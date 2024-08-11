@@ -10,7 +10,7 @@ slug: using-nudges-to-reinforce-health-behaviors
 
 # Using Nudges to Reinforce Healthy Behaviors
 
-[Guest Post on Twilio Blog](https://customers.twilio.com/en-us/vincere-health) on how we used Used Twilio to Reinforce Healthy Habits That Improve the Lives of Underserved Populations
+[Guest Post on Twilio Blog](https://customers.twilio.com/en-us/vincere-health) on how we Vincere used Twilio to Reinforce Healthy Habits That Improve the Lives of Underserved Populations
 
 <!-- more -->
 Vincere Health believes clinicians play an integral role in promoting sustainable behavior change and that technology facilitates and personalizes this relationship at scale. Vincere Health is one of few health technology platforms built for people in diverse socio-economic categories.
@@ -41,7 +41,7 @@ Vincere Health built a nudge engine that allows care teams to create personalize
 During the program, Vincere Health collected and aggregated data from participants to measure engagement based on habit compliance. This data allowed care teams to segment participants and take proactive actions.
 
 
-> **Note:** We want clinicians to be in charge of care pathways and let them create the programs themselves. We want to allow coaches to be autonomous and independent. They can experiment on their own with the help of our platform using Twilio's APIs.
+> We want clinicians to be in charge of care pathways and let them create the programs themselves. We want to allow coaches to be autonomous and independent. They can experiment on their own with the help of our platform using Twilio's APIs.
 
 ### Using Twilio as the Communication Cloud Provider
 
