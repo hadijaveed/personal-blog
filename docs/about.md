@@ -10,7 +10,7 @@ With over a decade of experience in software development, I've had the privilege
 
 Previously, I was part of CapitalOne's telephony team, contributing to the development of a voice-enabled NLP chatbot for IVR systems.
 
-My entrepreneurial drive continues (currently working on a stealth startup). Embracing the post-ChatGPT era and leveraging my applied AI experience, I'm now enjoying the dynamic world of consulting, where I leverage my expertise to drive innovation across industries, working closely with founders and business stakeholders.
+My entrepreneurial drive continues (currently working on an exciting stealth startup). Embracing the post-ChatGPT era and leveraging my applied AI experience, I'm now enjoying the dynamic world of consulting, where I leverage my expertise to drive innovation across industries, working closely with founders and business stakeholders.
 
 I currently lead a boutique AI studio offering:
 
