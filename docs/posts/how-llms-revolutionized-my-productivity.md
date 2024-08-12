@@ -7,11 +7,11 @@ hide:
 
 date: 2024-08-11
 readtime: 7
-slug: using-ai-for-my-advantage
+slug: how-llms-revolutionized-my-productivity
 comments: true
 ---
 
-# Leveraging AI: How LLMs Revolutionized My Productivity
+# How LLMs Revolutionized My Productivity
 
 In the ever-evolving landscape of LLMs, I've observed two distinct camps: the doomsayers who predict a dystopian future and the overly optimistic who claim AI has completely transformed their lives overnight. As for me? I find myself somewhere in the middle – cautiously optimistic about the technology's potential while actively seeking ways to harness it for practical, everyday use.
 
