@@ -18,7 +18,7 @@ I started using Meteor on my first job. I was in love with Meteor because of two
 1. A strong boilerplate. (You don’t have to worry about configurations).
 2. It provides you reactivity out of the box. (Making Single page applications is fun with it).
 
-Blaze in Meteor have a unique approach towards DOM. It keeps track of reactive dependencies by compiling html into something called htmljs which will only touch those parts of DOM that really needs to update instead of rendering the whole template. Read this article on [MeteorHacks](https://meteorhacks.com/how-blaze-works/).
+Blaze in Meteor have a unique approach towards DOM. It keeps track of reactive dependencies by compiling html into something called htmljs which will only touch those parts of DOM that really needs to update instead of rendering the whole template. Read this article on [MeteorHacks](https://meteorhacks.com/how-blaze-works/){:target="_blank"}.
 
 Do I want to use Meteor or React every time ? What if I don’t have single page application like the one I am working on these days where we need to make small reusable components with rich client side interactions. I don’t want to use whole framework like Angular or a view layer like React for that. Because part of me miss the out of box reactivity in Meteor that maximizes the separation of concerns and code organisation. I decided to write a miniature library with Handlebars templates and to come up with a good way to integrate in our web application. The goal is to keep the data-flow plainly visible, making it easy to read and understand the code.
 
@@ -140,18 +140,18 @@ counter.events({
 counter.render();
 ```
 
-[Codepen to play with](https://codepen.io/hjaveed/embed/YGOoKX?)
+[Codepen to play with](https://codepen.io/hjaveed/embed/YGOoKX?){:target="_blank"}
 
 Instead of making a regular main-stream todo example to show reactivity I tried to come up with Trello like task cards example.
 
-[Trello like Codepen to play with](https://codepen.io/hjaveed/embed/edLwRX?)
+[Trello like Codepen to play with](https://codepen.io/hjaveed/embed/edLwRX?){:target="_blank"}
 
 ### Performance
-I created a simple performance test with 10,000 item list and a reverse button. Hitting the reverse button renders the template again with a reverse list. On my machine the render time on average is 360ms which is pretty nice as compare to AngularJs which takes on average 600ms to render. See this [codepen](https://codepen.io/hjaveed/pen/vXzoEW) for AngularJS.
+I created a simple performance test with 10,000 item list and a reverse button. Hitting the reverse button renders the template again with a reverse list. On my machine the render time on average is 360ms which is pretty nice as compare to AngularJs which takes on average 600ms to render. See this [codepen](https://codepen.io/hjaveed/pen/vXzoEW){:target="_blank"} for AngularJS.
 
 Definitely Angular’s dirty checking algorithm performance on large templates will be better when you cannot afford to render templates again on every change.
 
-[Reactive Handlebars Performance.](https://codepen.io/hjaveed/embed/xEaeBp?)
+[Reactive Handlebars Performance.](https://codepen.io/hjaveed/embed/xEaeBp?){:target="_blank"}
 
 While clicking twice the reverse list button this is the Google Chrome’s timeline performance overview.
 
@@ -159,5 +159,5 @@ While clicking twice the reverse list button this is the Google Chrome’s timel
 
 ### Next Steps
 
-See the [GitHub](https://github.com/hadijaveed/reactive-handlebars)
+See the [GitHub](https://github.com/hadijaveed/reactive-handlebars){:target="_blank"}
 

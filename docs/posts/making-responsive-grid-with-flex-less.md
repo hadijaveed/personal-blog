@@ -10,7 +10,7 @@ slug: making-responsive-grid-with-flexbox-and-lessjs
 
 # Making responsive grid with Flexbox and LessJS
 
-Understanding FlexBox can be challenging in the start. But once you start understanding FlexBox it is really awesome. There are some really good resources out there on FlexBox. [This](https://www.freecodecamp.org/news/an-animated-guide-to-flexbox-d280cf6afc35) one is the best that I found on [medium](https://www.freecodecamp.org/news/an-animated-guide-to-flexbox-d280cf6afc35). In this article, I will cover the concepts to create your own configurable Grid framework based on FlexBox.
+Understanding FlexBox can be challenging in the start. But once you start understanding FlexBox it is really awesome. There are some really good resources out there on FlexBox. [This](https://www.freecodecamp.org/news/an-animated-guide-to-flexbox-d280cf6afc35){:target="_blank"} one is the best that I found on [medium](https://www.freecodecamp.org/news/an-animated-guide-to-flexbox-d280cf6afc35){:target="_blank"}. In this article, I will cover the concepts to create your own configurable Grid framework based on FlexBox.
 <!-- more -->
 
 
@@ -90,7 +90,7 @@ We will create a grid system having 12 columns in each row.
 
 ### Let’s unleash the power of CSS pre-processor LessJs
 
-To calculate the width of each column I am using this less [mixin as a function](https://lesscss.org/features/#mixins-as-functions-feature). This mixin function calculates the flex-size of a column. On a 100% row, you can expand every children element to certain columns. You can also set custom gutters or no gutters later. Less mixin funcitons are really handy when you want to add logic to your CSS.
+To calculate the width of each column I am using this less [mixin as a function](https://lesscss.org/features/#mixins-as-functions-feature){:target="_blank"}. This mixin function calculates the flex-size of a column. On a 100% row, you can expand every children element to certain columns. You can also set custom gutters or no gutters later. Less mixin funcitons are really handy when you want to add logic to your CSS.
 
 ```css
 .flex-size(@col: 6, @gutter: 1%) {
@@ -103,7 +103,7 @@ Sometimes you want to control gutters. Like in common dashboard interfaces with 
 
 For sidebar column I have used mixin .flex-size(3, 0) since it expands to 3 columns with 0% gutters and for content column .flex-size(9, 0).
 
-To expand elements to certain columns in different view-ports I wrote another mixin as a function that uses [LessJS variable interpolation](https://lesscss.org/features/#variables-feature-variable-interpolation).
+To expand elements to certain columns in different view-ports I wrote another mixin as a function that uses [LessJS variable interpolation](https://lesscss.org/features/#variables-feature-variable-interpolation){:target="_blank"}.
 
 ```css
 .viewport-columns(@screen-type: desktop) {
@@ -199,7 +199,7 @@ With overriding the property of justify-content, from inherit to center, you can
 
 I hope this article has given you a perspective to create a simple functional grid system based on FlexBox. With LessJs you can create helper classes easily to have a highly configurable grid system.
 
-Here is the [Codepen](https://codepen.io/hjaveed/embed/awYjpB?) where you can play with this grid system. Open it in a new tab to see columns expanding on different view-ports.
+Here is the [Codepen](https://codepen.io/hjaveed/embed/awYjpB?){:target="_blank"} where you can play with this grid system. Open it in a new tab to see columns expanding on different view-ports.
 
-[Codepen To play with](https://codepen.io/hjaveed/embed/awYjpB?)
+[Codepen To play with](https://codepen.io/hjaveed/embed/awYjpB?){:target="_blank"}
 

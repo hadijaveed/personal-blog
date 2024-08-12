@@ -58,9 +58,9 @@ We decided to use a background job queue to process different events and handle 
 - Low over-head over creating queue topics or multiple types of queues
 - Concurrency and horizontally scaling the load among distributed workers across different CPUs
 
-Our stack was running on AWS. So we decided to explore [SQS](https://aws.amazon.com/sqs/) as a distributed job queue for the fan-out and reliability. But we soon realized long scheduling jobs in the future are hard to achieve with SQS with an upper limit of 12 hours [visibility timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) (time after which message is visible for processing). For long-scheduled tasks, a message needs to be picked up and delayed again depending on how long in the future a job is scheduled. This makes the design very complex when you have a job that has to run in the future e.g, an incentive payment event that has to run after a month
+Our stack was running on AWS. So we decided to explore [SQS](https://aws.amazon.com/sqs/){:target="_blank"} as a distributed job queue for the fan-out and reliability. But we soon realized long scheduling jobs in the future are hard to achieve with SQS with an upper limit of 12 hours [visibility timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html){:target="_blank"} (time after which message is visible for processing). For long-scheduled tasks, a message needs to be picked up and delayed again depending on how long in the future a job is scheduled. This makes the design very complex when you have a job that has to run in the future e.g, an incentive payment event that has to run after a month
 
-Our team was already using Redis for caching purposes. We decided to use Redis as a delayed task execution queue. Redis supports delayed tasks with reasonable timing precision with minimal resource waste when idle. We explored a couple of stable packages for this use-case. e.g, [Sidekiq](https://github.com/sidekiq/sidekiq) in Rails, Celery with Redis in Python, and [Bull](https://github.com/OptimalBits/bull) in NodeJs. As most of our tech stack was in NodeJs we decided to go with the bull for running long-scheduled tasks and it fulfilled most of our requirements at the time
+Our team was already using Redis for caching purposes. We decided to use Redis as a delayed task execution queue. Redis supports delayed tasks with reasonable timing precision with minimal resource waste when idle. We explored a couple of stable packages for this use-case. e.g, [Sidekiq](https://github.com/sidekiq/sidekiq){:target="_blank"} in Rails, Celery with Redis in Python, and [Bull](https://github.com/OptimalBits/bull){:target="_blank"} in NodeJs. As most of our tech stack was in NodeJs we decided to go with the bull for running long-scheduled tasks and it fulfilled most of our requirements at the time
 
 The second iteration worked like this
 
@@ -74,16 +74,16 @@ The second iteration worked like this
 - We were able to achieve horizontal scalability, every event was processed in a separate process/worker and had no impact on other events in-case of failure
 - With BULL, there was built-in retry logic with an exponential backoff which helps to prevent sporadic errors like network issues
 - Pushed based PUB/SUB design with delayed events were processed with reasonable timing precision
-- For monitoring jobs, we were able to use an [open-source UI](https://github.com/bee-queue/arena#readme) which helped us a lot to track job states
+- For monitoring jobs, we were able to use an [open-source UI](https://github.com/bee-queue/arena#readme){:target="_blank"} which helped us a lot to track job states
 ### Cons
 - Redis is not backed by disk. It works really well for the immediate jobs where you need high throughput, to keep jobs that have to run in the future consumes lots of memory and it is costly
 - The way we were using Redis for long-scheduled tasks was not ideal. We used to submit all the events in Redis at the time of Campaign creation and individual job state mutations were not being tracked in the SQL database in an immutable or append-only manner. Since every historical state mutation at any point in time was not being tracked in a centralized place it was really hard for us to re-try or audit all the events processed or failed. At one point our EC2 server EBS volumes ran out of disk space due to an issue where log files were not being truncated. All the Redis jobs started failing because they couldn’t write the log statements to disk and exhausted all the re-try attempts even with exponential backoff. Since not all the events were tracked it was really hard for us to re-try a particular event after fixing the issue
 - As the backend at Vincere was maturing we started creating multiple micro-services. Most of them had to interact with a job queue for delayed or immediate processing. We were very tightly coupled with Redis and Bull. There wasn’t one documented interface to enqueue jobs. All the developers had to get familiar with Bull API. And if we were to change our queue e.g, move to SQS or Kafka in the future it would be impossible to change application code due to tight coupling
 
 ## Third Iteration of Background Jobs
-After a couple of iterations, we decided to write our own Job Queue utilizing PostgresSQL. We called it [Programma](https://github.com/vincere-health/programma). You might be wondering why "reinvent the wheel". Following were the main reasons we took this path
+After a couple of iterations, we decided to write our own Job Queue utilizing PostgresSQL. We called it [Programma](https://github.com/vincere-health/programma){:target="_blank"}. You might be wondering why "reinvent the wheel". Following were the main reasons we took this path
 
-- Our use-case was to track these jobs in one place for simplicity, like SQL/NoSQL store without too much effort in a simple schema model. We attempt to track job states in Postgres through a simple interface. We choose Postgres due to its [SKIP LOCK](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/#:~:text=PostgreSQL%209.5%20introduces%20a%20new,and%20efficient%20concurrent%20work%20queues) feature that is very suitable for building a queue backed by Postgres
+- Our use-case was to track these jobs in one place for simplicity, like SQL/NoSQL store without too much effort in a simple schema model. We attempt to track job states in Postgres through a simple interface. We choose Postgres due to its [SKIP LOCK](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/#:~:text=PostgreSQL%209.5%20introduces%20a%20new,and%20efficient%20concurrent%20work%20queues){:target="_blank"} feature that is very suitable for building a queue backed by Postgres
 - The goal of Programma is to expose a very flexible and simple API. Where client could nudge the job processing lifecycle by calling utility methods without us dictating the specific lifecycle of a job
 - Programma ensures a job is delivered and claimed by the processor with retryAfterSeconds logic until job status is changed. This parameter is customizable and you can use it for exponential backoff logic as well by changing the retryAfterSeconds. Received messages that are not changed to either Processing, Completed, or FAILED state will appear again after retryAfterSecond timeout
 - Programma exposes Promise-based API and written in typescript which helps us a lot since most of our stack is in NodeJS and Typescript helps us to create self-documenting job interfaces
@@ -94,9 +94,9 @@ The third iteration and current iteration works like this
 
 1. At the time of Campaign creation, we enqueue all the jobs using Programma API and add high-level campaign metadata in our application database
 2. Programma creates entries of jobs in the event-store(Postgres)
-3. Programma processor keeps polling database at a certain interval to see if there are any jobs that ready to be processed. We run multiple job poolers on different servers/containers for workload distribution. We can customize the pooling interval and max jobs per interval. This is where the Postgres [SKIP LOCK](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/#:~:text=PostgreSQL%209.5%20introduces%20a%20new,and%20efficient%20concurrent%20work%20queues.) feature comes really handy to skip the rows that are already claimed and avoid double processing
+3. Programma processor keeps polling database at a certain interval to see if there are any jobs that ready to be processed. We run multiple job poolers on different servers/containers for workload distribution. We can customize the pooling interval and max jobs per interval. This is where the Postgres [SKIP LOCK](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/#:~:text=PostgreSQL%209.5%20introduces%20a%20new,and%20efficient%20concurrent%20work%20queues.){:target="_blank"} feature comes really handy to skip the rows that are already claimed and avoid double processing
 4. Once a job is ready to be processed we change the job status to processing. Programma does not implement any job worker logic. That's why we fan-out all the ready jobs to Redis Queue with Bull for processing
-5. Once a job is processed by the [Bull Worker](https://github.com/OptimalBits/bull#separate-processes) we update the job status in the event-store using Programma API. Re-try logic is handled by the Bull queue manager
+5. Once a job is processed by the [Bull Worker](https://github.com/OptimalBits/bull#separate-processes){:target="_blank"} we update the job status in the event-store using Programma API. Re-try logic is handled by the Bull queue manager
 
 Our application code and different microservices enqueue the jobs using the following API
 
@@ -141,7 +141,7 @@ programma.receiveJobs({ topicName: 'sendEmail' }, async (job: IReceiveJob) => {
 })
 ```
 
-Each job will be processed by an individual [Bull Worker](https://github.com/OptimalBits/bull#separate-processes) which is a separate Node process. Once a job is processed successfully, we change job status and track in DB through Programma API
+Each job will be processed by an individual [Bull Worker](https://github.com/OptimalBits/bull#separate-processes){:target="_blank"} which is a separate Node process. Once a job is processed successfully, we change job status and track in DB through Programma API
 
 ```ts
 bullEmailRedisQueue.process(async (job, done) => {
@@ -174,11 +174,11 @@ bullRedisQueue.on('failed', (id, error) => {
 Some of these might not be cons. But we will discuss trade-offs and future scalability problems
 
 - Since every job regardless if it has to run immediately or in the future is tracked in event-store it consumes lots of space and the index size grows too. We plan to solve this in the future by running a configurable job archival process
-- One SQL Database won’t be able to handle all the load. We plan to create multiple Programma clusters and shard tasks by Organization Id or something more efficient and route them to different clusters. Since Programma handles Job Table schema creation on the fly if it does not exist, we can run multiple local Postgres databases per programma cluster and scale-out. We are very inspired by the Pinterest implementation of [pinlater](https://github.com/pinterest/pinlater) and how it can scale out with MySQL based queue implementation
+- One SQL Database won’t be able to handle all the load. We plan to create multiple Programma clusters and shard tasks by Organization Id or something more efficient and route them to different clusters. Since Programma handles Job Table schema creation on the fly if it does not exist, we can run multiple local Postgres databases per programma cluster and scale-out. We are very inspired by the Pinterest implementation of [pinlater](https://github.com/pinterest/pinlater){:target="_blank"} and how it can scale out with MySQL based queue implementation
 - Pooling based design instead of PUB/SUB wastes some CPU resources where you are continuously pooling even when no jobs are available to be processed in a particular interval. This is one of the tradeoffs we have to make for simplicity and reliability
 
 ### Avoiding duplicate processing of Jobs
-As we process payment events, where our users get paid through different payment gateways. We cannot take risk of double processing the event. Even with Postgres SKIP LOCK and Bull it’s hard to run into a scenario where a job is processed twice, but the situation could [arise when the queue is stalled](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/). For such jobs, we use distributed locks with Redis Redlock. You can read this topic here regarding the distributed lock implementation
+As we process payment events, where our users get paid through different payment gateways. We cannot take risk of double processing the event. Even with Postgres SKIP LOCK and Bull it’s hard to run into a scenario where a job is processed twice, but the situation could [arise when the queue is stalled](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/){:target="_blank"}. For such jobs, we use distributed locks with Redis Redlock. You can read this topic here regarding the distributed lock implementation
 
 ```ts
 try {
@@ -192,15 +192,15 @@ try {
 
 ## Next Steps
 
-- Most of our background job workflows are evolving into a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (Directed Acyclic Graph). We plan to model the parent-child relationship of jobs in the future for maintainability and having better visibility over workflows
+- Most of our background job workflows are evolving into a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph){:target="_blank"} (Directed Acyclic Graph). We plan to model the parent-child relationship of jobs in the future for maintainability and having better visibility over workflows
 - Creating a better API for queue metrics and measuring queue depth. If a job is not processed in a specific interval maybe set up some alarms etc.
 - Creating a better archival process for the processed job for event-store maintainability
 
 ## References
 
-- [Bull Queue Documentation](https://github.com/OptimalBits/bull#important-notes)
-- [Understanding SELECT ... SKIP LOCKED in PostgreSQL](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/)
-- [Redis Distributed Locks](https://redis.io/topics/distlock)
-- [Qmessage: Handling Billions of Tasks Per Day](https://www.quora.com/q/quoraengineering/Qmessage-Handling-Billions-of-Tasks-Per-Day)
-- [Pinterest's Pinlater](https://github.com/pinterest/pinlater)
-- [Building a Multi-Tenant Job Queue System with PostgreSQL](https://www.holistics.io/blog/how-we-built-a-multi-tenant-job-queue-system-with-postgresql-ruby/)
+- [Bull Queue Documentation](https://github.com/OptimalBits/bull#important-notes){:target="_blank"}
+- [Understanding SELECT ... SKIP LOCKED in PostgreSQL](https://www.2ndquadrant.com/en/blog/what-is-select-skip-locked-for-in-postgresql-9-5/){:target="_blank"}
+- [Redis Distributed Locks](https://redis.io/topics/distlock){:target="_blank"}
+- [Qmessage: Handling Billions of Tasks Per Day](https://www.quora.com/q/quoraengineering/Qmessage-Handling-Billions-of-Tasks-Per-Day){:target="_blank"}
+- [Pinterest's Pinlater](https://github.com/pinterest/pinlater){:target="_blank"}
+- [Building a Multi-Tenant Job Queue System with PostgreSQL](https://www.holistics.io/blog/how-we-built-a-multi-tenant-job-queue-system-with-postgresql-ruby/){:target="_blank"}

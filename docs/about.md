@@ -6,15 +6,18 @@ slug: about
 ---
 # About Me
 
-I've a decade long experience in software development. As CTO/Co-Founder of [Vincere Health](https://www.vincere.health/) (acquired by Red Ventures Optum in 2023), I developed a behavior change platform integrating financial incentives with AI, now adopted by industry leaders like United Health Care, MSK, and Mayo Clinic.
+With over a decade of experience in software development, I've had the privilege of working on diverse and impactful projects. As the CTO and Co-Founder of [Vincere Health](https://www.vincere.health/) (acquired by Red Ventures Optum in 2023), I led the development of a behavior change platform for patients struggling with addiction which seamlessly integrates [fintech solution to reward users](https://aws.amazon.com/blogs/startups/helping-people-quit-smoking-through-financial-rewards/) with financial incentives for quitting, alongside an AI-powered chatbot that drives behavior change.
 
 Previously, I was part of CapitalOne's telephony team, contributing to the development of a voice-enabled NLP chatbot for IVR systems.
 
-While founding new ventures remains a passion, recognizing the potential in the post-ChatGPT era I'm currently enjoying the dynamic world of consulting, leveraging my expertise to drive innovation across industries and working with founders / business stakeholders. I am leading a boutique AI studio that specializes in following:
+My entrepreneurial drive continues (currently working on a stealth startup). Embracing the post-ChatGPT era and leveraging my applied AI experience, I'm now enjoying the dynamic world of consulting, where I leverage my expertise to drive innovation across industries, working closely with founders and business stakeholders.
 
-- Strategic consulting for AI integration and fundraising narratives
-- Rapid prototyping and large-scale application development with AI
-- LLM optimization in production and UX design
-- Giving access to vast network of talented engineers and designers
-- Build vs buy decisions
-- Helping companies get over security hurdles (HIPAA, SOC2 and HITRUST)
+I currently lead a boutique AI studio offering:
+
+- Strategic AI integration consulting
+- Rapid prototyping or productionizing AI systems, including optimization and UX guidance
+- Access to a network of skilled engineers and designers
+- Guidance on build vs. buy decisions
+- Support in navigating security compliance (HIPAA, SOC2, HITRUST)
+
+You can reach out to me [here](mailto:hadij.pk@gmail.com).
