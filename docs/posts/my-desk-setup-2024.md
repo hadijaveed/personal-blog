@@ -18,9 +18,9 @@ My desk setup as of writing this post. I've been working from home for the past 
 Also, I want to use this blog to track changes for my setup over time and share with fellow devs / team-mates.
 
 
-<!-- more -->
+<img src="/assets/desk-setup-2024.jpg" alt="My desk setup in 2024" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 400px; object-fit: cover;">
 
-<img src="/assets/desk-setup-2024.jpg" alt="My desk setup in 2024" style="display: block; margin-left: auto; margin-right: auto; width: 100%; object-fit: cover;">
+<!-- more -->
 
 <hr style="border:1px solid #474545">
 
