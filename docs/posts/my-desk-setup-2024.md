@@ -15,7 +15,7 @@ comments: true
 
 My desk setup as of writing this post. I've been working from home for the past 1 year and have been slowly evolving my setup to be more ergonomic and efficient.
 
-Also, I want to use this blog to track changes to my setup over time and share with fellow devs / team-mates.
+Also, I want to use this blog to track changes for my setup over time and share with fellow devs / team-mates.
 
 
 <!-- more -->
@@ -53,7 +53,7 @@ I have an ergonomic chair from [Autonomous](https://www.autonomous.ai/office-cha
 ### Monitor
 I used to be a two-monitor guy. I started feeling subtle pain in my neck due to the angle and tilt of the monitors. It was unnoticeable at first. I switched to one giant curved monitor where my viewing angle is more natural and centered, and all the pain went away.
 
-#### [LG 28-inch curved monitor](https://www.amazon.com/gp/product/B09V6S4ML2/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1){:target="_blank"}. I cannot recommend this monitor enough. It's a game-changer.
+#### [LG 38-inch curved monitor](https://www.amazon.com/gp/product/B09V6S4ML2/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1){:target="_blank"}. I cannot recommend this monitor enough. It's a game-changer.
 
 - This monitor comes with an excellent ergonomic stand that can be adjusted in multiple directions. I've tried many ergonomic arms, but the quality is never good. LG makes one of the best solid ergo stands. The black color monitor stand on the white desk gives a good contrast too.
 - This monitor also helped with my cable management. I have one USB-C cable that comes out of the monitor to my laptop. Laptop charging is built into the monitor. My camera, mic, and other lights are hooked to the monitor too. I can't stop recommending this monitor.
