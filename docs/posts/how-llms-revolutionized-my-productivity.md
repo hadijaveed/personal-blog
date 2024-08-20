@@ -15,14 +15,6 @@ comments: true
 
 In the ever-evolving landscape of LLMs, I've observed two distinct camps: the doomsayers who predict a dystopian future and the overly optimistic who claim AI has completely transformed their lives overnight. As for me? I find myself somewhere in the middle – cautiously optimistic about the technology's potential while actively seeking ways to harness it for practical, everyday use.
 
-<img src="/assets/llm-productivity.png" alt="My desk setup in 2024" id="llm-productivity" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 400px; object-fit: cover;">
-<style>
-@media (max-width: 767px) {
-  #llm-productivity {
-    height: auto !important;
-  }
-}
-</style>
 
 <!-- more -->
 
