@@ -19,6 +19,13 @@ Also, I want to use this blog to track changes for my setup over time and share 
 
 
 <img src="/assets/desk-setup-2024.jpg" alt="My desk setup in 2024" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 400px; object-fit: cover;">
+<style>
+@media (max-width: 767px) {
+  img[alt="My desk setup in 2024"] {
+    height: auto !important;
+  }
+}
+</style>
 
 <!-- more -->
 
