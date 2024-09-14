@@ -4,3 +4,4 @@ pillow
 cairosvg
 mkdocs-glightbox
 mkdocs-minify-plugin
+mkdocs-rss-plugin

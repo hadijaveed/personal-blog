@@ -55,6 +55,7 @@ plugins:
   - social
   - glightbox
   - search
+  - rss
   - blog:
       blog_dir: .
       blog_toc: true
