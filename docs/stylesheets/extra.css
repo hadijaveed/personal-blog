@@ -50,6 +50,18 @@ a {
     color: rgb(138, 192, 247) !important;
 }
 
+.md-button {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+.md-button:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
 h2 a {
     color: rgb(243 244 246) !important;
 }
@@ -82,4 +94,60 @@ p:not(li):not(li p) {
 .blog-meta-header {
     color: rgba(232, 230, 227, 0.8) !important;
     margin-top: 6px;
+}
+
+
+.subscribe-container {
+    background-color: rgb(3 7 18);
+    border: 1px solid #474545;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem auto;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    max-width: 80%;
+    width: fit-content;
+}
+
+.subscribe-container h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: rgb(243 244 246);
+}
+
+.subscribe-container p {
+    margin-bottom: 1.5rem;
+    color: #d1d5db;
+}
+
+.subscribe-container .md-button--primary {
+    background-color: #111010;
+    color: rgba(232, 230, 227, 0.8);
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    border: 2px solid #ffffff;
+}
+
+.subscribe-container .md-button--primary:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+@media (max-width: 768px) {
+    .subscribe-container {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        width: 100%;
+    }
+
+    .subscribe-container h3 {
+        font-size: 1.25rem;
+    }
+
+    .subscribe-container .md-button--primary {
+        width: 100%;
+    }
 }

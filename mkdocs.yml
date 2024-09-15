@@ -136,15 +136,10 @@ nav:
   #   - index.md
   - About me:
     - "about.md"
-  - Medium:
-    - "https://hadijaveed.medium.com/"
 
-  # - Writing:
-  #   - "writing/index.md"
-  # - Hiring:
-  #   - Working with me: "hiring.md"
-  #   - Sample Proposal: "assessment.md"
-  # - Contact: 'contact.md'
+  - Subscribe: 
+      url: "https://newsletter.hadijaveed.me"
+      target: _blank
 
 copyright: |
   &copy; 2024 <a href="https://www.linkedin.com/in/hadijaveed"  target="_blank" rel="noopener">Hadi Javeed</a>
