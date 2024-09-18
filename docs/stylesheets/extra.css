@@ -58,8 +58,10 @@ a {
 }
 
 .md-button:hover {
-    background-color: #ffffff !important;
-    color: #000000 !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease;
 }
 
 h2 a {
@@ -110,13 +112,6 @@ p:not(li):not(li p) {
 .subscribe-container h3 {
     margin-top: 0;
     margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: rgb(243 244 246);
-}
-
-.subscribe-container p {
-    margin-bottom: 1.5rem;
-    color: #d1d5db;
 }
 
 .subscribe-container .md-button--primary {
