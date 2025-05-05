@@ -5,7 +5,7 @@ __pycache__/
 prompt.md
 # C extensions
 *.so
-
+prompts/
 # Distribution / packaging
 .Python
 build/
