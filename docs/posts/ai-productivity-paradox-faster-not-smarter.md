@@ -1,15 +1,15 @@
 ---
 authors:
-    - hjaveed
+  - hjaveed
 hide:
-    - toc
+  - toc
 date: 2025-07-26
 readtime: 4
 slug: ai-productivity-paradox-faster-not-smarter
 comments: true
 ---
 
-# AI gave me 20 hours back each week, but I'm still not shipping faster
+# AI Gave Engineers 20 Hours Back Per Week. Why Aren't We Shipping Faster?
 
 AI has compressed time in my life. This time compression has unlocked a lot, but perhaps not in the ways you'd expect.
 
@@ -50,18 +50,23 @@ But here's the uncomfortable truth: AI hasn't made me smarter. It's made me fast
 Let me break down the reality:
 
 ### Testing
+
 Unit tests are fine, AI can write those well. But end-to-end test cases with multiple systems integrating together? That's where things fall apart. Some might call it a skill issue or context engineering problem, but I might as well write the test cases myself. The mental model required to verify complex integrations still lives entirely in my head.
 
 ### Business Logic Limitations
+
 The code quality for business logic is... okay. Just okay. It's functional but rarely optimal. I still need to create mental proofs to verify it works in the broader system context. The amount of time it takes me to write a prompt with all the context is a lot, might as well start writing code. I'm proficient in writing code, so I just start doing it. What I'm trying to say is that putting thoughts from my head into code is faster than giving AI all the context in a prompt.
 
 ### Design Coherence Gap
+
 V0 and Loveable are incredible for prototyping, but the design language is all over the place. Components don't speak the same product language. There's a lack of reusability that makes production deployment painful. You get a working prototype fast, but making it production-ready requires manual, thoughtful work.
 
 ### The Over-Engineering Problem
+
 AI-generated PRDs tend to over-specify. Engineers end up more confused, not less. O3 and Gemini do a decent job, but they still need heavy editing to provide actual clarity. It's like having an eager intern who writes novels when you need haikus.
 
 ### Performance at Scale
+
 I'm still spending significant time optimizing data models, applying the right indexes, dealing with scale issues. AI can suggest indexes, sure. But understanding query patterns, anticipating growth, making trade-offs between read and write performance remains a human problem.
 
 ## The Production Gap
@@ -94,3 +99,4 @@ I'd rather have this problem, too much compressed time and not enough production
 The future isn't about AI replacing us. It's about learning when to leverage AI for time compression and when to apply human intelligence for the complex, nuanced work that still defines great software. And just like my journey with open source, this evolution takes time.
 
 I'm still learning. We all are.
+
