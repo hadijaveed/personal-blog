@@ -11,6 +11,8 @@ comments: true
 
 # How Claude Code Made Me Fall in Love with the Terminal 
 
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/dcc3a304db4e457e8ba9648bcaa34ebf?sid=auto" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
 Like many of you, I recently made the full switch from Cursor to [Claude Code](https://docs.anthropic.com/en/docs/claude-code). This transition marked more than just a tool change – it fundamentally transformed how I think about development environments.
 
 For years, I lived in VSCode (recently Cursor), relying heavily on mouse navigation and minimal keyboard shortcuts. I resisted the pull of Neovim and keyboard-centric workflows. But after embracing Claude Code, I discovered something profound: **the terminal is the new IDE**. You can run it everywhere with a consistent workflow – be it a Linux box, your Mac, or a VPS. That's all you need.
