@@ -13,7 +13,7 @@ comments: true
 
 Like many of you, I recently made the full switch from Cursor to [Claude Code](https://docs.anthropic.com/en/docs/claude-code). This transition marked more than just a tool change – it fundamentally transformed how I think about development environments.
 
-For years, I lived in VSCode, relying heavily on mouse navigation and minimal keyboard shortcuts. I resisted the pull of Neovim and keyboard-centric workflows. But after embracing Claude Code, I discovered something profound: **the terminal is the new IDE**. You can run it everywhere with a consistent workflow – be it a Linux box, your Mac, or a VPS. That's all you need.
+For years, I lived in VSCode (recently Cursor), relying heavily on mouse navigation and minimal keyboard shortcuts. I resisted the pull of Neovim and keyboard-centric workflows. But after embracing Claude Code, I discovered something profound: **the terminal is the new IDE**. You can run it everywhere with a consistent workflow – be it a Linux box, your Mac, or a VPS. That's all you need.
 
 <!-- more -->
 
@@ -33,9 +33,13 @@ The shift to terminal-based development isn't just about nostalgia or hacker aes
 
 ### Speed vs. Control
 
-I was using Cursor's AI agents, and while the review UX was impressive, it was *too fast*. Yes, you read that right – too fast. When working on established codebases, I want to be in the loop, reviewing work as it happens. Being able to control the pace of AI assistance is crucial.
+I was using Cursor's AI agents, and while the review UX was impressive, it was *too fast*. Yes, you read that right – too fast. 
 
-With Cursor agents, you can spawn multiple agents, but the context switching felt disconnected. It never matched the fluid experience of working in a [tmux](https://github.com/tmux/tmux) or [Zellij](https://zellij.dev/) window where you can see your AI "cooking" the code in real-time.
+When you're creating something from scratch, speed is a blessing. But when modifying large, established codebases – which is most of my work using Claude Code's @ commands – the equation changes. I found myself struggling to properly review the changes. Why? Because meaningful code review requires understanding not just what changed, but why and how it fits into the larger system.
+
+My workflow evolved into something more deliberate: Claude makes edits, I review them in the terminal, jump to another [Zellij](https://zellij.dev/) pane, and hit `<line#>G` in Neovim to inspect exactly what's being modified. This might seem slower, but it's actually faster in the long run. With AI, I want to do better code reviews and focus my attention where it matters most. This terminal-based approach helps me achieve exactly that.
+
+With Cursor agents, you can spawn multiple agents, but the context switching felt disconnected. It never matched the fluid experience of working in a [tmux](https://github.com/tmux/tmux) or Zellij window where you can see your AI "cooking" the code in real-time while maintaining full control over the review process.
 
 ### The Context Problem
 
@@ -47,8 +51,9 @@ AI processing creates natural pauses in your workflow. Rather than sitting idle 
 - Writing test cases I want to validate
 - Drafting the next specification
 - Setting up another AI agent for a parallel task
+- Reviewing the project's architecture to anticipate edge cases
 
-The terminal makes this context switching seamless. Before AI completes one task, I'm already thinking three steps ahead, preparing context for the next interaction.
+The terminal makes this context switching seamless. Before AI completes one task, I'm already thinking three steps ahead, preparing context for the next interaction. It's like conducting an orchestra – while one section plays, you're already cueing the next.
 
 ## My Terminal-First Toolkit
 
@@ -84,7 +89,7 @@ While Cursor's completion model is excellent, GitHub Copilot in Neovim holds its
 
 I missed Cursor's `Cmd + K` experience for quick edits. Avante.nvim fills this gap. It's not perfect, but with proper keybindings, I rarely need it – Claude Code handles the heavy lifting.
 
-### [Ghostty](https://ghostty.org/) Terminal
+### [Ghostty](https://github.com/ghostty-org/ghostty) Terminal
 
 This beautiful terminal won me over with its simplicity and speed. It's the perfect foundation for this entire workflow.
 
@@ -97,17 +102,22 @@ Recently started using this to experiment with different models like Kimi for fa
 - [lazygit](https://github.com/jesseduffield/lazygit) - Git management without leaving the terminal
 - [lazydocker](https://github.com/jesseduffield/lazydocker) - Docker container management made simple
 - [Rainfrog](https://github.com/achristmascarl/rainfrog) - SQL database management in the terminal
-- Docker Compose - Let Claude Code work with compose files to spin up dependencies and integrate multiple codebases
+- [Docker Compose](https://docs.docker.com/compose/) - Let Claude Code work with compose files to spin up dependencies and integrate multiple codebases
 
 ## The Slash Command Revolution
 
 One of Claude Code's killer features is its slash commands. I've built up a library of custom commands that act as sophisticated prompts. These aren't just shortcuts – they're carefully crafted instructions that ensure consistent, high-quality AI assistance.
 
-With hooks, I can trigger linting and type checking automatically. The terminal becomes a highly customized environment where AI and traditional tools work in perfect harmony.
+For example, I have commands for:
+- `/architect` - Helps me think through system design before implementation
+- `/review` - Provides thorough code review with security and performance considerations
+- `/test` - Generates comprehensive test cases based on my codebase patterns
+
+With hooks, I can trigger linting and type checking automatically. The terminal becomes a highly customized environment where AI and traditional tools work in perfect harmony. Every command execution can trigger a cascade of validations, ensuring code quality remains high even as development speed increases.
 
 ## Final Thoughts: Was It Worth It?
 
-Absolutely. 
+Absolutely.
 
 The initial learning curve for Neovim was steep, but living entirely in the terminal has reignited my joy in programming. Zellij's session management enables laser-focused work – each session becomes a dedicated workspace for deep concentration.
 
@@ -115,6 +125,6 @@ The ability to conduct multiple AI agents simultaneously, review their work in r
 
 As AI continues to evolve, I believe terminal-based workflows will become increasingly important. The terminal provides the perfect balance of power, flexibility, and control for orchestrating AI agents. It's not about going backwards – it's about finding the right interface for the future of development.
 
-Whether you're writing code, searching files, or editing documentation, tools like Claude Code are transforming the humble terminal into a powerful AI-augmented development environment. 
+Whether you're writing code, searching files, or editing documentation, tools like Claude Code are transforming the humble terminal into a powerful AI-augmented development environment.
 
-The terminal isn't just alive – it's thriving. And for developers willing to invest in mastering it, the rewards are substantial.
+The terminal isn't just alive – it's thriving. And for developers willing to invest in mastering it, the rewards are substantial
