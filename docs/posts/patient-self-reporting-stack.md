@@ -41,22 +41,14 @@ We can’t fix this by “adding AI” to a broken assembly line. We need to ref
 
 ### 1. Intake that sets expectations up front
 
-```mermaid
-sequenceDiagram
-    participant P as Patient
-    participant IVR as AI Call / IVR
-    participant RN as Nurse
-    participant EHR as Care Record
-    P->>IVR: Describes symptom in natural language
-    IVR->>IVR: Transcribe + classify acuity (LLM)
-    alt High Acuity
-        IVR->>RN: Push real-time transcript + summary
-        RN->>P: Warm transfer within 60s
-    else Medium / Low
-        IVR->>EHR: Structured payload (symptom, duration, meds)
-        IVR->>P: Confirms expected response window
-    end
-```
+<img src="/assets/patient-reporting-flow.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 500px; object-fit: cover;">
+<style>
+@media (max-width: 767px) {
+  #llm-journey-arch {
+    height: auto !important;
+  }
+}
+</style>
 
 - Large language models can score acuity quickly (VUMC’s retrieval-augmented triage hit 0.98 sensitivity [JAMIA, 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC12089757/)).
 - Patients hear a commitment (“a nurse will join in under a minute if needed” or “we’ll text you an answer in two hours”), which keeps engagement high.
@@ -82,13 +74,18 @@ flowchart LR
 ### 3. Outbound nudges that feel bespoke
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Monitor
-    Monitor --> Triggered : Trend risk up
-    Triggered --> Draft : LLM composes context-rich outreach
-    Draft --> Review : Human validates tone + plan
+flowchart LR
+    Monitor[Monitor trends]
+    Detect[Risk threshold crossed]
+    Draft[LLM drafts outreach]
+    Review[Human review]
+    Send[Send & log outcome]
+
+    Monitor --> Detect
+    Detect --> Draft
+    Draft --> Review
     Review --> Send
-    Send --> Monitor : Capture response + outcome
+    Send --> Monitor
 ```
 
 - Aggregated self-reports feed longitudinal trends (pain scores, medication adherence, social needs). When a metric drifts, the orchestrator drafts follow-up language tailored to that patient’s literacy and history.
@@ -104,10 +101,10 @@ stateDiagram-v2
 
 LLMs earn their keep by shrinking the research burden on the care team:
 
-- **Context gathering** – assemble medication history, recent labs, and prior outreach before a human opens the chart.
-- **Summarization loops** – recursive summaries keep cross-channel interactions digestible without losing dosage details or timelines.
-- **Acuity classification** – flag high-risk language inside texts and voicemails instantly, so humans act faster.
-- **Drafting outbound communication** – suggest responses that a nurse can approve or tweak in seconds.
+- Context gathering: assemble medication history, recent labs, and prior outreach before a human opens the chart.
+- Summarization loops: recursive summaries keep cross-channel interactions digestible without losing dosage details or timelines.
+- Acuity classification: flag high-risk language inside texts and voicemails instantly, so humans act faster.
+- Drafting outbound communication: suggest responses that a nurse can approve or tweak in seconds.
 
 But they always operate inside a governed loop. High-acuity cases trigger synchronous handoffs. Every draft carries a “source disclosure” showing the snippets the model used. Clinicians can thumbs-up or correct the draft, feeding evaluation back into the system.
 
@@ -120,7 +117,5 @@ The payoff is simple: patients know someone is listening, care teams spend time 
 Incumbent EHR vendors—Epic, Cerner, the rest of the club—certainly have the data gravity to tackle this, and they own the workflows inside the chart. But their strength on in-visit documentation hasn’t translated into nimble inbound and outbound engagement. Telephony integrations remain bolt-ons, multi-channel intent routing is brittle, and most of the tooling still assumes a human will manually stitch the story together.
 
 We’re still refining evaluation datasets, UI treatments, and human review workflows—but the stack is finally showing that AI and thoughtful UX can make patient self-reporting actionable without losing the heart of human-centered care.
-
----
 
 If you’re experimenting with your own self-reporting stack, I’d love to compare notes. The work ahead is making these loops tight, auditable, and empathetic.
