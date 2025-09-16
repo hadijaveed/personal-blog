@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 360" width="1080" height="360" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .box { stroke: #3454d1; stroke-width: 2; rx: 16; ry: 16; }
+    .label { font-size: 16px; font-weight: 600; fill: #1f2a56; }
+    .caption { font-size: 13px; fill: #3454d1; }
+  </style>
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,3 L0,6 z" fill="#3454d1" />
+    </marker>
+  </defs>
+
+  <rect x="60" y="140" width="170" height="100" class="box" fill="#f0f4ff" />
+  <text x="145" y="185" text-anchor="middle" class="label">Patient message</text>
+  <text x="145" y="205" text-anchor="middle" class="label">/ transcript</text>
+
+  <rect x="260" y="140" width="170" height="100" class="box" fill="#fff4d6" />
+  <text x="345" y="190" text-anchor="middle" class="label">LLM triage</text>
+  <text x="345" y="210" text-anchor="middle" class="label">intent + acuity</text>
+
+  <rect x="460" y="140" width="170" height="100" class="box" fill="#f0f4ff" />
+  <text x="545" y="185" text-anchor="middle" class="label">Prioritized</text>
+  <text x="545" y="205" text-anchor="middle" class="label">queue view</text>
+
+  <rect x="660" y="60" width="170" height="100" class="box" fill="#e0ffe5" />
+  <text x="745" y="105" text-anchor="middle" class="label">Auto-resolve</text>
+  <text x="745" y="125" text-anchor="middle" class="label">protocols</text>
+
+  <rect x="660" y="140" width="170" height="100" class="box" fill="#e0f7ff" />
+  <text x="745" y="185" text-anchor="middle" class="label">Draft reply</text>
+  <text x="745" y="205" text-anchor="middle" class="label">for review</text>
+
+  <rect x="660" y="220" width="170" height="100" class="box" fill="#ffe0e0" />
+  <text x="745" y="265" text-anchor="middle" class="label">Escalate to</text>
+  <text x="745" y="285" text-anchor="middle" class="label">visit packet</text>
+
+  <rect x="870" y="60" width="170" height="100" class="box" fill="#e0ffe5" />
+  <text x="955" y="105" text-anchor="middle" class="label">Outbound reply</text>
+
+  <rect x="870" y="140" width="170" height="100" class="box" fill="#e0f7ff" />
+  <text x="955" y="185" text-anchor="middle" class="label">Human edits</text>
+
+  <rect x="870" y="220" width="170" height="100" class="box" fill="#ffe0e0" />
+  <text x="955" y="265" text-anchor="middle" class="label">Team notified</text>
+
+  <line x1="230" y1="190" x2="260" y2="190" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <line x1="430" y1="190" x2="460" y2="190" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+
+  <line x1="630" y1="110" x2="660" y2="110" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <text x="645" y="90" text-anchor="middle" class="caption">Low risk</text>
+
+  <line x1="630" y1="190" x2="660" y2="190" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <text x="645" y="170" text-anchor="middle" class="caption">Most cases</text>
+
+  <line x1="630" y1="270" x2="660" y2="270" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <text x="645" y="250" text-anchor="middle" class="caption">High acuity</text>
+
+  <line x1="830" y1="110" x2="870" y2="110" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <line x1="830" y1="190" x2="870" y2="190" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+  <line x1="830" y1="270" x2="870" y2="270" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow2)" />
+
+  <text x="930" y="165" class="caption">Human in the loop</text>
+  <text x="930" y="245" class="caption">Status to team</text>
+</svg>
