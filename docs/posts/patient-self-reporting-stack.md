@@ -97,7 +97,7 @@ flowchart LR
 - Dashboards for clinical leaders track alert volume, average time to human response, and which prompts drive escalations.
 - Patients see status indicators (“reviewed by triage nurse at 3:12 PM”), reinforcing trust that their data matters.
 
-## How LLMs Help—When They’re Tethered to Humans
+## How LLMs Help, When They’re Tethered to Humans
 
 LLMs earn their keep by shrinking the research burden on the care team:
 
@@ -114,7 +114,7 @@ At [RevelAI Health](https://revelaihealth.com/), we are stitching these patterns
 
 The payoff is simple: patients know someone is listening, care teams spend time on judgment calls instead of transcription, and leaders can finally measure whether self-reporting is reducing avoidable visits.
 
-Incumbent EHR vendors—Epic, Cerner, the rest of the club—certainly have the data gravity to tackle this, and they own the workflows inside the chart. But their strength on in-visit documentation hasn’t translated into nimble inbound and outbound engagement. Telephony integrations remain bolt-ons, multi-channel intent routing is brittle, and most of the tooling still assumes a human will manually stitch the story together.
+Incumbent EHR vendors Epic, Cerner, the rest of the club certainly have the data gravity to tackle this, and they own the workflows inside the chart. But their strength on in-visit documentation hasn’t translated into nimble inbound and outbound engagement. Telephony integrations remain bolt-ons, multi-channel intent routing is brittle, and most of the tooling still assumes a human will manually stitch the story together.
 
 We’re still refining evaluation datasets, UI treatments, and human review workflows—but the stack is finally showing that AI and thoughtful UX can make patient self-reporting actionable without losing the heart of human-centered care.
 
