@@ -1,6 +1,7 @@
 ---
 authors:
   - hjaveed
+  - christian
 hide:
   - toc
 date: 2025-09-16
@@ -11,13 +12,24 @@ comments: true
 
 # Designing a Patient Self-Reporting Stack Around Humans and AI
 
-Every care team I talk to has the same complaint: patients happily text, leave voicemails, and fill out surveys, but those signals rarely make it into the plan of care.
+Every care team we talk to has the same complaint: patients happily text, leave voicemails, and fill out surveys, but those signals rarely make it into the plan of care.
 
 Electronic records were never built to absorb that ambient context, and the people who could act on it are already drowning in portal messages and follow-up calls. Yet the value is obvious, timely symptom reporting keeps people out of the ED, surfaces social needs, and lets providers adjust therapy before a flare turns into a crisis.
 
 What we need is a stack that captures self-reported data, triages it with large language models, and still gives clinicians the last word. The winning pattern blends thoughtful UX, observability, and a human-in-the-loop workflow.
 
 <!-- more -->
+
+This piece is co-written with my co-founder (CEO) and co-author, [Dr. Christian Pean](https://www.linkedin.com/in/christianpean/), a rockstar clinician and operator I’ve had so much fun building with at RevelAI Health.
+
+<img src="/assets/self-reporting-stack.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 500px; object-fit: cover;">
+<style>
+@media (max-width: 767px) {
+  #llm-journey-arch {
+    height: auto !important;
+  }
+}
+</style>
 
 ## Where Patient Self-Reporting Stands Today
 
@@ -41,7 +53,7 @@ We can’t fix this by “adding AI” to a broken assembly line. We need to ref
 
 ### 1. Intake that sets expectations up front
 
-<img src="/assets/patient-reporting-flow.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: 500px; object-fit: cover;">
+<img src="/assets/patient-reporting-flow.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow" style="display: block; margin-left: auto; margin-right: auto; width: 100%; object-fit: cover;">
 <style>
 @media (max-width: 767px) {
   #llm-journey-arch {
@@ -55,38 +67,28 @@ We can’t fix this by “adding AI” to a broken assembly line. We need to ref
 
 ### 2. Inbox triage that surfaces context, not noise
 
-```mermaid
-flowchart LR
-    A[Patient message / note / call transcript] --> B{LLM Triage}
-    B -->|Intent + acuity| C[Queue view]
-    C --> D[Auto-resolved templates]
-    C --> E[Draft reply for clinician]
-    C --> F[Escalate to visit]
-    D --> G[Outbound SMS / portal reply]
-    E --> RN[Nurse / provider review]
-    F --> Scribe[Pre-visit packet]
-```
-
+<img src="/assets/image-1-self-report.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow" style="">
+<style>
+@media (max-width: 767px) {
+  #llm-journey-arch {
+    height: auto !important;
+  }
+}
+</style>
 - Inbox views should group by **intent** (med refill, wound concern, paperwork) and stack related history—last summary, vitals, social determinants callouts.
 - Drafting LLM replies isn’t about replacing clinicians; Mayo Clinic teams used AI drafts in ~20% of portal responses and reported lower task load afterward ([JAMA Netw Open, 2024](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2816494/)).
 - Auto-resolution stays limited to low-acuity scripts (e.g., PT protocol reminders) and still leaves an audit trail.
 
 ### 3. Outbound nudges that feel bespoke
 
-```mermaid
-flowchart LR
-    Monitor[Monitor trends]
-    Detect[Risk threshold crossed]
-    Draft[LLM drafts outreach]
-    Review[Human review]
-    Send[Send & log outcome]
-
-    Monitor --> Detect
-    Detect --> Draft
-    Draft --> Review
-    Review --> Send
-    Send --> Monitor
-```
+<img src="/assets/image-2-self-report.png" alt="Patietn Self Reporting Flow" id="patient-self-reporting0flow">
+<style>
+@media (max-width: 767px) {
+  #llm-journey-arch {
+    height: auto !important;
+  }
+}
+</style>
 
 - Aggregated self-reports feed longitudinal trends (pain scores, medication adherence, social needs). When a metric drifts, the orchestrator drafts follow-up language tailored to that patient’s literacy and history.
 - Humans confirm the plan, especially when it involves medication changes or complex counseling.
@@ -107,6 +109,12 @@ LLMs earn their keep by shrinking the research burden on the care team:
 - Drafting outbound communication: suggest responses that a nurse can approve or tweak in seconds.
 
 But they always operate inside a governed loop. High-acuity cases trigger synchronous handoffs. Every draft carries a “source disclosure” showing the snippets the model used. Clinicians can thumbs-up or correct the draft, feeding evaluation back into the system.
+
+## Translating Agentic Workflows to Care Transformation
+
+In value‑based contracts, the early post‑discharge window concentrates avoidable utilization. A conversation‑first engagement layer turns those patient signals into Transitional Care Management that actually happens: the agent confirms discharge in plain language, reconciles medications from chart context, books the 7–14‑day visit in the same thread, and routes any red‑flag phrases to a human within minutes. The same playbook helps pre‑op. If a joint‑replacement patient repeatedly skips readiness assessments or leaves a distressed voicemail, the system tags “early‑intervention,” prompts a navigator call that solves transportation or medication confusion, and swaps in a tele‑visit when needed. These are the touches that move outcomes; among Medicare beneficiaries, receipt of TCM is associated with lower short‑term costs and mortality.
+
+PROMs and patient‑generated data work best when missingness is treated as a clinical signal. The agent makes completion feel human—“Would you rather text or talk? It takes two minutes”—then, after two missed pings, automatically buckets the patient for navigator outreach. From there, campaigns are concrete: close missed follow‑ups, establish primary care, schedule the Annual Wellness Visit, and line up preventive screenings; for ED diversion, concerning symptom language triggers same‑day coaching and an urgent clinic slot. Boards can read this on one page: completion rates, time‑to‑first human touch after a concerning signal, and gap‑closure by segment. Randomized trials show that systematic electronic symptom monitoring improves quality of life and reduces unplanned use when tied to real‑time follow‑up—the exact loop this design operationalizes. (Steinbeck et al.)
 
 ## What We’re Building at RevelAI Health
 
