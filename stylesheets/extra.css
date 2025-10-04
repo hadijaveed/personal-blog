@@ -1,0 +1,155 @@
+/* :root {
+    --md-primary-fg-color: rgb(255 255 255/var(--tw-text-opacity))
+    --md-primary-fg-color--light: rgb(255 255 255/var(--tw-text-opacity));
+    --md-primary-fg-color--dark: #a855f7;
+} */
+
+/* [data-md-color-scheme="slate"] {
+    --md-hue: ;
+} */
+
+:root {
+  --md-text-font:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+body {
+  /* background-color: rgb(3 7 18) !important; */
+  background-color: rgb(3 7 18) !important;
+  color: rgba(232, 230, 227, 0.8) !important;
+}
+
+.md-button--primary {
+  background-color: #111010 !important;
+  color: rgba(232, 230, 227, 0.8) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: rgb(243 244 246) !important;
+  font-weight: 500 !important;
+  /* margin: 1rem 0 !important; */
+}
+
+a {
+  color: rgb(138, 192, 247) !important;
+}
+
+.md-button {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  transition: all 0.3s ease;
+}
+
+.md-button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease;
+}
+
+h2 a {
+  color: rgb(243 244 246) !important;
+}
+
+p,
+li {
+  color: #d1d5db !important;
+}
+
+@media screen and (min-width: 680px) {
+  p,
+  li {
+    font-size: 0.85rem;
+  }
+}
+
+p:not(li):not(li p) {
+  margin: 1.2rem 0 !important;
+  line-height: 1.25rem !important;
+}
+
+.md-tabs__link {
+  color: rgba(232, 230, 227, 0.8) !important;
+}
+
+.md-grid {
+  max-width: 47rem !important;
+}
+
+.blog-meta-header {
+  color: rgba(232, 230, 227, 0.8) !important;
+  margin-top: 6px;
+}
+
+.subscribe-container {
+  background-color: rgb(3 7 18);
+  border: 1px solid #474545;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.subscribe-container h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.subscribe-container .md-button--primary {
+  background-color: #111010;
+  color: rgba(232, 230, 227, 0.8);
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  border: 2px solid #ffffff;
+}
+
+.subscribe-container .md-button--primary:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  .subscribe-container {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .subscribe-container h3 {
+    font-size: 1.25rem;
+  }
+
+  .subscribe-container .md-button--primary {
+    width: 100%;
+  }
+}
+
+/* Align author avatars horizontally */
+.md-post__meta .md-meta__list,
+.md-post__meta .md-meta__list > div,
+.md-post__meta .md-meta__list > li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.md-post__meta .md-meta__list > div {
+  gap: 0.5rem;
+}
+
+.md-post__meta .md-author,
+.md-post__authors .md-author {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+}
