@@ -13,13 +13,13 @@ comments: true
 
 There's a lot of hype around Clawdbot. People claiming it'll make you a billion dollars, automate your business, act as your chief of staff. And yes, it's also a security nightmare.
 
-But there's something real here. [Clawdbot](https://clawd.bot/){:target="_blank"} (now renamed Moltbot) is pointing toward a fundamentally different relationship with AI. Not a chat window you visit, but a system running on YOUR machine, 24/7, on your infrastructure, with your files. AI in a box.
+But there's something real here. [Clawdbot](https://clawd.bot/){:target="\_blank"} (now renamed Moltbot) is pointing toward a fundamentally different relationship with AI. Not a chat window you visit, but a system running on YOUR machine, 24/7, on your infrastructure, with your files. AI in a box.
+
+<!-- more -->
 
 2026 is the year everyone builds their own agent harness. The Agent SDK makes it easy. Clawdbot is opening the door.
 
 If you're a developer curious about running AI agents on your own infrastructure, here's what I've learned after a week.
-
-<!-- more -->
 
 ## What's Actually Different
 
