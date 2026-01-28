@@ -55,7 +55,9 @@ plugins:
   - social
   - glightbox
   - search
-  - rss
+  - rss:
+      match_path: "posts/.*"
+      use_git: false
   - blog:
       blog_dir: .
       blog_toc: true
