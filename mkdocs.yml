@@ -142,8 +142,8 @@ nav:
   - About me:
     - "about.md"
 
-  - Subscribe: 
-      url: "https://newsletter.hadijaveed.me"
+  - Subscribe:
+      url: "https://hjaveed.substack.com/subscribe"
       target: _blank
 
 copyright: |
