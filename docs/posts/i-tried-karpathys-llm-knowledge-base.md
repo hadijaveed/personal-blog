@@ -13,6 +13,8 @@ comments: true
 
 Like many of you, [this tweet from Andrej Karpathy](https://x.com/karpathy/status/2039805659525644595){target=\_blank} is what pushed me to actually try this. The whole post is worth reading, but the core idea:
 
+<!-- more -->
+
 > Raw data from a given number of sources is collected, then compiled by an LLM into a .md wiki, then operated on by various CLIs by the LLM to do Q&A and to incrementally enhance the wiki, and all of it viewable in Obsidian. You rarely ever write or edit the wiki manually, it's the domain of the LLM.
 
 That last sentence is the key. The wiki is the domain of the LLM. You do not write it. You do not maintain it. The LLM compiles raw sources into structured knowledge, maintains backlinks, categorizes data into concepts, writes articles for them, and links them all together. Karpathy even runs LLM "health checks" over the wiki to find inconsistent data, impute missing information, and suggest new connections. His wiki grew to around 100 articles and 400K words, and he found that plain LLM grep over index files and summaries worked fine without reaching for fancy RAG.
@@ -20,8 +22,6 @@ That last sentence is the key. The wiki is the domain of the LLM. You do not wri
 He closed the post with: "I think there is room here for an incredible new product instead of a hacky collection of scripts." I agree, but I also think the hacky collection of scripts version is underrated. You do not need a product. You need a set of instructions and an LLM that follows them.
 
 This resonated because I had just opened Apple Notes looking for something about a client project and ended up scrolling through pages of content from a company I left two years ago. Launch dates that already passed. Candidate notes for people I hired eight months ago. Project plans for features that shipped, got killed, or morphed into something unrecognizable. The notes were not wrong when I wrote them. They are wrong now because nobody updated them.
-
-<!-- more -->
 
 I have tried Notion and many other apps. Every system worked for about three weeks, then slowly became another graveyard of outdated context I could not trust. The common failure mode is always the same: these tools assume the human will maintain the notes. The human will not maintain the notes. You have better things to do.
 
