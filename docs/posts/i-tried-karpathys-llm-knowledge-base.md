@@ -4,12 +4,12 @@ authors:
 hide:
   - toc
 date: 2026-04-15
-readtime: 12
+readtime: 4
 slug: i-tried-karpathys-llm-knowledge-base
 comments: true
 ---
 
-# I Tried Karpathy's LLM Knowledge Base Idea. Here Is What Actually Worked.
+# I Tried Karpathy's LLM Knowledge Base. Here Is What Actually Worked.
 
 Like many of you, [this tweet from Andrej Karpathy](https://x.com/karpathy/status/2039805659525644595){target=\_blank} is what pushed me to actually try this. The whole post is worth reading, but the core idea:
 
@@ -23,7 +23,7 @@ This resonated because I had just opened Apple Notes looking for something about
 
 <!-- more -->
 
-I have tried Notion. I have tried Obsidian vaults with elaborate folder structures. I have tried Roam and its bidirectional linking promise. Every system worked for about three weeks, then slowly became another graveyard of outdated context I could not trust. The common failure mode is always the same: these tools assume the human will maintain the notes. The human will not maintain the notes. You have better things to do.
+I have tried Notion and many other apps. Every system worked for about three weeks, then slowly became another graveyard of outdated context I could not trust. The common failure mode is always the same: these tools assume the human will maintain the notes. The human will not maintain the notes. You have better things to do.
 
 The problem was never capture. Every app on the planet solves capture. The problem is maintenance. Notes rot the moment you write them, and the rot accelerates the more you have.
 
@@ -31,15 +31,15 @@ So I built something different. I built a system where an LLM maintains the note
 
 ## Dreaming Creates Slop
 
-Garry Tan built [gbrain](https://github.com/garrytan/gbrain){target=\_blank} on similar principles to Karpathy's approach. A heavier implementation with more automation, more integrations, more always-on capture. The "dreaming" model: your system monitors all your signals (emails, Slack, meetings, documents) and auto-captures everything into structured knowledge.
+Garry Tan built [gbrain](https://github.com/garrytan/gbrain){target=\_blank} on similar principles to Karpathy's approach which is a great attempt. A heavier implementation with more automation, more integrations, more always-on capture. The "dreaming" model: your system monitors all your signals (emails, Slack, meetings, documents) and auto-captures everything into structured knowledge.
 
-Here is the catch. I tried variants of the autonomous approach and it creates slop. The system generates pages you never asked for. It indexes things that do not matter. It captures the noise alongside the signal and you end up with a knowledge base that is technically comprehensive and practically useless. The context-free auto-generated page about a throwaway Slack thread is no better than the notes you already ignore.
+I tried variants of the autonomous approach and it creates slop. The system generates pages you never asked for. It indexes things that do not matter. It captures the noise alongside the signal and you end up with a knowledge base that is technically comprehensive and practically useless. The context-free auto-generated page about a throwaway Slack thread is no better than the notes you already ignore.
 
 Nobody has solved passive capture well yet. The models are getting smarter, but the fundamental problem remains: without human intent, the system does not know what matters. A meeting transcript is not knowledge. A Slack thread is not a learning. An email chain is not a project update. These things become knowledge only when a human decides they are worth remembering.
 
 So I went the other direction. I talk to the agent like a personal EA. I say `/remember met with Christian about Q2 priorities` and the system figures out the rest. It classifies, stores, cross-links, and updates the index. The human provides focus. The LLM provides execution.
 
-This is a deliberate design choice, not a limitation. I took the key insight from Karpathy (the LLM is the writer, the human is the curator) and stripped away everything else. No database. No application code. No always-on monitoring. Just markdown files, a 318-line instruction document called CLAUDE.md, and a set of Claude Code skills that operate on the files.
+This is a deliberate design choice, not a limitation. I took the key insight from Karpathy (the LLM is the writer, the human is the curator) and stripped away everything else. No database. No application code. No always-on monitoring. Just markdown files, a 318-line instruction document called CLAUDE.md, and a set of Claude Code skills that operate on the files. I use Obsidian to look at my notes.
 
 ## Compiled Truth, Not Append-Only Notes
 
@@ -71,34 +71,6 @@ significant new information arrives.
 
 - YYYY-MM-DD: Most recent event or evidence. Source or context.
 - YYYY-MM-DD: Earlier event.
-```
-
-And here is what it looks like in practice. This is the actual `concepts/knowledge-management.md` page from my system:
-
-```markdown
----
-title: Knowledge Management
-type: concept
-tags: [llm, productivity, obsidian, personal-os]
-created: 2026-04-10
-updated: 2026-04-10
----
-
-Personal knowledge bases maintained by LLMs. Inspired by Karpathy's
-approach of using LLMs to compile markdown wikis from raw sources,
-and gbrain (Garry Tan's implementation). Key pattern: compiled truth
-(rewritten synthesis) + timeline (append-only evidence). No database
-needed at small scale; plain markdown + LLM grep handles up to ~400K
-words. Intelligence lives in the instructions (CLAUDE.md), not
-application code.
-
----
-
-## Timeline
-
-- 2026-04-10: Built personal-os system. Chose on-demand, user-triggered
-  model over automated cron. Six skills: /remember, /recall, /todo,
-  /brain, /ingest, /brief.
 ```
 
 The compiled truth paragraph is the synthesis. If I learn something new about knowledge management next week, the LLM rewrites that paragraph to incorporate the new information. It does not append a second paragraph. It does not create a "Knowledge Management (2)" page. It rewrites the truth.
@@ -187,54 +159,24 @@ Important:
 - Keep it fast. Read index, classify, write, confirm.
 ```
 
-That is the whole thing. No framework dependencies. No database migrations. No Docker containers. The skill reads the master instructions, reads the index to know what exists, classifies, stores, links, and confirms. The pattern is the same for every operation: read the rules, read the current state, act, update the index.
+That is the whole thing. No framework. No database. No Docker. Read the rules, read the current state, act, update the index. The same pattern for every operation.
 
 If you have ever written a CLAUDE.md for a codebase, you already know how to build this. The same skill you use to instruct an LLM about your code applies to instructing it about your life. The instructions are the product.
 
-## The Scaling Question
-
-This naturally comes up. The system works at 60 markdown files and roughly 15,000 words. At what point does it break?
-
-My estimate: plain markdown plus LLM grep handles up to roughly 400,000 words. That is the size of the Harry Potter series. Most personal knowledge bases will never hit this threshold. The trick is that you rarely need the LLM to read every file. The `_index.md` master index acts as a routing table. The LLM reads the index, identifies which files are relevant, and reads only those. It is the same pattern that makes Karpathy's 400K-word wiki work without RAG.
-
-If yours gets bigger than that, you probably need a database. But you probably do not need a database. The temptation to over-engineer this into a "real application" is strong and should be resisted.
-
 ## Bootstrapping in One Session
 
-On April 10, 2026, I bootstrapped the entire system from my existing Apple Notes. One session. I opened my main priorities note (the one giant iPhone note where everything important was crammed), fed it to Claude Code, and let the MECE classifier sort it.
+I bootstrapped the entire system from my existing Apple Notes in one session. I had one giant iPhone note where everything important was crammed. Six active consulting clients, a dozen ongoing projects at my primary job, personal finance items, blog ideas, people to keep track of. All in one note. When I needed to find something, I would Cmd+F through a wall of text.
 
-The results from that single session:
+I fed it to Claude Code and let the MECE classifier sort it. Out of that one messy note: 37 open tasks, 14 bookmarks, 8 learnings, 16 people pages, 12 project pages, 2 concept pages. All structured, cross-linked, and indexed.
 
-- 37 open tasks extracted and classified
-- 35 completed tasks tracked
-- 14 bookmarks organized
-- 8 learnings captured
-- 16 people pages created
-- 12 project pages created
-- 2 concept pages created
+The whole system lives in GitHub. Claude Code writes from any terminal. Obsidian auto-pulls from git on my laptop. Git is the sync layer, not Dropbox or iCloud. Full version history, works from any machine.
 
-That is 60+ structured, cross-linked pages generated from one messy Apple Note. I deliberately skipped credentials, API keys, SSH strings, and passwords. Those stay in secure storage, not in a git repo. (The fact that they were in Apple Notes to begin with is its own lesson about note sprawl.)
+Does it scale? Plain markdown plus LLM grep handles up to roughly 400,000 words. That is the Harry Potter series. The `_index.md` master index acts as a routing table so the LLM rarely needs to read every file. If you somehow outgrow that, you need a database. You probably do not need a database.
 
-You do not need to organize everything perfectly on day one. Dump your existing notes into the inbox, run `/ingest`, and let the classifier sort. The compiled truth sections start thin and get richer over time as you add more evidence to timelines. A project page that starts as two sentences grows into a comprehensive reference as you keep telling the system about it.
+## What I Would Tell You
 
-The whole system lives in GitHub. The sync workflow is simple: on the go, I make changes via Claude Code from any terminal. Obsidian on my laptop auto-pulls from git. When I edit something directly in Obsidian (checking off a task, jotting a quick note), it auto-pushes back. Git is the sync layer, not Dropbox or iCloud. This gives you full version history and the system works from any machine with Claude Code installed.
+This system is days old. The LLM makes classification mistakes sometimes. The compiled truth occasionally misses nuance. The real test is whether I am still using this in six months, not whether it works in the first week.
 
-Before this, I maintained one long iPhone note for priorities. One giant note. It worked because it was simple, but it did not scale. I had a consulting LLC with six active clients, a primary job with a dozen ongoing projects, personal finance items, blog ideas, and people to keep track of. All in one note. When I needed to find something, I would Cmd+F through a wall of text.
+But here is what I know already. Most personal knowledge systems fail because the human stops maintaining them. This one might last longer because the human was never supposed to maintain it in the first place.
 
-Now that same function lives in a self-documenting system that auto-indexes, cross-links entities, and maintains compiled truth. I have honestly never been this happy with a knowledge system. The bar was low, but still.
-
-## Your Workflow Is the Point
-
-Let me be honest about the limitations. This system is days old. The LLM makes classification mistakes sometimes. The compiled truth occasionally misses nuance. The health check (`/brain`) catches staleness, but I still have to run it. The real test is whether I am still using this in six months, not whether it works in the first week.
-
-The bigger point is that there is no one-size-fits-all approach here. Apple Notes works for a lot of people. Spreadsheets work for tracking things. Notion works if you enjoy maintaining databases. The reason those tools work is because they let you define your own workflows. A tool that forces a workflow you do not believe in will always lose to a tool that gets out of your way.
-
-This is the same principle, just with an LLM as the operator. Anyone can prompt a model to follow whatever workflow works best for them. My CLAUDE.md encodes my specific preferences: compiled truth over append-only, MECE classification, wiki-links for cross-referencing, prose over bullet lists. Your version might look completely different. Maybe you want daily automated summaries. Maybe you want tags instead of entity pages. Maybe you want the LLM to be more aggressive about suggesting connections. The model is smart enough to follow whatever you define.
-
-The temptation is to build an always-on system that captures everything. The dreaming model. Resist it, at least until the models get better at distinguishing signal from noise. The value of a personal knowledge system comes from intentional storage and on-demand synthesis, not from volume. A knowledge base with 50 pages you trust is more useful than one with 5,000 pages you have never read.
-
-Most personal knowledge systems fail because the human stops maintaining them. This one might last longer because the human was never supposed to maintain it in the first place. The LLM does the writing. You just have to keep talking to it.
-
----
-
-_Inspired by [Karpathy's LLM Knowledge Bases tweet](https://x.com/karpathy/status/2039805659525644595){target=\_blank} and [Garry Tan's gbrain](https://github.com/garrytan/gbrain){target=\_blank}._
+A knowledge base with 50 pages you trust is more useful than one with 5,000 pages you have never read. The LLM does the writing. You just have to keep talking to it.
