@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>0X · diagram title</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --good: #15803d;
+  --good-bg: #ecfdf5;
+  --bad: #b45309;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+
+/* Header */
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title {
+  font-size: 44px; font-weight: 600;
+  letter-spacing: -0.025em; line-height: 1.1;
+  margin-bottom: 14px;
+}
+.subtitle {
+  font-size: 19px; color: var(--muted);
+  font-weight: 400; max-width: 760px; line-height: 1.5;
+}
+
+/* Canvas — diagram lives here */
+.canvas { position: absolute; inset: 230px 80px 60px 80px; }
+
+/* Node — default rectangle */
+.node {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow);
+}
+.node .name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.node .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+/* Primary node — accent variant for the main subject */
+.node.primary {
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+  padding: 22px 32px;
+}
+.node.primary .name { font-size: 20px; color: var(--accent); margin-bottom: 6px; }
+.node.primary .meta { color: #9a4a1a; font-weight: 500; }
+
+/* Good node — positive outcome (ship, success path) */
+.node.good {
+  background: var(--good-bg);
+  border: 2px solid var(--good);
+}
+.node.good .name { color: var(--good); }
+
+/* Dimmed — out-of-focus context */
+.node.dimmed { opacity: 0.32; }
+
+/* Tag — small mono pill for asides/annotations */
+.tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+}
+
+/* Command — accented mono pill for slash-commands or CLI */
+.cmd {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+}
+
+/* SVG layer — arrows live here */
+svg.lines {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* Branding */
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">step 0X / 0Y · short label</div>
+  <div class="title">Sentence-style title.</div>
+  <div class="subtitle">One-line takeaway. The reader should understand the point of this diagram from the subtitle alone.</div>
+
+  <div class="canvas">
+    <!-- Arrows go in this SVG. Pre-defined arrowhead markers below. -->
+    <svg class="lines" viewBox="0 0 1440 580" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+        </marker>
+        <marker id="arrow-good" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+        </marker>
+        <marker id="arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/>
+        </marker>
+      </defs>
+      <!--
+        Example arrows:
+        <path d="M 220 240 L 1220 240" stroke="#c2410c" stroke-width="1.8" fill="none"/>
+        <path d="M 720 130 L 720 240" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrow-accent)"/>
+      -->
+    </svg>
+
+    <!--
+      Drop nodes here with absolute positioning inside .canvas.
+      Coordinates are relative to the canvas (1440 x 580 effective area).
+
+      <div class="node primary" style="left: 540px; top: 0px; width: 360px;">
+        <div class="name">Title</div>
+        <div class="meta">subtitle in mono</div>
+      </div>
+
+      <div class="tag" style="left: 950px; top: 50px;">annotation</div>
+    -->
+  </div>
+
+  <div class="brand">series name · 0X</div>
+</div>
+</body>
+</html>
