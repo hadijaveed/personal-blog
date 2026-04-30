@@ -11,55 +11,59 @@ comments: true
 
 # Claude Writes the Code. You Run the Loop.
 
-I have been building a lot with Claude recently. Obviously you can ship all of the code very easily. But how do you plan new large scale features, how do you understand UX, brainstorm different kinds of UX patterns with Claude, and then ship across 3 repos in an established codebase, without breaking things.
+I have been building a lot with Claude recently. Obviously, you can ship code very quickly now. But how do you plan large features, understand UX, brainstorm different patterns, and then ship across 3 repos in an established codebase without breaking things?
 
-Put in front of your customers the large feature you build, not in months but in weeks. Test your assumptions and iterate on top of it.
+The goal is to put large features in front of customers in weeks, not months. Test your assumptions and iterate on top of real feedback.
 
-There is a lot of hype with multi agent workflows where there is an orchestrator agent that spawns off multiple child agents. Orchestrator checks with the child agents on the progress and figure out whats going on.
+<!-- more -->
 
-Works fine for code exploration, or when agent needs to build context, during implementations it usually does not work. Also you might have seen in Opus 4.7 Claude team does not spin up multiple agents. In fact things run in one thread in general and Claude Opus 4.7 has gotten really good in autonomously executing tasks
+There is a lot of hype around multi-agent workflows, where an orchestrator agent spawns multiple child agents, checks their progress, and figures out what is going on.
 
-The SWE pattern in my mind holds here, decomposing larger problems into smaller sub-problems, and then combining sub-problems into a larger problems like dynamic programming...
+That works fine for code exploration or when an agent needs to build context. During implementation, it usually does not work well for me. I like keeping one strong thread in general. Claude has gotten really good at autonomously executing tasks when the context is clean.
+
+The software engineering pattern still holds in my mind: decompose larger problems into smaller sub-problems, then combine those sub-problems back into one working system.
 
 ![Breadth first: orchestrator forks across 3 repos](../assets/diagrams/01-breadth.png)
 
 ## Start the work with breadth-first approach
 
-When starting a new feature, I always start with breadth first approach. e.g,
+When starting a new feature, I always start breadth first:
 
-- ask agent to gather all the context through code exploration and PRD.
-- create tasks and spend time planning as much as you could
-- keep working on the planning phase... explore UX alternatives do competitve research
+- ask the agent to gather context through code exploration and the PRD
+- create tasks and spend real time planning
+- stay in the planning phase for a while: explore UX alternatives, research competitors, and understand the system
 
-Once you have the solid plan and everything is working accordingly, time to go depth first approach.. Where think of orchestrator as a staff level software engineer who you will talk to, to checkin the work of the agents. how they are performing. whats working and whats not working. or where we need to go next
+Once the plan is solid, I switch to depth first. Think of the orchestrator as a staff-level software engineer you keep checking in with: how are the agents performing, what is working, what is not working, and where do we need to go next?
 
-I have been working on a patient chat feature that spans across 3 repos. Involves creating a backend model to fetch data from multiple resources, requires an agent loop and orchestration, and overall a front-end experience. Looks easy but when you are dealing with so many data sources, thinking about auth patterns, protecting patient data security and other things it adds up. This is just one example.
+I have been working on a patient chat feature that spans 3 repos. It involves a backend model that fetches data from multiple resources, an agent loop, orchestration, and a full frontend experience.
 
-Obviously the breadth first approach here is go build a system like this. Working with large code base that spans across 3 repos and 2 different languages... agent can get it done. But for you to be in the loop is so difficult even with all the planning the mistakes slowly compound and next thing you know you are running in an endless loop.
+It looks easy from the outside. But when you are dealing with many data sources, auth patterns, patient data security, and frontend UX, the complexity adds up quickly. Even with good planning, mistakes can slowly compound. Next thing you know, you are running in an endless loop.
 
 ## Depth first approach when going deep on things
 
-Now there is a specific UI or backend or a feature I need to build I will spawn off another agent a new claude code terminal instance here
+When there is a specific UI, backend flow, or feature slice I need to build, I spawn another Claude Code terminal instance:
 
-```
+```bash
 claude --fork orchestrator-agent-id -n chat-agent
 ```
 
-so this agent will inherit all the context from the orchestrator agent and either I will compact or start here depending on if summary is required. Yes Claude can do it too, but remember I need to go depth first here. I want to be in the loop. there are certain decisions Claude can get wrong that I need to fix. this is what I will do...
+This agent inherits the context from the orchestrator. Depending on the state of the thread, I either compact first or start from there.
 
-while Claude is cooking here, I may go to orchestrator to chat about something, get ahead of how I am thinking about the integration so I zoom out a bit
+Yes, Claude can do a lot on its own. But depth first does not mean I disappear. I want to stay in the loop because there are certain product and architecture decisions Claude can still get wrong.
 
-And then I will zoom in when I need to be in the loop. I will test the feature in detail like write test make sure the API, UX layer the data layer makes sense
+While Claude is cooking in the focused fork, I may go back to the orchestrator and talk through integration. That helps me zoom out.
+
+Then I zoom back in and test the feature in detail: API layer, UX layer, data layer, and tests.
 
 ![Depth first: zoom into one fork, you in the loop](../assets/diagrams/02-depth.png)
 
 ## Keep checking with the orchestrator
 
-there are other UX research I will do
+There is other UX research I will do.
 
-lot of people talk about spinning multiple sub-agents, but this does not work well. I like to keep the context clean and nice and easy to manage
+A lot of people talk about spinning up many sub-agents. That can work for exploration, but during implementation I prefer clean context that is easy to reason about.
 
-usually in claude code I compact around 400,000 tokens thats my default setting, here is my env here
+Usually in Claude Code, I compact around 400,000 tokens. That is my default setting.
 
 ![Vet: zoom back to orchestrator, does the integration still hold](../assets/diagrams/03-vet.png)
 
@@ -67,30 +71,28 @@ usually in claude code I compact around 400,000 tokens thats my default setting,
 
 ![Ship, listen with MCPs, re-prompt the orchestrator](../assets/diagrams/04-loop.png)
 
-- you shipped the first version commit your .md plan and intent to your code repo.. yes ship it with the code
-- write things like a PRD, what was the Problem, Solution and how you are gonna test your assumptions
-- gather client feedback, logs or results you got e.g, Gmail MCP, Slack MCP, Linear MCP, Cloudwatch MCP, Sentry MCP,.. I use all of it to gather the full list. I use all of them
-- ask the orchestrator to read the plan or /resume the session. Ask it where we left off.. whats going on where we are lacking etc...
-- ask it to act like a staff engineer product manager, work on UX, work on a bug... make it easy for the users
-- go talk to users. I use Granola MCP and record meetings with Granola. I spend time shadowing them while my granola is on. Ask them what like you'd change. why it is tough
-- I make certain quick decisions using Claude Code here
-- fine if I ship the wrong things, but having this quick iteration loop is so much important. My job is to craft a solution that solves end user problem. Code and everything is just means to an end which AI is automating. I am in the loop
+- ship the first version, then commit your `.md` plan and intent to the repo. Yes, ship it with the code.
+- write down the PRD: the problem, the solution, and how you are going to test your assumptions.
+- gather client feedback, logs, and results from Gmail MCP, Slack MCP, Linear MCP, CloudWatch MCP, Sentry MCP, and whatever else gives you signal.
+- ask the orchestrator to read the plan or `/resume` the session. Ask where we left off, what is missing, and what needs attention.
+- ask it to act like a staff engineer and product manager: improve UX, investigate bugs, and make the feature easier for users.
+- talk to users. I use Granola MCP and record meetings while I shadow them. I ask what they would change and why the current flow is hard.
+- make quick product decisions with Claude Code in the loop.
+- be fine shipping the wrong first version, as long as the iteration loop is tight. My job is to craft a solution that solves the end-user problem. Code is a means to an end.
 
-Orchestrator is my Staff level engineer who is always with me. I am his manager. Sub-agents are my junior engineer but they are knowledgeable
+The orchestrator is my staff-level engineer who is always with me. I am its manager. The sub-agents are junior engineers, but knowledgeable ones.
 
-also once a new feature is shipped I do /loop /schedule to keep checking logs. I have skills to look for client issues that comes up so orchestrator is up to date and knows
+Once a new feature is shipped, I use `/loop` and `/schedule` to keep checking logs. I have skills that look for client issues as they come up, so the orchestrator stays up to date.
 
-I use /remote-control with orchestrator to trigger it on mobile. I will obsess about the end UX and keep improving iteration
+I also use `/remote-control` with the orchestrator to trigger work from mobile. I obsess about the end UX and keep improving the iteration.
 
-We are still very early in the process. Things change everyday, a lot of patterns here will hold some might not
+We are still very early in this process. Things change every day. A lot of these patterns will hold. Some might not.
 
 Have fun building.
 
-In case helpful here is my Claude Code config...
+In case it is helpful, here is my Claude Code config.
 
-few important parameters to talk about
-
-the adaptive thinking or 1M token have not been helpful. neither agent team features is not helpful for me.
+The most important thing here is context discipline. Adaptive thinking, 1M token context, and agent team features have not been that helpful for me so far.
 
 ```json
 {
@@ -106,3 +108,5 @@ the adaptive thinking or 1M token have not been helpful. neither agent team feat
   "showThinkingSummaries": true
 }
 ```
+
+By the way, this blog is not written by AI. AI and LLMs have amazing applications, but for writing I still want to write myself. I want my blogs to reflect the true me.
