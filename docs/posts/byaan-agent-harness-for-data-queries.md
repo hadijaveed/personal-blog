@@ -15,6 +15,11 @@ Today I am open sourcing [Byaan](https://github.com/byaan-ai/byaan){:target="\_b
 
 About ten startups are already using it day to day. I quietly shared it with founder friends over the last few months, and the same pattern kept showing up: their customer success and ops teams stopped pinging engineering for one-off data questions, and engineering got hours back every week.
 
+<video autoplay muted loop playsinline controls style="width: 100%; max-width: 100%; border-radius: 8px; margin: 1.5rem 0;">
+  <source src="https://github.com/user-attachments/assets/ccaea2b4-ed92-4bb7-b5df-0218bac5b63c" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 <!-- more -->
 
 At [RevelAI](https://www.revelaihealth.com/){:target="\_blank"}, where this started, our customer success team now answers most of their own questions through Byaan. Client health, patient engagement, satisfaction trends, contract usage, the weird one-off "why did this account drop last week" stuff. All of it used to land in an engineer's lap. Now it does not.
