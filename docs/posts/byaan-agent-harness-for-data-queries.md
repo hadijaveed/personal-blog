@@ -9,90 +9,69 @@ slug: byaan-agent-harness-for-data-queries
 comments: true
 ---
 
-# Does Your Startup Need an AI Data Analyst?
+# Open Sourcing Byaan, Your Company's AI Data Analyst
 
-Most startups do not need a full data platform on day one. But at some point, the same questions start showing up every week.
+Today I am open sourcing [Byaan](https://github.com/byaan-ai/byaan){:target="\_blank"}, a small AI data analyst that runs close to your database and answers the long tail of "can you pull this real quick?" questions that pile up at every startup.
 
-How many active customers do we have? Which accounts are slipping? Did patient engagement improve after the last release? Why did usage drop for this client?
-
-For a while, the answer is simple: ask an engineer to write SQL.
+About ten startups are already using it day to day. I quietly shared it with founder friends over the last few months, and the same pattern kept showing up: their customer success and ops teams stopped pinging engineering for one-off data questions, and engineering got hours back every week.
 
 <!-- more -->
 
-That works until it does not. The schema gets bigger. Metrics get weird. Customer success needs answers now. Engineers become the query interface for the company.
+At [RevelAI](https://www.revelaihealth.com/){:target="\_blank"}, where this started, our customer success team now answers most of their own questions through Byaan. Client health, patient engagement, satisfaction trends, contract usage, the weird one-off "why did this account drop last week" stuff. All of it used to land in an engineer's lap. Now it does not.
 
-I built [Byaan](https://github.com/byaan-ai/byaan){:target="\_blank"} because we kept running into this problem at [RevelAI](https://www.revelaihealth.com/){:target="\_blank"}. It is a small data agent harness that runs close to your database, learns your schema, shows its SQL, and stays read-only by default. The site is at [byaan.ai](https://www.byaan.ai){:target="\_blank"}.
+That is the whole pitch. The rest of this post is how it works and why I think the open source version is worth your time.
 
-## Why Not Just Use a BI Tool
+## The Problem Every Startup Hits
 
-BI tools are useful, and I am not arguing against them. Dashboards are still the right answer for stable metrics people look at every day.
+You do not need a data platform on day one. You need an engineer who can write SQL.
 
-The problem is the long tail of questions.
+That works until it does not. The schema grows. Metrics get company-specific meanings. Customer success needs an answer before the call at 3pm. Engineers slowly become the query interface for the whole company.
 
-Someone asks about one client, one cohort, one workflow, one contract, or one odd edge case. You do not want to build a dashboard for every question. You also do not want every non-technical teammate waiting on an engineer for a one-off query.
+BI dashboards solve part of this, but only part. Dashboards are great for stable metrics people look at every day. They are terrible for the long tail. Someone asks about one client, one cohort, one contract, one odd edge case. You do not want to build a dashboard for every question, and you do not want every non-technical teammate waiting on an engineer for a one-off query.
 
-This is where a data agent starts to make sense. Not as a replacement for BI, but as a better interface for questions that are too specific for a dashboard.
+## Why Text-to-SQL Alone Falls Over
 
-## Why Text-to-SQL Still Fails
+A model can generate decent SQL when the schema is small and table names are obvious. Real databases are messier. Tables have history. Columns are named after old product decisions. Metrics have meanings that only exist in code, Slack, and people's heads.
 
-The SQL is not the only hard part.
+At RevelAI, an "active customer" is not just a row in a customers table. Some clients are pilots. Some are churned but still have data. Some get excluded from internal metrics for billing reasons. Raw text-to-SQL does not know any of that. It sees tables and guesses.
 
-A model can generate decent SQL when the schema is small and the table names are obvious. Real databases are messier. Tables have history. Columns are named after old product decisions. Metrics have company-specific meanings. The right join is often not obvious from the schema alone.
+The model was rarely the bottleneck. The harness around the model was.
 
-At RevelAI, an "active customer" is not just a row in a customers table. Some clients are pilots. Some are churned but still have data. Some should be excluded from internal metrics for billing or contract reasons. That context usually lives in code, Slack, docs, and people's heads.
+## What I Tried First
 
-Raw text-to-SQL does not know that. It sees tables and guesses.
+The obvious moves did not fit:
 
-## Why Not Julius, Hex, or Purpose-Built Tools
+- **[Julius](https://julius.ai){:target="\_blank"}, [Hex](https://hex.tech){:target="\_blank"}, and the warehouse-native data agents.** Good products. Jason Cui at a16z had a [good post on X](https://x.com/JasonSCui/status/2031371431129526446){:target="\_blank"} mapping the data agent landscape if you want the full picture. For us, most of them felt too heavy for a 20-50 person company, and they introduce more cloud surface area than I wanted. I did not want to hand a third party broad access to production if I could avoid it.
+- **Point Claude Code at the database.** Two problems. First, security. Prompting an agent to "please do not DROP TABLE" is not a real safety layer. Second, transparency. A CLI is fine for engineers. It is not the right surface for a customer success teammate asking five questions before a renewal call.
 
-There are good products in this space. Jason Cui at a16z had a [good post on X](https://x.com/JasonSCui/status/2031371431129526446){:target="\_blank"} mapping the data agent landscape.
+So I built the thing in the middle.
 
-For us, many of those tools felt too heavy for a 20-50 person company. They also introduced more cloud surface area than I wanted. I did not want to hand a third party broad access to our production database if I could avoid it.
+## What Byaan Actually Does
 
-The other issue was context. A warehouse-native or SaaS data tool may understand your warehouse. It usually does not understand your application code, your internal naming conventions, or the Slack thread where the team decided how a metric should work.
+Byaan sits between a CLI and a SaaS:
 
-The model was not always the bottleneck. The harness around the model was.
-
-## Why Not Just Claude Code
-
-The obvious next step is to skip the product layer and point Claude Code at the database.
-
-Two problems with that.
-
-First, security. There should be a hard execution layer that prevents an agent from mutating the database. Relying on a prompt to stop `DROP TABLE`, `DELETE`, or a stray `UPDATE` is not enough. We have all seen stories about AI coding tools making destructive production changes.
-
-Second, transparency. Even when the SQL runs, you still need to inspect it. You need to see the generated query, the result, the chart, and the assumptions before the answer ends up in a board deck or a customer conversation.
-
-A CLI is great for engineers. It is not the right surface for a customer success or operations team asking data questions all day.
-
-## What I Built
-
-[Byaan](https://github.com/byaan-ai/byaan){:target="\_blank"} is what sits between a CLI and a SaaS.
-
-- A small harness built on the OpenAI Agents SDK
-- A read-only wrapper that blocks DDL and DML at the execution layer, so the agent is incapable of mutating your database
+- A small agent harness built on the OpenAI Agents SDK
+- A read-only wrapper that blocks DDL and DML at the execution layer, so the agent is physically incapable of mutating your database, no matter what the model decides to do
 - A UI that shows the generated SQL, the result, the chart, and lets you correct the agent inline
-- A lightweight memory layer that learns schema meaning, common joins, and mistakes over time
-- A Mac app for individual use and a Docker setup for teams
+- A memory layer that learns your schema, your joins, your metric definitions, and the mistakes it made yesterday
+- A Mac app for individual use, Docker for teams, and an MCP server so developers can use it directly from Claude Code or any MCP-aware client
 
-It does not solve every tribal knowledge problem on day one. But the loop matters. When the agent gets something wrong, the correction should become part of the system instead of disappearing into chat history.
+Your database connection stays on your infrastructure. Only query results and relevant schema context go to whatever model provider you configure.
 
-Database connections stay on your infrastructure. Only the query results and relevant schema context go to whichever model provider you configure.
+The loop is the thing that matters. When the agent gets something wrong, the correction becomes part of the system. Tribal knowledge slowly stops being tribal.
 
-## What Actually Happened
+## Why I Open Sourced It
 
-Byaan started as a hobby project with two engineer friends. We wanted to build something real, and we had our own data problem to solve.
+Honestly, I wanted to solve my own problem at Revel first. Running tens of ad-hoc queries every day is no fun, and watching our team wait on engineering for answers was less fun. I teamed up with two engineers who shared the same itch, Usama and Soha, and we started building it on the side.
 
-Today, most of our customer success team answers questions through it: client health, patient engagement, satisfaction trends, contract usage, and odd one-off questions that used to go to engineering.
+Once it was working for us, founder friends kept asking for it. Shipping a private build to ten different companies is not a thing I want to maintain. And honestly, this should not be a SaaS. The whole point is that your database connection and your schema context stay yours. Open source is the honest version of that promise. If you do not trust the harness, read the code. If something is missing, send a PR.
 
-It is still early, but it has already learned a lot of our schema, our metrics, and the weird tribal details that only the people who built the database used to know.
+The startups using it now are running the same code that is on GitHub. No special build, no hidden features.
 
-Along the way, I quietly gave access to a few startup founder friends. About ten startups are now using it.
+## Try It
 
-## What Is Next
+- Founders and ops teams: grab the [Mac app](https://www.byaan.ai){:target="\_blank"} and point it at a read replica.
+- Developers: run it with Docker, or wire up the MCP server and use it from Claude Code.
+- Either way, the repo is [github.com/byaan-ai/byaan](https://github.com/byaan-ai/byaan){:target="\_blank"}. Stars help, issues help more.
 
-I am going to keep solving our own problems with it. That is the main filter.
-
-If you want to try it, grab the Mac app or run it with Docker. If something feels off, [open an issue](https://github.com/byaan-ai/byaan/issues){:target="\_blank"} or message me directly.
-
-I would especially appreciate blunt feedback from people who have tried to use agents against real databases. I am most interested in where this feels useful, where it feels fragile, and what would make you trust it more.
+I would especially appreciate blunt feedback from people who have tried agents against real databases. Where it feels useful, where it feels fragile, what would make you trust it more. [Open an issue](https://github.com/byaan-ai/byaan/issues){:target="\_blank"} or message me directly.
