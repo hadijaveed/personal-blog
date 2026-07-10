@@ -3,8 +3,8 @@ authors:
   - hjaveed
 hide:
   - toc
-date: 2026-07-06
-readtime: 4
+date: 2026-07-08
+readtime: 6
 slug: fable-5-right-model-right-task
 comments: true
 ---
@@ -15,7 +15,7 @@ Fable 5 is the most incredible model I have used. Not a nicer version of the las
 
 But that is not the part that stuck with me. After days of heavy use, the thing I keep noticing is not what Fable does. It is what Fable chooses not to do itself.
 
-It delegates. And it is good at it. That is the first real glimpse of something I have been waiting for: the LLM router era.
+It delegates. And it is good at it. That is the first real glimpse of something I have been waiting for: the LLM router era. This post is the thesis and the playbook: why routing is about to become the default economics, and the exact skill I use to make Fable route work to cheaper models.
 
 <!-- more -->
 
@@ -39,20 +39,45 @@ That does not last. I believe the next generation of best-in-class models will b
 
 When that happens, "use the right model for the right task" stops being a power-user trick. It becomes the only economics that make sense. Paying frontier prices for grunt work will feel like hiring a staff engineer to rename variables.
 
-## Everyone claims routing. Nobody has it.
+Plenty of software factory products claim they have routing figured out already. I have not seen Devin, Droid, or any of the others truly nail it. The router was never going to be a traffic cop with a lookup table. It was always going to be the smartest model in the room. Fable is the first model with enough judgment to play that role.
 
-We are so early in this. One of these days there will be a router model capable enough to look at a task and send it where it belongs: frontier for judgment, mid-tier for implementation, cheap or open source for bulk mechanical work.
+So how do you actually run it that way? There is a name for the pattern.
 
-Plenty of software factory products claim they have this down already. I have not seen Devin, Droid, or any of the others truly nail it.
+## Plan big, execute small
 
-Fable gave me the first glimpse. Not because it routes across vendors out of the box, but because it finally has the judgment to know what to keep and what to hand off. The router was never going to be a traffic cop with a lookup table. It was always going to be the smartest model in the room.
+Anthropic published a recipe in their official [Claude Cookbooks](https://github.com/anthropics/claude-cookbooks){:target="\_blank"} called [Plan big, execute small](https://github.com/anthropics/claude-cookbooks/blob/main/managed_agents/CMA_plan_big_execute_small.ipynb){:target="\_blank"}, and it reframed how I think about cost. The expensive model is the coordinator. It plans, decomposes, verifies, and synthesizes. Everything token-heavy, reading files, searching code, trawling logs, fetching docs, gets fanned out to cheaper worker models running in parallel.
+
+The counterintuitive part: the savings do not come from reading less. In the cookbook's own measurements, the split team read roughly the same volume as a solo frontier agent but came out 2.5x cheaper and 3x faster, because 84-98% of the input tokens were billed at the worker rate.
+
+It is rate arbitrage, not rationing:
+
+| Model | Input $/M | Output $/M | Role |
+|---|---|---|---|
+| Fable 5 | $10 | $50 | Coordinator: plan, decompose, verify, synthesize |
+| Opus 4.8 | $5 | $25 | Worker for reasoning-heavy sub-tasks |
+| Sonnet 5 | $3 | $15 | Default worker: reading, searching, transforms |
+
+Every token a Sonnet worker reads instead of Fable is a 3-5x saving on that token. And it compounds: whatever lands in the coordinator's context gets re-sent on every subsequent turn.
+
+In practice the pattern is four moves:
+
+1. Classify the work. Judgment stays with the coordinator: the approach, conflict resolution between reports, the final deliverable. Mechanical work gets delegated: anything where the procedure is clear and the cost is in volume.
+2. Fan out in parallel. Spawn workers with an explicit cheap model, all at once, not one at a time.
+3. Write real briefs. Workers know nothing you do not put in the prompt. Each brief needs one self-contained question, rigor instructions (cheap models default to shallow), a required evidence format like file:line references and quotes, and a size cap so reports do not flood the coordinator.
+4. Synthesize at the top. Read only the reports, never re-read what workers already read. That pays the expensive rate twice and defeats the whole pattern.
+
+And the ways people screw it up, straight from the cookbook's measurements:
+
+- Over-sharding. Every worker pays a bootstrap cost. Twenty micro-briefs cost more than the solo agent. 3-6 meaty workers beat 20 tiny ones
+- Delegating judgment. Architecture decisions and final synthesis on a cheap model is saving money in the wrong place
+- Cutting rigor to cut cost. An agent that reads less is a worse product, not a cheaper equivalent. Keep the rigor, move it to the cheap rate
 
 ## My setup right now
 
 Fable is the orchestrator. It holds the plan, the context, and the taste. Everything else is a worker:
 
 - Codex (gpt-5.5) for well spec'd execution, computer use, and UI/UX verification. It is still WAY better at driving a browser and checking visual work
-- Opus 4.8 or Sonnet 5 for focused implementation forks and reviews
+- Opus 4.8 or Sonnet 5 for focused implementation forks, reviews, and all the mechanical reading
 - Kimi 2.7 or GLM 5.2 if you are running an open source setup
 
 ![One brain, many hands: Fable orchestrates, cheaper models execute](../assets/diagrams/rmrt-02-delegation.png)
@@ -64,6 +89,93 @@ Fable is the orchestrator. It holds the plan, the context, and the taste. Everyt
 The result, in his words: he was throwing away about 50% of his end-to-end agent-driven PRs before this workflow. After it, he did not close a single one. Read his [strategy post](https://x.com/theo){:target="\_blank"}.
 
 My favorite rule from his setup: the rankings are defaults, not limits. If a cheaper model's output misses the bar, escalate without asking. Judge the output, not the price tag. Escalating costs less than shipping mediocre work.
+
+## Steal the skill
+
+Everything above is encoded in one Claude Code skill I use daily, built directly on Anthropic's [Plan big, execute small cookbook recipe](https://github.com/anthropics/claude-cookbooks/blob/main/managed_agents/CMA_plan_big_execute_small.ipynb){:target="\_blank"}. To install it globally so it works in every project:
+
+```bash
+mkdir -p ~/.claude/skills/plan-big-execute-small
+```
+
+Then save the markdown below as `~/.claude/skills/plan-big-execute-small/SKILL.md`. For a single repo, put it in `.claude/skills/plan-big-execute-small/SKILL.md` at the project root instead. And if you do not want a skill at all, paste the body straight into your global `~/.claude/CLAUDE.md` or the project's `CLAUDE.md` and it works as standing instructions.
+
+Trigger it with `/pbes` or just say "do this cheaply". It also kicks in on its own when a task involves pulling large volumes of content through the model.
+
+````markdown
+---
+name: plan-big-execute-small
+description: Cost-saving delegation harness based on Anthropic's "plan big, execute small" cookbook. Keep planning, judgment, and synthesis on the expensive main model (Fable); fan out mechanical token-heavy work (bulk file reads, code searches, web research, log trawls, per-item transforms, doc summarization) to cheaper subagents - Sonnet 5 by default, Opus 4.8 for harder sub-tasks, NEVER Haiku (my quality floor). Trigger when the user says "/pbes", "do this cheaply", "save tokens", "frugal mode", or when a task involves pulling large volumes of content (many files, many web pages, long logs) through the model.
+---
+
+# Plan Big, Execute Small
+
+You (the main loop, running an expensive frontier model) are the **coordinator**. Your tokens cost 3-10x more than a Sonnet subagent's. The single biggest cost driver in agentic work is *mechanical reading* - files, web pages, logs, search results pulled into context. Move that reading onto cheap subagents; keep only planning, judgment, and synthesis here.
+
+**Key insight from the cookbook:** the savings come from **rate arbitrage, not reading less**. Both approaches read roughly the same volume - the split team was 2.5x cheaper and 3x faster because 84-98% of input tokens were billed at the worker rate, and workers ran in parallel. Do NOT respond to cost pressure by skimping on rigor; respond by changing *who* reads.
+
+## Rate table (why this works)
+
+| Model | Input $/M | Output $/M | Role |
+|---|---|---|---|
+| Fable 5 | $10 | $50 | Coordinator only: plan, decompose, verify, synthesize |
+| Opus 4.8 | $5 | $25 | Worker for reasoning-heavy sub-tasks (tricky debugging, nuanced analysis) |
+| Sonnet 5 | $3 ($2 intro) | $15 ($10 intro) | Default worker: reading, searching, per-item transforms |
+
+**Quality floor (my standing preference): never use Haiku for workers.** Use **Sonnet 5 and Opus 4.8 interchangeably** - both are approved worker tiers, don't agonize over the choice. Rough default: Sonnet for volume reading/searching, Opus when the sub-task smells reasoning-heavy or you're unsure - either way it's still 2-5x cheaper than Fable.
+
+Every token a Sonnet worker reads instead of you is a 3-5x saving on that token. It also keeps your own transcript small, which compounds: your context is re-sent (cache-read billed) on every subsequent turn.
+
+## Step 1 - Classify the work
+
+Before acting, split the task into:
+
+- **Judgment work** (stays here): understanding the ask, decomposing into sub-questions, deciding the approach, resolving conflicts between worker reports, verifying suspicious findings, writing the final deliverable.
+- **Mechanical work** (delegate): anything where the *procedure* is clear and the cost is in volume - read N files and report X, search the web for Y and return evidence, trawl logs for pattern Z, apply the same transform to each item, summarize each document.
+
+If the whole task is mechanical and small (one grep, one file read), just do it - delegation has a floor (see anti-patterns).
+
+## Step 2 - Fan out with the Agent tool
+
+Spawn workers with an explicit cheap `model`, in parallel (one message, multiple Agent calls), in the background:
+
+- `subagent_type: "Explore"` + `model: "sonnet"` or `"opus"` - codebase searches and file-location sweeps.
+- `subagent_type: "general-purpose"` + `model: "sonnet"` or `"opus"` - web research, multi-file reading, per-item transforms, debugging.
+- Sonnet 5 and Opus 4.8 are interchangeable worker tiers - pick freely, don't deliberate. Lean Opus when the sub-task needs real reasoning (root-cause debugging, nuanced comparison, anything where a wrong worker conclusion would mislead the synthesis).
+- Never `model: "haiku"` (quality floor); never spawn `fable` workers (no arbitrage).
+
+For large structured fan-outs (10+ items, multi-stage, verify passes) - and only when the user has opted into multi-agent orchestration - use the Workflow tool instead, with per-agent overrides: `agent(prompt, {model: 'sonnet', effort: 'medium'})` for mechanical stages (drop to `'low'` only for truly rote transforms); leave `model` unset (inherit) only for the final judge/synthesis stage.
+
+## Step 3 - Write worker briefs correctly
+
+Workers know NOTHING you don't put in the prompt - not the conversation, not your plan, not the other workers' briefs. From the cookbook: "Everything the coordinator believes about its workers comes from its own system prompt."
+
+Each brief must contain:
+1. **One focused sub-question** - self-contained, no references to "the task above".
+2. **Rigor instructions** - "try multiple query phrasings / search patterns, follow promising leads, cross-check across sources." Cheap models default to shallow; the brief supplies the rigor.
+3. **An evidence-bearing report format** - require `file:line` references, URLs, verbatim quotes, exact values. You will verify from evidence, not by re-reading the sources yourself. Ask for structured findings (a list of facts + evidence), NOT polished prose.
+4. **A size cap** - "report at most N findings / keep the report under ~500 words" so worker output doesn't flood your context.
+
+## Step 4 - Synthesize and verify here
+
+- Read only the reports. Do not re-read what workers already read - that pays the expensive rate twice and defeats the pattern.
+- Spot-check: if a finding is load-bearing and the evidence looks thin, send ONE targeted verification (a single file read, or a cheap verify-subagent with a refute-this brief) rather than redoing the sweep.
+- Conflicting reports -> resolve with judgment here, or spawn one tie-breaker worker with both claims and their evidence.
+
+## Anti-patterns (from the cookbook's measurements)
+
+- **Over-sharding.** Delegation has a floor: each worker pays a bootstrap cost (system prompt + brief + report). Narrowly-scoped micro-briefs *increased* total cost in the cookbook's tests. A brief should represent at least several tool calls' worth of mechanical work. 3-6 meaty workers beat 20 tiny ones.
+- **Delegating judgment.** Final synthesis, architecture decisions, security-sensitive conclusions, and anything needing the full conversation context stay on the main model. That's what the expensive tokens are *for*.
+- **Prose reports.** Workers returning essays waste their output tokens and your input tokens. Demand structured findings + evidence.
+- **Cutting rigor to cut cost.** A solo agent that "reads less" is a lower-rigor product, not a cheaper equivalent. Keep the rigor; move it to the cheap rate.
+- **Doing the sweep yourself first "to understand it".** Scout minimally (list files, scope the diff - cheap), then delegate the heavy reading. Don't pull 50 files into your own context and then also spawn workers.
+
+## Cheap-by-default habits (apply even without fan-out)
+
+- Noisy investigation (grep sweeps, log trawls, broad search) -> always a subagent; keep only the conclusion in the main transcript.
+- Long web pages / docs -> a `sonnet` worker fetches and distills; you read the distillation.
+- When the user asks for a quick answer, answer directly - this skill is for volume, not for adding ceremony to small tasks.
+````
 
 ## Add loops and it compounds
 
