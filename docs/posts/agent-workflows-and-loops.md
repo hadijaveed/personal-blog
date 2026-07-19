@@ -19,6 +19,8 @@ A workflow is not just a clever prompt. It is the shape around the agent. What d
 
 That is the difference between a useful long running agent and an expensive tab that slowly drifts away from reality.
 
+> 🎥 **Watch the episode.** This is Episode 2 of my Build with Agents video series. [Watch it on Substack](https://hjaveed.substack.com/p/agent-workflows-and-loops){:target="\_blank"}.
+
 <!-- more -->
 
 People have been talking about loops a lot recently. I think that is the right conversation. The model matters, but the loop matters more than people want to admit.

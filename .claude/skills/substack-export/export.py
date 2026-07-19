@@ -10,7 +10,10 @@ can be selected and pasted into Substack's editor.
 """
 from __future__ import annotations
 
+import base64
+import mimetypes
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -49,7 +52,35 @@ def extract_title(body: str) -> tuple[str, str]:
     return "", body
 
 
+def embed_or_rewrite_images(body: str, base_dir: Path) -> str:
+    """Handle markdown image references.
+
+    If the referenced asset exists on disk (relative to the post), inline it
+    as a base64 data URI so it renders in the preview and survives the paste
+    into Substack even when the live site hasn't published the file yet.
+    Otherwise fall back to an absolute URL on the live blog.
+    """
+
+    def repl(match: re.Match) -> str:
+        alt, url = match.group(1), match.group(2).strip()
+        # Only touch local asset references, not http(s) or data URIs.
+        if re.match(r"^(https?:|data:)", url):
+            return match.group(0)
+        rel = re.sub(r"^\.\./", "", url)  # ../assets/... -> assets/...
+        local = (base_dir / url).resolve()
+        if local.exists():
+            mime, _ = mimetypes.guess_type(str(local))
+            mime = mime or "application/octet-stream"
+            data = base64.b64encode(local.read_bytes()).decode("ascii")
+            return f"![{alt}](data:{mime};base64,{data})"
+        # Not found locally: point at the live site and hope it's published.
+        return f"![{alt}]({SITE_URL}/{rel})"
+
+    return re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", repl, body)
+
+
 def rewrite_assets(body: str) -> str:
+    """Rewrite remaining (non-image) asset links to absolute URLs."""
     return re.sub(r"\((?:\.\./)?assets/", f"({SITE_URL}/assets/", body)
 
 
@@ -141,6 +172,7 @@ def main() -> int:
     meta, body = split_frontmatter(raw)
     body = body.replace("<!-- more -->", "")
     title, body = extract_title(body)
+    body = embed_or_rewrite_images(body, path.parent)
     body = rewrite_assets(body)
     body = strip_attr_lists(body)
     html_body = to_html(body)
@@ -170,8 +202,12 @@ def main() -> int:
     if canonical_url:
         print(f"Canonical: {canonical_url}")
     print(f"Output:    {out_path}")
-    print("Opening in browser...")
-    subprocess.run(["open", str(out_path)], check=False)
+    opener = "open" if sys.platform == "darwin" else "xdg-open"
+    if shutil.which(opener):
+        print("Opening in browser...")
+        subprocess.run([opener, str(out_path)], check=False)
+    else:
+        print("Open the file above in a browser to copy into Substack.")
     return 0
 
 

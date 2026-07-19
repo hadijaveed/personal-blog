@@ -13,10 +13,7 @@ comments: true
 
 This is the first episode of Build with Agents, where I record my coding agent setup, the ergonomics and developer tools I have wired up locally to stay productive. I will keep these short and ship them often, because my setup keeps changing and I would rather share what I have now than wait for it to be perfect.
 
-<video autoplay muted loop playsinline controls style="width: 100%; max-width: 100%; border-radius: 8px; margin: 1.5rem 0;">
-  <source src="REPLACE_WITH_GITHUB_ASSET_URL" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+> 🎥 **Watch the episode.** This is Episode 1 of my Build with Agents video series. [Watch it on Substack](https://hjaveed.substack.com/p/1-your-claude-codex-setup-and-why){:target="\_blank"}.
 
 <!-- more -->
 
