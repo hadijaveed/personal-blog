@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>04 · The loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --good: #15803d;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title { font-size: 44px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+.subtitle { font-size: 19px; color: var(--muted); max-width: 760px; line-height: 1.5; }
+.canvas { position: absolute; inset: 230px 80px 60px 80px; }
+
+.node {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow);
+}
+.node .name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.node .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.node.ship {
+  background: #ecfdf5;
+  border: 2px solid var(--good);
+  padding: 22px 28px;
+}
+.node.ship .name { color: var(--good); font-size: 20px; }
+.node.ship .meta { color: #166534; }
+
+.node.orch {
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+  padding: 22px 28px;
+}
+.node.orch .name { color: var(--accent); font-size: 20px; }
+.node.orch .meta { color: #9a4a1a; font-weight: 500; }
+
+.mcp-cluster {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  width: 380px;
+}
+.mcp-cluster .head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.mcp-cluster .head::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
+.mcp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+.mcp-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 500;
+  padding: 8px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.mcp-item .pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.mcp-item small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+}
+
+.cmd {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+}
+
+svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">step 04 / 04 · the loop</div>
+  <div class="title">Ship. Listen. Re-prompt.</div>
+  <div class="subtitle">Once it's live, MCPs do the listening for you. /loop and /schedule keep the orchestrator current without you asking. The job is iteration, not implementation.</div>
+
+  <div class="canvas">
+    <svg class="lines" viewBox="0 0 1440 580" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrowL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+        </marker>
+        <marker id="arrowG4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+        </marker>
+      </defs>
+      <!-- Ship → MCP -->
+      <path d="M 240 130 L 540 130" stroke="#15803d" stroke-width="1.8" fill="none" marker-end="url(#arrowG4)"/>
+      <!-- MCP → orchestrator -->
+      <path d="M 740 360 L 1080 360" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrowL)"/>
+      <!-- Orchestrator → loop back to Ship (curve) -->
+      <path d="M 1240 290 Q 1320 100 240 80" stroke="#c2410c" stroke-width="1.8" fill="none" stroke-dasharray="0" marker-end="url(#arrowL)"/>
+    </svg>
+
+    <!-- Ship -->
+    <div class="node ship" style="left: 20px; top: 90px; width: 220px;">
+      <div class="name">production</div>
+      <div class="meta">feature live · users testing</div>
+    </div>
+
+    <!-- MCP cluster -->
+    <div class="mcp-cluster" style="left: 540px; top: 30px;">
+      <div class="head">signal · MCPs always on</div>
+      <div class="mcp-grid">
+        <div class="mcp-item"><span class="pip"></span>Sentry <small>errors</small></div>
+        <div class="mcp-item"><span class="pip"></span>Cloudwatch <small>logs</small></div>
+        <div class="mcp-item"><span class="pip"></span>Slack <small>team</small></div>
+        <div class="mcp-item"><span class="pip"></span>Linear <small>tickets</small></div>
+        <div class="mcp-item"><span class="pip"></span>Gmail <small>clients</small></div>
+        <div class="mcp-item"><span class="pip"></span>Granola <small>user calls</small></div>
+      </div>
+    </div>
+
+    <!-- Orchestrator -->
+    <div class="node orch" style="left: 1080px; top: 320px; width: 320px;">
+      <div class="name">Orchestrator · /resume</div>
+      <div class="meta">reads signal · proposes next slice</div>
+    </div>
+
+    <!-- commands -->
+    <div class="cmd" style="left: 540px; top: 410px;">/loop · keep watching logs</div>
+    <div class="cmd" style="left: 540px; top: 460px;">/schedule · daily client triage</div>
+    <div class="cmd" style="left: 540px; top: 510px;">/remote-control · nudge from phone</div>
+
+    <div class="tag" style="left: 20px; top: 230px;">if i ship the wrong thing, the loop catches it</div>
+  </div>
+
+  <div class="brand">shipping fast with claude code · 04</div>
+</div>
+</body>
+</html>

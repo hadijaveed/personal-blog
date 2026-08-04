@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>learning loop · verdicts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfaf6;
+  --graphite: #3a3733;
+  --meta: #6f6a61;
+  --soft: #7a746a;
+  --red: #b5543b;
+  --green: #5d7a52;
+  --amber: #b08a3e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body { font-family: 'Patrick Hand', cursive; background: var(--paper); color: var(--graphite); -webkit-font-smoothing: antialiased; }
+.page { width: 1600px; height: 900px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; }
+.title { position: absolute; left: 80px; top: 42px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 54px; letter-spacing: 0.01em; }
+.subtitle { position: absolute; left: 82px; top: 140px; font-size: 20px; color: var(--meta); max-width: 880px; line-height: 1.5; }
+.label { position: absolute; }
+.label .badge { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+.label .name { font-size: 21px; line-height: 1.2; margin-bottom: 2px; }
+.label .name.big { font-size: 24px; }
+.label .meta { font-size: 15.5px; color: var(--meta); line-height: 1.35; }
+.note { position: absolute; font-family: 'Caveat', cursive; font-weight: 600; font-size: 24px; color: var(--soft); }
+.brand { position: absolute; bottom: 34px; right: 80px; font-size: 14px; color: var(--soft); }
+.c-red { color: var(--red); } .c-green { color: var(--green); } .c-amber { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+
+  <div class="title">every answer gets a second opinion</div>
+  <div class="subtitle">a background loop replays finished conversations with a read-only verifier. three verdicts, three paths, and a human holds the merge button.</div>
+
+  <!-- conversation threads -->
+  <div class="label" style="left: 110px; top: 482px; width: 220px; transform: rotate(-0.6deg);">
+    <div class="name">conversation threads</div>
+    <div class="meta">gone quiet · picked up later</div>
+  </div>
+
+  <!-- verifier -->
+  <div class="label" style="left: 448px; top: 470px; width: 270px; transform: rotate(0.4deg);">
+    <div class="name big c-red">verifier</div>
+    <div class="meta">read-only · re-derives the numbers</div>
+  </div>
+
+  <!-- confirmed -->
+  <div class="label" style="left: 970px; top: 246px; width: 280px; transform: rotate(-0.5deg);">
+    <div class="badge c-green">confirmed</div>
+    <div class="name">leave it alone</div>
+    <div class="meta">recorded · nothing to fix</div>
+  </div>
+
+  <!-- mistake -->
+  <div class="label" style="left: 970px; top: 474px; width: 290px; transform: rotate(0.3deg);">
+    <div class="badge c-amber">mistake</div>
+    <div class="name">proposer + refuter</div>
+    <div class="meta">one surgical edit · attacked first</div>
+  </div>
+
+  <!-- ambiguous -->
+  <div class="label" style="left: 970px; top: 692px; width: 290px; transform: rotate(-0.4deg);">
+    <div class="badge c-amber">ambiguous</div>
+    <div class="name">clarifying question</div>
+    <div class="meta">a judgment call for a human</div>
+  </div>
+
+  <!-- human review -->
+  <div class="label" style="left: 1332px; top: 556px; width: 180px; transform: rotate(0.6deg);">
+    <div class="name c-red">human review</div>
+    <div class="meta">approve · reject · discuss</div>
+  </div>
+
+  <div class="note" style="left: 430px; top: 366px; transform: rotate(-1deg);">human pushback in the thread = ground truth</div>
+  <div class="note" style="left: 600px; top: 830px; transform: rotate(0.8deg);">approved edits shape the next conversation</div>
+
+  <div class="brand">byaan learning loop · 01</div>
+</div>
+
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const GRAPHITE = '#3a3733', SOFT = '#7a746a', RED = '#b5543b', GREEN = '#5d7a52', AMBER = '#b08a3e';
+let seed = 11;
+const add = el => svg.appendChild(el);
+
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: GRAPHITE, strokeWidth: 1.6, roughness: 1.7, bowing: 1.2, fill: 'none', seed: seed++, ...o }));
+}
+function hachure(color) {
+  return { fill: color, fillStyle: 'hachure', hachureGap: 12, fillWeight: 0.7 };
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 12;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: GRAPHITE, strokeWidth: 1.4, roughness: 1.4, bowing: 1, seed: seed++, ...o };
+  if (pts.length === 2) add(rc.line(pts[0][0], pts[0][1], pts[1][0], pts[1][1], opt));
+  else add(rc.curve(pts, opt));
+  head(pts[pts.length - 2][0], pts[pts.length - 2][1], pts[pts.length - 1][0], pts[pts.length - 1][1], opt);
+}
+function underline(x1, x2, y, color = RED) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: 1.8, roughness: 2.5, bowing: 2, seed: seed++ }));
+}
+
+underline(80, 700, 122);
+
+box(90, 462, 255, 96);
+box(420, 448, 315, 112, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') });
+box(945, 230, 320, 104, { stroke: GREEN });
+box(945, 458, 330, 104, { stroke: AMBER });
+box(945, 676, 330, 104, { stroke: AMBER });
+box(1312, 540, 212, 120, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') });
+
+arrow([[345, 510], [412, 506]], { stroke: RED });
+arrow([[737, 476], [850, 366], [937, 290]], { stroke: GREEN });
+arrow([[737, 508], [937, 510]], { stroke: AMBER });
+arrow([[737, 538], [850, 650], [937, 722]], { stroke: AMBER });
+arrow([[1277, 528], [1306, 570]], { stroke: RED });
+arrow([[1277, 712], [1306, 644]], { stroke: RED });
+
+// approved edits loop back to the next conversation
+arrow([[1414, 664], [960, 828], [430, 788], [214, 560]], { stroke: RED, strokeLineDash: [7, 7], strokeWidth: 1.3 });
+
+// note arrow → verifier top
+arrow([[622, 406], [582, 442]], { stroke: SOFT, strokeWidth: 1.1 });
+</script>
+</body>
+</html>

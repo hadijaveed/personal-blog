@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>03 · Vet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --good: #15803d;
+  --bad: #b45309;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title { font-size: 44px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+.subtitle { font-size: 19px; color: var(--muted); max-width: 760px; line-height: 1.5; }
+.canvas { position: absolute; inset: 230px 80px 60px 80px; }
+
+.node {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow);
+}
+.node .name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.node .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.node.primary {
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+  padding: 22px 32px;
+}
+.node.primary .name {
+  font-size: 22px; color: var(--accent); margin-bottom: 6px;
+}
+.node.primary .meta { color: #9a4a1a; font-weight: 500; }
+
+.diamond {
+  position: absolute;
+  width: 240px; height: 240px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  transform: rotate(45deg);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.diamond-content {
+  position: absolute;
+  width: 240px; height: 240px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+.diamond-content .q-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.18em;
+  margin-bottom: 8px;
+}
+.diamond-content .q {
+  font-size: 19px; font-weight: 600; letter-spacing: -0.015em;
+  line-height: 1.25;
+  padding: 0 30px;
+}
+
+.outcome {
+  position: absolute;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px 22px;
+  box-shadow: var(--shadow);
+  width: 280px;
+}
+.outcome.good { border: 1.5px solid var(--good); }
+.outcome.bad { border: 1.5px solid var(--bad); }
+.outcome .badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  padding: 3px 8px; border-radius: 4px;
+  margin-bottom: 8px;
+}
+.outcome.good .badge { background: #ecfdf5; color: var(--good); }
+.outcome.bad .badge { background: #fef3c7; color: var(--bad); }
+.outcome .name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.outcome .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+}
+
+svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">step 03 / 04 · vet</div>
+  <div class="title">Zoom out. Did the integration hold?</div>
+  <div class="subtitle">Bring the finished slice back to the orchestrator. Ask one honest question. If the answer is no, fix the plan before forking the next slice.</div>
+
+  <div class="canvas">
+    <svg class="lines" viewBox="0 0 1440 580" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrowo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+        </marker>
+        <marker id="arrowg3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+        </marker>
+        <marker id="arrowy3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/>
+        </marker>
+      </defs>
+      <!-- slice → orchestrator -->
+      <path d="M 230 220 L 400 220" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrowo)"/>
+      <!-- orchestrator → diamond -->
+      <path d="M 720 220 L 820 220" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrowo)"/>
+      <!-- diamond → yes (top right) -->
+      <path d="M 1080 130 L 1180 70" stroke="#15803d" stroke-width="1.8" fill="none" marker-end="url(#arrowg3)"/>
+      <!-- diamond → no (bottom right) -->
+      <path d="M 1080 320 L 1180 380" stroke="#b45309" stroke-width="1.8" fill="none" marker-end="url(#arrowy3)"/>
+      <!-- loop arrow back from "no" to start -->
+      <path d="M 1180 480 Q 600 540 100 320" stroke="#b45309" stroke-width="1.5" fill="none" stroke-dasharray="6,5" marker-end="url(#arrowy3)"/>
+    </svg>
+
+    <!-- finished slice -->
+    <div class="node" style="left: 20px; top: 190px; width: 200px;">
+      <div class="name">finished slice</div>
+      <div class="meta">FastAPI · merged</div>
+    </div>
+
+    <!-- orchestrator -->
+    <div class="node primary" style="left: 400px; top: 165px; width: 320px;">
+      <div class="name">Orchestrator</div>
+      <div class="meta">re-reads plan · vets integration</div>
+    </div>
+
+    <!-- diamond -->
+    <div class="diamond" style="left: 840px; top: 100px;"></div>
+    <div class="diamond-content" style="left: 840px; top: 100px;">
+      <div class="q-label">decision</div>
+      <div class="q">does the integration still hold?</div>
+    </div>
+
+    <!-- yes outcome -->
+    <div class="outcome good" style="left: 1170px; top: 0px;">
+      <div class="badge">yes</div>
+      <div class="name">fork the next slice</div>
+      <div class="meta">Express · auth + data</div>
+    </div>
+
+    <!-- no outcome -->
+    <div class="outcome bad" style="left: 1170px; top: 360px;">
+      <div class="badge">no</div>
+      <div class="name">adjust the plan first</div>
+      <div class="meta">re-prompt · reshape · re-fork</div>
+    </div>
+
+    <div class="tag" style="left: 380px; top: 460px;">drift caught here costs hours, not days</div>
+  </div>
+
+  <div class="brand">shipping fast with claude code · 03</div>
+</div>
+</body>
+</html>
