@@ -29,6 +29,9 @@ Each diagram produces three artifacts:
 
 If the diagrams live in a different repo, mirror the same structure under that repo's assets.
 
+
+> **Legibility standard (Hadi, 2026-08-25, overrides the 1600x900 sizes below).** Blog diagrams are viewed at ~800px on desktop and ~360px on phones, and Hadi rejected the small-label 1600x900 versions as "impossible to see." Design at display size: 1200px-wide portrait or square canvas (1200x1500 / 1200x1200), rendered at deviceScaleFactor 2 (see `/home/hadi/pw/render-access.js`). Title 64px, labels 42px, secondary 32px, nothing under 30px. Under 40 words per figure. White background, near-black ink for all text (no muted grey), 3px borders, one accent (#c2410c) on one element plus arrows. No eyebrows, step indicators, branding strips, or citations inside the picture. Always render a 360px-wide test and read it. Reference: `docs/assets/diagrams/src/access-*.html`.
+
 ## Design system (do not improvise)
 
 Consistency across diagrams matters more than novelty. Always use these values.
