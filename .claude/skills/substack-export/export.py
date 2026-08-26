@@ -84,6 +84,15 @@ def rewrite_assets(body: str) -> str:
     return re.sub(r"\((?:\.\./)?assets/", f"({SITE_URL}/assets/", body)
 
 
+def rewrite_internal_links(body: str) -> str:
+    """Make site-root-relative links absolute so they survive the paste.
+
+    A link like (/2025/09/16/some-post/) is fine on the blog but dead inside
+    Substack, so point it back at the live site.
+    """
+    return re.sub(r"\]\(/(?!/)", f"]({SITE_URL}/", body)
+
+
 def strip_attr_lists(body: str) -> str:
     return re.sub(r"(\]\([^)]+\))\s*\{[^}]*\}", r"\1", body)
 
@@ -174,6 +183,7 @@ def main() -> int:
     title, body = extract_title(body)
     body = embed_or_rewrite_images(body, path.parent)
     body = rewrite_assets(body)
+    body = rewrite_internal_links(body)
     body = strip_attr_lists(body)
     html_body = to_html(body)
 

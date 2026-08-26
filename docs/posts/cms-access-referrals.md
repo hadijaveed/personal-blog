@@ -13,7 +13,7 @@ comments: true
 
 It's very hard to automate patient referrals into a digital health program. You'd think patients will see a program like CMS ACCESS online and onboard themselves, but there's a lot more to it.
 
-We've spent the last year at [RevelAI Health](https://www.revelaihealth.com/){:target="_blank"} building for this model, and most of that time went into a problem that isn't in the RFA at all: how does a patient actually get into your program, and how do you keep them there for twelve months? I want to share how we think about it, what the evidence says, and what we're building.
+We've spent past months at [RevelAI Health](https://www.revelaihealth.com/){:target="_blank"} building for this model, and most of that time went into a problem that isn't in the RFA at all: how does a patient actually get into your program, and how do you keep them there for twelve months? I want to share how we think about it, what the evidence says, and what we're building.
 
 <!-- more -->
 
@@ -31,7 +31,7 @@ A few things about the MSK track that matter for everything below:
 
 We're on the [accepted participant list](https://www.cms.gov/priorities/innovation/access-model-accepted-applicants){:target="_blank"}, along with more than 150 other organizations. So this isn't analysis from the outside. Our next twelve months get graded on this.
 
-I'm going to stay on the referral and engagement side here. My co-founder and our CEO, Christian Pean, has written a lot about the model itself, the policy, the tracks, the payment design, in his [12 Days of ACCESS series](https://techysurgeon.substack.com/t/12daysaccess){:target="_blank"}. If you want the full picture of ACCESS, start there.
+I'm going to stay on the referral and engagement side here. My co-founder and our CEO, [Christian Pean](https://www.linkedin.com/in/christianpean/){:target="_blank"}, has written a lot about the model itself, the policy, the tracks, the payment design, in his [12 Days of ACCESS series](https://techysurgeon.substack.com/t/12daysaccess){:target="_blank"}. If you want the full picture of ACCESS, start there.
 
 ## No referral required, in practice
 
