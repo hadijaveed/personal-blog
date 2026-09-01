@@ -22,14 +22,14 @@ I live in Ashburn, Virginia. [Home of the data center](https://www.digitalrealty
 - I/O tax. [Agents browse a lot more than a human does](https://www.imperva.com/blog/bad-bot-report-2026-bots-agentic-age/){:target="_blank"}. They fetch, they scrape, they pull packages. The box has a 1 Gbps line, so they search faster and iterate faster, and my laptop doesn't pay the I/O tax at all.
 - A computer that's available on the go. I can log in from anywhere and get things done. Even when the internet is bad where I am, it doesn't matter much. Most of the work is done by the agents. I just give them the command.
 
-This is [Termius](https://termius.com/){:target="_blank"} on my iPhone, attached to Herdr on the box:
+This is [Termius](https://termius.com/){:target="_blank"} on my iPhone, attached to [Herdr](https://herdr.dev/){:target="_blank"} on the box:
 
 ![Termius on my iPhone, attached to Herdr on the dev box](../assets/termius-iphone-herdr.png){ width="380" }
 
 ## Why not cloud agents?
 
 - Cowork in Claude, GPT working in the cloud, GrokBot, they're all great. But for development I need a more familiar environment. I need a place to have my `.env` files and everything else.
-- Cloud agents are coming, and they're good, but I need a real development environment. Lazygit, git tools, a terminal, something to review things with.
+- Cloud agents are coming, and they're good, but I need a real development environment. [Lazygit](https://github.com/jesseduffield/lazygit){:target="_blank"}, git tools, a terminal, something to review things with.
 - I need a place where my context compounds. [Hermes](https://github.com/NousResearch/hermes-agent){:target="_blank"} is amazing at building skills. I need those skills to compound on my machine, not inside somebody's sandbox. And I can swap any model in and out.
 
 This is what that familiar environment looks like. Herdr on the box, every agent in its own pane:
