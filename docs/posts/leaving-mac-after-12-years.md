@@ -7,7 +7,6 @@ date: 2026-09-06
 readtime: 4
 slug: leaving-mac-after-12-years
 comments: true
-draft: true
 description: After 12 years on a Mac, I switched to Omarchy. My desk setup, the plugins I built, and why computers feel fun again.
 image: assets/omarchy-desk-setup.jpg
 image_alt: My desk setup with Omarchy on an ultrawide monitor, a mini desktop, and a Lenovo laptop
