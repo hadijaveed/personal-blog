@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111111;--accent:#c2410c;--bg:#ffffff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1200px;background:var(--bg);}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:var(--ink);padding:48px 40px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+  h1{font-size:64px;font-weight:700;line-height:1.12;letter-spacing:-0.5px;margin-bottom:20px;}
+  .lead{font-size:32px;font-weight:500;line-height:1.3;margin-bottom:36px;}
+  .people{flex:1;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:24px 20px;align-items:center;justify-items:center;}
+  .p{width:170px;height:290px;display:flex;flex-direction:column;align-items:center;}
+  .p .head{width:96px;height:96px;border-radius:50%;border:5px solid var(--ink);}
+  .p .body{width:160px;height:170px;margin-top:14px;border:5px solid var(--ink);border-radius:80px 80px 22px 22px;}
+  .p.ctl .head,.p.ctl .body{border-color:var(--accent);border-style:dashed;}
+  .cap{border:5px solid var(--accent);border-radius:16px;padding:24px 30px;margin-top:20px;}
+  .cap .lbl{font-size:42px;font-weight:700;line-height:1.12;color:var(--accent);}
+  .cap .sub{font-size:32px;font-weight:500;line-height:1.25;margin-top:8px;}
+</style>
+</head>
+<body>
+  <h1>Ten eligible patients</h1>
+  <div class="lead">In year one, roughly one in ten otherwise eligible patients lands in the control group.</div>
+  <div class="people">
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p ctl"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+    <div class="p"><div class="head"></div><div class="body"></div></div>
+  </div>
+  <div class="cap">
+    <div class="lbl">Control group: can't be aligned for a year</div>
+    <div class="sub">Usual Medicare care continues. Tell them in CMS's words, before you check.</div>
+  </div>
+</body>
+</html>

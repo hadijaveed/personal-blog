@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111111;--accent:#c2410c;--bg:#ffffff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1500px;background:var(--bg);}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:var(--ink);padding:48px 40px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+  h1{font-size:64px;font-weight:700;line-height:1.12;letter-spacing:-0.5px;margin-bottom:28px;}
+  .grid{flex:1;display:grid;grid-template-columns:330px 60px 1fr 60px 330px;grid-template-rows:repeat(5,1fr) ;row-gap:0;}
+  .box{border:3px solid var(--ink);border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;justify-content:center;align-self:center;width:100%;}
+  .box.hot{border-color:var(--accent);border-width:5px;}
+  .lbl{font-size:42px;font-weight:700;line-height:1.12;}
+  .sub{font-size:32px;font-weight:500;line-height:1.25;margin-top:8px;}
+  .hot .sub{color:var(--accent);font-weight:600;}
+  .side{grid-column:1;}
+  .side.r{grid-column:5;}
+  .mid{grid-column:3;position:relative;}
+  /* vertical arrows between mid boxes */
+  .v{position:absolute;left:50%;transform:translateX(-50%);width:4px;background:var(--ink);}
+  .vh{position:absolute;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:22px solid var(--ink);}
+  /* horizontal arrows */
+  .h{display:flex;align-items:center;justify-content:center;position:relative;}
+  .h .stem{height:4px;width:100%;background:var(--accent);}
+  .h .head{position:absolute;right:-2px;width:0;height:0;border-top:15px solid transparent;border-bottom:15px solid transparent;border-left:22px solid var(--accent);}
+  .h.l .head{right:auto;left:-2px;border-left:none;border-right:22px solid var(--accent);}
+  .cell{display:flex;align-items:center;position:relative;}
+  .cell.c{justify-content:center;}
+  .loop{position:absolute;left:-6px;top:0;bottom:0;width:0;}
+  .ret{position:absolute;right:-40px;top:0;bottom:0;width:36px;border:4px solid var(--accent);border-left:none;border-radius:0 24px 24px 0;}
+  .ret.head{}
+  .rl{font-size:30px;font-weight:600;color:var(--accent);}
+</style>
+</head>
+<body>
+  <h1>The system around the API</h1>
+  <div class="grid" id="g">
+    <!-- row 1: Identify -->
+    <div class="cell side"></div><div class="cell"></div>
+    <div class="cell mid c"><div class="box"><div class="lbl">Identify</div><div class="sub">MBI, Medicare eligibility, CMS eligibility</div></div></div>
+    <div class="cell"></div><div class="cell side r"></div>
+
+    <!-- row 2: Engage, with HIE feeding in -->
+    <div class="cell side"><div class="box"><div class="lbl">HIE record</div><div class="sub">comorbidities, meds, care elsewhere</div></div></div>
+    <div class="cell h"><div class="stem"></div><div class="head"></div></div>
+    <div class="cell mid c"><div class="box hot"><div class="lbl">Engage</div><div class="sub">twelve months. Every touch in the record.</div></div></div>
+    <div class="cell"></div><div class="cell side r"></div>
+
+    <!-- row 3: Report -->
+    <div class="cell side"></div><div class="cell"></div>
+    <div class="cell mid c"><div class="box"><div class="lbl">Report</div><div class="sub">outcomes on CMS's clock</div></div></div>
+    <div class="cell"></div><div class="cell side r"></div>
+
+    <!-- row 4: Bill -->
+    <div class="cell side"></div><div class="cell"></div>
+    <div class="cell mid c"><div class="box"><div class="lbl">Bill</div><div class="sub">monthly, with the record behind it</div></div></div>
+    <div class="cell"></div><div class="cell side r"></div>
+
+    <!-- row 5: Learn, with BCDA feeding in -->
+    <div class="cell side"></div><div class="cell"></div>
+    <div class="cell mid c"><div class="box"><div class="lbl">Learn</div><div class="sub">did it work? what changed?</div></div></div>
+    <div class="cell h l"><div class="stem"></div><div class="head"></div></div>
+    <div class="cell side r"><div class="box"><div class="lbl">BCDA claims</div><div class="sub">what happened after us, once the claims process</div></div></div>
+  </div>
+  <svg id="ov" style="position:absolute;left:0;top:0;width:1200px;height:1500px;pointer-events:none" viewBox="0 0 1200 1500"></svg>
+<script>
+// draw vertical arrows between mid boxes and the return loop Learn -> Engage
+window.addEventListener('load',()=>{
+  const boxes=[...document.querySelectorAll('.mid .box')].map(b=>b.getBoundingClientRect());
+  const svg=document.getElementById('ov'); let d='';
+  const ink='#111111', acc='#c2410c';
+  for(let i=0;i<boxes.length-1;i++){
+    const a=boxes[i], b=boxes[i+1]; const x=a.left+a.width/2; const y1=a.bottom+4, y2=b.top-4;
+    d+=`<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2-18}" stroke="${ink}" stroke-width="4"/>`;
+    d+=`<polygon points="${x-15},${y2-22} ${x+15},${y2-22} ${x},${y2}" fill="${ink}"/>`;
+  }
+  // return loop: from the LEFT side of Learn, down and around, up the left margin, into the left side of Engage.
+  // Kept separate from the BCDA arrow on the right so the two never fork.
+  const L=boxes[4], E=boxes[1]; const H=boxes[0];
+  const xl=Math.min(L.left,E.left)-40; const yL=L.top+L.height/2, yE=E.bottom-24;
+  const hie=document.querySelector('.side .box').getBoundingClientRect();
+  const xfar=hie.right+10; // run the loop between the HIE box and the center column
+  d+=`<path d="M ${L.left-4} ${yL} H ${xl} V ${yE} H ${E.left-26}" fill="none" stroke="${acc}" stroke-width="4"/>`;
+  d+=`<polygon points="${E.left-26},${yE-15} ${E.left-26},${yE+15} ${E.left-4},${yE}" fill="${acc}"/>`;
+  const ymid=(hie.bottom+L.top)/2;
+  d+=`<text x="${xl-14}" y="${ymid}" fill="${acc}" font-family="Inter,sans-serif" font-size="30" font-weight="600" transform="rotate(-90 ${xl-14} ${ymid})" text-anchor="middle">inform the next year</text>`;
+  svg.innerHTML=d;
+});
+</script>
+</body>
+</html>
