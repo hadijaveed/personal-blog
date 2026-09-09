@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111111;--accent:#c2410c;--bg:#ffffff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1200px;background:var(--bg);}
+  body{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    color:var(--ink);
+    padding:48px 40px;
+    display:flex;
+    flex-direction:column;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1{font-size:64px;font-weight:700;line-height:1.12;letter-spacing:-0.5px;margin-bottom:30px;}
+  .col{flex:1;display:flex;flex-direction:column;}
+  .box{border:3px solid var(--ink);border-radius:16px;padding:30px 32px;}
+  .box.hot{border-color:var(--accent);border-width:5px;}
+  .lbl{font-size:42px;font-weight:700;line-height:1.12;}
+  .sub{font-size:32px;font-weight:500;line-height:1.25;margin-top:12px;}
+  .sub.hot{color:var(--accent);font-weight:600;}
+  .arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 0;min-height:70px;}
+  .stem{flex:1 1 auto;width:4px;min-height:30px;background:var(--ink);}
+  .head{width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:22px solid var(--ink);}
+  .three{display:grid;grid-template-columns:1fr;gap:18px;}
+  .row{display:flex;align-items:center;gap:24px;}
+  .who{font-size:30px;font-weight:600;line-height:1;border:3px solid var(--ink);border-radius:999px;padding:14px 22px;white-space:nowrap;}
+  .who.hot{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+  <h1>After the patient says yes</h1>
+  <div class="col">
+
+    <div class="box">
+      <div class="lbl">A check-in arrives</div>
+      <div class="sub">daily in month one, weekly after that</div>
+    </div>
+
+    <div class="arrow"><div class="stem"></div><div class="head"></div></div>
+
+    <div class="three">
+      <div class="box hot">
+        <div class="row">
+          <div style="flex:1">
+            <div class="lbl">Red flag</div>
+            <div class="sub hot">chest pain, a fall, can't breathe</div>
+          </div>
+          <div class="who hot">a person, today</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="row">
+          <div style="flex:1">
+            <div class="lbl">Getting worse</div>
+            <div class="sub">pain trending up over weeks</div>
+          </div>
+          <div class="who">back to the clinic</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="row">
+          <div style="flex:1">
+            <div class="lbl">Doing fine</div>
+            <div class="sub">the hard one for twelve months</div>
+          </div>
+          <div class="who">something new</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="stem"></div><div class="head"></div></div>
+
+    <div class="box">
+      <div class="lbl">Nobody is paid to watch every day</div>
+      <div class="sub">the practice reviews a care update each quarter</div>
+    </div>
+
+  </div>
+</body>
+</html>

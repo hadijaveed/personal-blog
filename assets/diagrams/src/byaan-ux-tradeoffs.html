@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Byaan · UX trade-offs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --bad: #b45309;
+  --bad-bg: #fef3c7;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title { font-size: 44px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+.subtitle { font-size: 19px; color: var(--muted); max-width: 820px; line-height: 1.5; }
+
+.canvas { position: absolute; inset: 250px 80px 60px 80px; }
+
+.column {
+  position: absolute;
+  top: 60px;
+  width: 460px;
+}
+
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 28px 30px;
+  box-shadow: var(--shadow);
+}
+.card .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.card .name {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 22px;
+}
+.card .badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  padding: 4px 9px; border-radius: 4px;
+  margin-bottom: 12px;
+  background: var(--bad-bg);
+  color: var(--bad);
+}
+.card .why {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.kicker {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  text-align: center;
+  font-size: 19px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+.kicker b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">byaan · ux trade-offs</div>
+  <div class="title">Three existing paths. Each one breaks somewhere.</div>
+  <div class="subtitle">SaaS BI tools, warehouse-native AI, and raw CLI agents all work. None of them fit a small team that wants safe, transparent answers from its own data.</div>
+
+  <div class="canvas">
+
+    <div class="column" style="left: 0;">
+      <div class="card">
+        <div class="label">saas bi tools</div>
+        <div class="name">Hex · Julius</div>
+        <span class="badge">too heavy</span>
+        <div class="why">Built for big data teams. And you hand your database to a third party.</div>
+      </div>
+    </div>
+
+    <div class="column" style="left: 490px;">
+      <div class="card">
+        <div class="label">warehouse native ai</div>
+        <div class="name">Snowflake Cortex</div>
+        <span class="badge">no context</span>
+        <div class="why">Sees the warehouse, nothing else. No codebase, no Slack, no memory.</div>
+      </div>
+    </div>
+
+    <div class="column" style="left: 980px;">
+      <div class="card">
+        <div class="label">raw cli agents</div>
+        <div class="name">Claude Code · Cursor</div>
+        <span class="badge">too raw</span>
+        <div class="why">No read-only guardrails. No surface to vet the SQL before you trust it.</div>
+      </div>
+    </div>
+
+    <div class="kicker">
+      <b>Byaan</b> sits in the middle.
+    </div>
+
+  </div>
+
+  <div class="brand">byaan · ux trade-offs</div>
+</div>
+</body>
+</html>

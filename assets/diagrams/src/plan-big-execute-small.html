@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>plan big, execute small</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fdfcf8;
+  --graphite: #3a3a3a;
+  --graphite-soft: #6b6b6b;
+  --red: #b8432e;
+  --blue: #3f5f8a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Patrick Hand', cursive;
+  background: var(--paper);
+  background-image: radial-gradient(circle, rgba(60,60,60,0.07) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  color: var(--graphite);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; position: relative; padding: 48px 80px; }
+
+.title {
+  font-family: 'Caveat', cursive;
+  font-size: 64px; font-weight: 700;
+  color: #2e2e2e;
+  letter-spacing: 0.01em;
+}
+.subtitle {
+  font-size: 23px; color: var(--graphite-soft);
+  margin-top: 2px; max-width: 900px;
+}
+
+/* sketchy box */
+.sketch {
+  position: absolute;
+  border: 2.4px solid var(--graphite);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  background: rgba(255,255,255,0.65);
+  padding: 14px 22px 12px;
+}
+.sketch::before {
+  content: ''; position: absolute; inset: -4px;
+  border: 1.6px solid rgba(58,58,58,0.30);
+  border-radius: 18px 225px 18px 255px / 255px 18px 225px 18px;
+  transform: rotate(-0.35deg);
+  pointer-events: none;
+}
+.sketch .name {
+  font-family: 'Caveat', cursive;
+  font-size: 31px; font-weight: 700; line-height: 1.05;
+  margin-bottom: 4px;
+}
+.sketch .meta { font-size: 18.5px; line-height: 1.3; color: #4d4d4d; }
+
+.sketch.red { border-color: var(--red); }
+.sketch.red::before { border-color: rgba(184,67,46,0.30); }
+.sketch.red .name { color: var(--red); }
+
+.sketch.blue { border-color: var(--blue); }
+.sketch.blue::before { border-color: rgba(63,95,138,0.30); }
+.sketch.blue .name { color: var(--blue); }
+
+.note {
+  position: absolute;
+  font-size: 19px; color: var(--graphite-soft);
+  line-height: 1.25;
+}
+.note.red { color: var(--red); }
+.note.blue { color: var(--blue); }
+
+svg.lines { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; }
+
+.brand {
+  position: absolute; bottom: 30px; right: 80px;
+  font-size: 17px; color: #9a968e;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="title">plan big, execute small</div>
+  <div class="subtitle">the frontier model plans and judges. cheaper meters do the reading.</div>
+
+  <svg class="lines" viewBox="0 0 1600 900">
+    <defs>
+      <marker id="head-g" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8.5" markerHeight="8.5" orient="auto-start-reverse">
+        <path d="M 2 1.5 L 10 6 L 2 10.5" fill="none" stroke="#3a3a3a" stroke-width="1.9" stroke-linecap="round"/>
+      </marker>
+      <marker id="head-r" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8.5" markerHeight="8.5" orient="auto-start-reverse">
+        <path d="M 2 1.5 L 10 6 L 2 10.5" fill="none" stroke="#b8432e" stroke-width="1.9" stroke-linecap="round"/>
+      </marker>
+      <marker id="head-b" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8.5" markerHeight="8.5" orient="auto-start-reverse">
+        <path d="M 2 1.5 L 10 6 L 2 10.5" fill="none" stroke="#3f5f8a" stroke-width="1.9" stroke-linecap="round"/>
+      </marker>
+    </defs>
+
+    <!-- rough underline beneath title -->
+    <path d="M 84 118 C 180 124, 300 114, 418 120 S 520 126, 545 118" stroke="#b8432e" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.85"/>
+
+    <!-- briefs: fable -> workers (wavy, graphite) -->
+    <path d="M 700 345 C 640 410, 460 480, 292 548" stroke="#3a3a3a" stroke-width="2.3" fill="none" stroke-linecap="round" marker-end="url(#head-g)"/>
+    <path d="M 700 345 C 640 410, 460 480, 292 548" stroke="#3a3a3a" stroke-width="1.4" fill="none" opacity="0.25" transform="translate(2,1.5)"/>
+    <path d="M 782 350 C 760 420, 690 480, 608 546" stroke="#3a3a3a" stroke-width="2.3" fill="none" stroke-linecap="round" marker-end="url(#head-g)"/>
+    <path d="M 865 350 C 890 420, 905 470, 918 543" stroke="#3a3a3a" stroke-width="2.3" fill="none" stroke-linecap="round" marker-end="url(#head-g)"/>
+
+    <!-- reports back up (dashed) -->
+    <path d="M 165 548 C 80 440, 200 290, 560 260" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="8 8" marker-end="url(#head-g)"/>
+
+    <!-- fable <-> codex (blue, double headed) -->
+    <path d="M 1055 300 C 1160 330, 1230 420, 1275 528" stroke="#3f5f8a" stroke-width="2.3" fill="none" stroke-linecap="round" marker-start="url(#head-b)" marker-end="url(#head-b)"/>
+
+    <!-- cost tag squiggle arrow to fable box -->
+    <path d="M 1145 218 C 1100 222, 1075 232, 1052 246" stroke="#b8432e" stroke-width="1.8" fill="none" stroke-linecap="round" marker-end="url(#head-r)" opacity="0.9"/>
+
+    <!-- underline for the bottom takeaway -->
+    <path d="M 430 852 C 600 858, 900 848, 1170 854" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  </svg>
+
+  <!-- coordinator -->
+  <div class="sketch red" style="left: 560px; top: 200px; width: 480px; transform: rotate(-0.5deg);">
+    <div class="name">fable 5 - the coordinator</div>
+    <div class="meta">plans, decomposes, judges, synthesizes,<br>reviews every diff. never does the grunt reading.</div>
+  </div>
+  <div class="note red" style="left: 1155px; top: 188px; width: 240px; transform: rotate(1.5deg);">$10 / $50 per MTok<br>the expensive brain</div>
+
+  <!-- workers -->
+  <div class="sketch" style="left: 130px; top: 555px; width: 268px; transform: rotate(0.6deg);">
+    <div class="name">opus 4.8 worker</div>
+    <div class="meta">"read these 40 files,<br>report with file:line"</div>
+  </div>
+  <div class="sketch" style="left: 448px; top: 562px; width: 268px; transform: rotate(-0.7deg);">
+    <div class="name">opus 4.8 worker</div>
+    <div class="meta">"sweep the web, come<br>back with urls + quotes"</div>
+  </div>
+  <div class="sketch" style="left: 766px; top: 555px; width: 268px; transform: rotate(0.4deg);">
+    <div class="name">opus 4.8 worker</div>
+    <div class="meta">"trawl the logs for<br>this pattern"</div>
+  </div>
+  <div class="note" style="left: 448px; top: 690px; width: 380px; transform: rotate(-0.5deg);">$5 / $25 - half the rate, still frontier class. parallel, so 3x faster too.</div>
+
+  <!-- codex peer -->
+  <div class="sketch blue" style="left: 1150px; top: 532px; width: 330px; transform: rotate(0.8deg);">
+    <div class="name">codex gpt-5.6-sol</div>
+    <div class="meta">xhigh reasoning. one deep,<br>self-contained problem at a time.</div>
+  </div>
+  <div class="note blue" style="left: 1190px; top: 668px; width: 300px; transform: rotate(-0.6deg);">bills to the openai plan<br>= ~$0 claude tokens</div>
+  <div class="note blue" style="left: 1108px; top: 402px; width: 200px; transform: rotate(14deg);">peer, not subordinate</div>
+
+  <!-- arrow labels -->
+  <div class="note" style="left: 400px; top: 415px; width: 220px; transform: rotate(9deg);">self-contained briefs</div>
+  <div class="note" style="left: 200px; top: 368px; width: 230px; transform: rotate(-9deg);">evidence-backed reports<br>(file:line, urls, quotes)</div>
+
+  <!-- takeaway -->
+  <div class="note" style="left: 280px; top: 800px; width: 1040px; font-size: 21px; color: #4d4d4d; text-align: center;">84-98% of input tokens billed at the worker rate &rarr; 2.5x cheaper, 3x faster (anthropic's measured numbers)</div>
+
+  <div class="brand">hadijaveed.me &middot; plan big, execute small</div>
+</div>
+</body>
+</html>
