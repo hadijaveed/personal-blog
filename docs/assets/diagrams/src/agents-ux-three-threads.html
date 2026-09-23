@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>three ways to thread an agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 1500px; overflow: hidden; }
+body {
+  font-family: 'Patrick Hand', cursive; color: #2b2925; -webkit-font-smoothing: antialiased;
+  background-color: #fbfaf6;
+  background-image: radial-gradient(circle, rgba(43,41,37,0.10) 1.1px, transparent 1.3px);
+  background-size: 28px 28px; background-position: 14px 14px;
+}
+.page { width: 1200px; height: 1500px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1200px; height: 1500px; pointer-events: none; }
+.t { position: absolute; color: #2b2925; line-height: 1.1; white-space: nowrap; }
+.caveat { font-family: 'Caveat', cursive; font-weight: 700; }
+.c { text-align: center; }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+  <svg id="sketch"></svg>
+</div>
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const page = document.getElementById('page');
+const rc = rough.svg(svg);
+const INK = '#2b2925', RED = '#b5543b', GREEN = '#5d7a52', BLUE = '#2f5d9e', AMBER = '#b08a3e';
+let seed = 7;
+const add = el => svg.appendChild(el);
+
+function text(s, x, y, size, o = {}) {
+  const d = document.createElement('div');
+  d.className = 't' + (o.caveat ? ' caveat' : '') + (o.w ? ' c' : '');
+  d.style.left = x + 'px'; d.style.top = y + 'px'; d.style.fontSize = size + 'px';
+  if (o.w) { d.style.width = o.w + 'px'; d.style.whiteSpace = 'normal'; }
+  d.style.transform = `rotate(${o.rot ?? 0}deg)`;
+  d.innerHTML = s; page.appendChild(d);
+}
+function rrect(x, y, w, h, r) {
+  return `M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+}
+function phone(x, y, w, h, color) {
+  add(rc.path(rrect(x, y, w, h, 42), { stroke: color, strokeWidth: 4, roughness: 1.3, bowing: 1, seed: seed++ }));
+  add(rc.line(x + w/2 - 45, y + 30, x + w/2 + 45, y + 30, { stroke: color, strokeWidth: 4, roughness: 1.2, seed: seed++ }));
+  add(rc.line(x + w/2 - 55, y + h - 22, x + w/2 + 55, y + h - 22, { stroke: color, strokeWidth: 3, roughness: 1.2, seed: seed++ }));
+}
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: INK, strokeWidth: 3, roughness: 1.5, bowing: 1.1, seed: seed++, ...o }));
+}
+const hach = c => ({ fill: c, fillStyle: 'hachure', hachureGap: 14, fillWeight: 1.4 });
+function bubble(x, y, w, h, color, filled) {
+  add(rc.path(rrect(x, y, w, h, 16), { stroke: color, strokeWidth: 3, roughness: 1.1, seed: seed++, ...(filled ? hach(filled) : {}) }));
+  // scribbled "text" line inside
+  add(rc.line(x + 16, y + h/2, x + w - 18 - (seed % 3) * 12, y + h/2 + 1, { stroke: color, strokeWidth: 2, roughness: 2, seed: seed++ }));
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 16;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: INK, strokeWidth: 3, roughness: 1.2, bowing: 1, seed: seed++, ...o };
+  add(rc.curve(pts, opt));
+  const n = pts.length; head(pts[n-2][0], pts[n-2][1], pts[n-1][0], pts[n-1][1], opt);
+}
+function underline(x1, x2, y, color, sw = 3) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: sw, roughness: 2.2, bowing: 2, seed: seed++ }));
+}
+
+// ---------- title ----------
+text('three ways to thread an agent', 60, 34, 76, { caveat: true, rot: -0.8 });
+underline(64, 780, 134, RED, 3.5);
+
+// ---------- 1. Instinct (red) ----------
+const P1 = { x: 40, y: 300, w: 290, h: 800 };
+text('Instinct', P1.x, P1.y - 90, 50, { w: P1.w, rot: -1 });
+underline(P1.x + 70, P1.x + 220, P1.y - 28, RED);
+phone(P1.x, P1.y, P1.w, P1.h, RED);
+{
+  const widths = [150, 110, 175, 95, 140, 165, 100, 130, 155, 90, 145, 120];
+  let y = P1.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const bx = right ? P1.x + P1.w - 22 - w : P1.x + 22;
+    bubble(bx, y, w, 40, right ? RED : INK, right ? 'rgba(181,84,59,0.12)' : null);
+    y += 56;
+  });
+}
+text('one iMessage thread', P1.x - 10, P1.y + P1.h + 16, 36, { w: P1.w + 20, rot: 0.8 });
+
+// ---------- 2. Muse (green) ----------
+const P2 = { x: 375, y: 330, w: 370, h: 740 };
+text('Muse', P2.x, P2.y - 92, 50, { w: P2.w, rot: 0.7 });
+underline(P2.x + 125, P2.x + 245, P2.y - 30, GREEN);
+phone(P2.x, P2.y, P2.w, P2.h, GREEN);
+{
+  const widths = [150, 110, 160, 95, 140, 120, 150, 100, 135, 115];
+  let y = P2.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const colR = P2.x + 205;
+    const bx = right ? colR - w : P2.x + 22;
+    bubble(bx, y, w, 38, right ? GREEN : INK, right ? 'rgba(93,122,82,0.12)' : null);
+    y += 58;
+  });
+  // side boxes
+  const sx = P2.x + 232, sw = 115;
+  const s1 = { y: P2.y + 150, h: 130 }, s2 = { y: P2.y + 430, h: 150 };
+  [s1, s2].forEach(s => {
+    box(sx, s.y, sw, s.h, { stroke: GREEN, strokeWidth: 3.5, ...hach('rgba(93,122,82,0.10)') });
+    for (let k = 0; k < Math.floor((s.h - 20) / 36); k++) {
+      const bw = k % 2 ? 60 : 72;
+      const bx = k % 2 ? sx + sw - 12 - bw : sx + 12;
+      add(rc.path(rrect(bx, s.y + 16 + k * 36, bw, 24, 10), { stroke: GREEN, strokeWidth: 2.5, roughness: 1, seed: seed++ }));
+    }
+  });
+  arrow([[P2.x + 175, P2.y + 140], [P2.x + 210, P2.y + 120], [sx - 6, s1.y + 30]], { stroke: GREEN });
+  arrow([[P2.x + 190, P2.y + 370], [P2.x + 225, P2.y + 400], [sx - 6, s2.y + 40]], { stroke: GREEN });
+  text('side chat', sx - 22, s2.y + s2.h + 18, 34, { w: sw + 44, rot: -1 });
+}
+text('main thread', P2.x, P2.y + P2.h + 16, 36, { w: P2.w, rot: -0.6 });
+
+// ---------- 3. Grok Bot (blue) ----------
+const P3 = { x: 790, y: 280, w: 370, h: 830 };
+text('Grok Bot', P3.x, P3.y - 90, 50, { w: P3.w, rot: -0.5 });
+underline(P3.x + 100, P3.x + 270, P3.y - 28, BLUE);
+phone(P3.x, P3.y, P3.w, P3.h, BLUE);
+{
+  const bx = P3.x + 28, by = P3.y + 62, bw = 230, bh = 128;
+  box(bx, by, bw, bh, { stroke: BLUE, strokeWidth: 4, ...hach('rgba(47,93,158,0.12)') });
+  text('chief of<br>staff', bx, by + 16, 44, { w: bw, rot: -0.8 });
+  const kids = ['research', 'logging', 'diligence', 'errands'];
+  const kx = P3.x + 150, kw = 195, kh = 78;
+  kids.forEach((k, i) => {
+    const ky = P3.y + 250 + i * 128 + (i % 2) * 8;
+    box(kx + (i % 2 ? 6 : -4), ky, kw, kh, { stroke: INK, strokeWidth: 3 });
+    text(k, kx + (i % 2 ? 6 : -4), ky + 18, 36, { w: kw, rot: i % 2 ? 0.8 : -0.7 });
+    const sx = P3.x + 116 - i * 26, kyc = ky + kh / 2, ex = kx - 12 + (i % 2 ? 6 : -4);
+    arrow([[sx, by + bh + 6], [sx + 2, kyc - 40], [(sx + ex) / 2, kyc - 3], [ex, kyc]], { stroke: BLUE });
+  });
+}
+
+// ---------- margin notes ----------
+text('text it like<br>a person', 80, 1225, 44, { caveat: true, rot: -1 });
+arrow([[70, 1240], [26, 1170], [38, 1070]], { stroke: RED, roughness: 1.3 });
+
+text('branches when<br>it gets crowded', 450, 1230, 44, { caveat: true, rot: 0.8 });
+arrow([[710, 1240], [765, 1150], [728, 985]], { stroke: GREEN, roughness: 1.3 });
+
+text('one boss,<br>many hands', 900, 1225, 44, { caveat: true, rot: -0.9 });
+arrow([[1100, 1235], [1125, 1120], [1050, 1005]], { stroke: BLUE, roughness: 1.3 });
+</script>
+<script>
+const svg = document.getElementById('sketch');
+const page = document.getElementById('page');
+const rc = rough.svg(svg);
+const INK = '#2b2925', RED = '#b5543b', GREEN = '#5d7a52', BLUE = '#2f5d9e', AMBER = '#b08a3e';
+let seed = 7;
+const add = el => svg.appendChild(el);
+
+function text(s, x, y, size, o = {}) {
+  const d = document.createElement('div');
+  d.className = 't' + (o.caveat ? ' caveat' : '') + (o.w ? ' c' : '');
+  d.style.left = x + 'px'; d.style.top = y + 'px'; d.style.fontSize = size + 'px';
+  if (o.w) { d.style.width = o.w + 'px'; d.style.whiteSpace = 'normal'; }
+  d.style.transform = `rotate(${o.rot ?? 0}deg)`;
+  d.innerHTML = s; page.appendChild(d);
+}
+function rrect(x, y, w, h, r) {
+  return `M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+}
+function phone(x, y, w, h, color) {
+  add(rc.path(rrect(x, y, w, h, 42), { stroke: color, strokeWidth: 4, roughness: 1.3, bowing: 1, seed: seed++ }));
+  add(rc.line(x + w/2 - 45, y + 30, x + w/2 + 45, y + 30, { stroke: color, strokeWidth: 4, roughness: 1.2, seed: seed++ }));
+  add(rc.line(x + w/2 - 55, y + h - 22, x + w/2 + 55, y + h - 22, { stroke: color, strokeWidth: 3, roughness: 1.2, seed: seed++ }));
+}
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: INK, strokeWidth: 3, roughness: 1.5, bowing: 1.1, seed: seed++, ...o }));
+}
+const hach = c => ({ fill: c, fillStyle: 'hachure', hachureGap: 14, fillWeight: 1.4 });
+function bubble(x, y, w, h, color, filled) {
+  add(rc.path(rrect(x, y, w, h, 16), { stroke: color, strokeWidth: 3, roughness: 1.1, seed: seed++, ...(filled ? hach(filled) : {}) }));
+  // scribbled "text" line inside
+  add(rc.line(x + 16, y + h/2, x + w - 18 - (seed % 3) * 12, y + h/2 + 1, { stroke: color, strokeWidth: 2, roughness: 2, seed: seed++ }));
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 16;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: INK, strokeWidth: 3, roughness: 1.2, bowing: 1, seed: seed++, ...o };
+  add(rc.curve(pts, opt));
+  const n = pts.length; head(pts[n-2][0], pts[n-2][1], pts[n-1][0], pts[n-1][1], opt);
+}
+function underline(x1, x2, y, color, sw = 3) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: sw, roughness: 2.2, bowing: 2, seed: seed++ }));
+}
+
+// ---------- title ----------
+text('three ways to thread an agent', 60, 34, 76, { caveat: true, rot: -0.8 });
+underline(64, 780, 134, RED, 3.5);
+
+// ---------- 1. Instinct (red) ----------
+const P1 = { x: 40, y: 300, w: 290, h: 800 };
+text('Instinct', P1.x, P1.y - 90, 50, { w: P1.w, rot: -1 });
+underline(P1.x + 70, P1.x + 220, P1.y - 28, RED);
+phone(P1.x, P1.y, P1.w, P1.h, RED);
+{
+  const widths = [150, 110, 175, 95, 140, 165, 100, 130, 155, 90, 145, 120];
+  let y = P1.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const bx = right ? P1.x + P1.w - 22 - w : P1.x + 22;
+    bubble(bx, y, w, 40, right ? RED : INK, right ? 'rgba(181,84,59,0.12)' : null);
+    y += 56;
+  });
+}
+text('one iMessage thread', P1.x - 10, P1.y + P1.h + 16, 36, { w: P1.w + 20, rot: 0.8 });
+
+// ---------- 2. Muse (green) ----------
+const P2 = { x: 375, y: 330, w: 370, h: 740 };
+text('Muse', P2.x, P2.y - 92, 50, { w: P2.w, rot: 0.7 });
+underline(P2.x + 125, P2.x + 245, P2.y - 30, GREEN);
+phone(P2.x, P2.y, P2.w, P2.h, GREEN);
+{
+  const widths = [150, 110, 160, 95, 140, 120, 150, 100, 135, 115];
+  let y = P2.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const colR = P2.x + 205;
+    const bx = right ? colR - w : P2.x + 22;
+    bubble(bx, y, w, 38, right ? GREEN : INK, right ? 'rgba(93,122,82,0.12)' : null);
+    y += 58;
+  });
+  // side boxes
+  const sx = P2.x + 232, sw = 115;
+  const s1 = { y: P2.y + 150, h: 130 }, s2 = { y: P2.y + 430, h: 150 };
+  [s1, s2].forEach(s => {
+    box(sx, s.y, sw, s.h, { stroke: GREEN, strokeWidth: 3.5, ...hach('rgba(93,122,82,0.10)') });
+    for (let k = 0; k < Math.floor((s.h - 20) / 36); k++) {
+      const bw = k % 2 ? 60 : 72;
+      const bx = k % 2 ? sx + sw - 12 - bw : sx + 12;
+      add(rc.path(rrect(bx, s.y + 16 + k * 36, bw, 24, 10), { stroke: GREEN, strokeWidth: 2.5, roughness: 1, seed: seed++ }));
+    }
+  });
+  arrow([[P2.x + 175, P2.y + 140], [P2.x + 210, P2.y + 120], [sx - 6, s1.y + 30]], { stroke: GREEN });
+  arrow([[P2.x + 190, P2.y + 370], [P2.x + 225, P2.y + 400], [sx - 6, s2.y + 40]], { stroke: GREEN });
+  text('side chat', sx - 22, s2.y + s2.h + 18, 34, { w: sw + 44, rot: -1 });
+}
+text('main thread', P2.x, P2.y + P2.h + 16, 36, { w: P2.w, rot: -0.6 });
+
+// ---------- 3. Grok Bot (blue) ----------
+const P3 = { x: 790, y: 280, w: 370, h: 830 };
+text('Grok Bot', P3.x, P3.y - 90, 50, { w: P3.w, rot: -0.5 });
+underline(P3.x + 100, P3.x + 270, P3.y - 28, BLUE);
+phone(P3.x, P3.y, P3.w, P3.h, BLUE);
+{
+  const bx = P3.x + 28, by = P3.y + 62, bw = 230, bh = 128;
+  box(bx, by, bw, bh, { stroke: BLUE, strokeWidth: 4, ...hach('rgba(47,93,158,0.12)') });
+  text('chief of<br>staff', bx, by + 16, 44, { w: bw, rot: -0.8 });
+  const kids = ['research', 'logging', 'diligence', 'errands'];
+  const kx = P3.x + 150, kw = 195, kh = 78;
+  kids.forEach((k, i) => {
+    const ky = P3.y + 250 + i * 128 + (i % 2) * 8;
+    box(kx + (i % 2 ? 6 : -4), ky, kw, kh, { stroke: INK, strokeWidth: 3 });
+    text(k, kx + (i % 2 ? 6 : -4), ky + 18, 36, { w: kw, rot: i % 2 ? 0.8 : -0.7 });
+    const sx = P3.x + 116 - i * 26, kyc = ky + kh / 2, ex = kx - 12 + (i % 2 ? 6 : -4);
+    arrow([[sx, by + bh + 6], [sx + 2, kyc - 40], [(sx + ex) / 2, kyc - 3], [ex, kyc]], { stroke: BLUE });
+  });
+}
+
+// ---------- margin notes ----------
+text('text it like<br>a person', 70, 1290, 44, { caveat: true, rot: -1 });
+arrow([[60, 1300], [22, 1220], [26, 1120], [38, 1050]], { stroke: RED, roughness: 1.4 });
+
+text('branches when<br>it gets crowded', 450, 1290, 44, { caveat: true, rot: 0.8 });
+arrow([[715, 1300], [775, 1220], [770, 1080], [725, 985]], { stroke: GREEN, roughness: 1.4 });
+
+text('one boss,<br>many hands', 860, 1290, 44, { caveat: true, rot: -0.9 });
+arrow([[1065, 1300], [1110, 1210], [1085, 1080], [1040, 1005]], { stroke: BLUE, roughness: 1.4 });
+</script>
+<script>
+const svg = document.getElementById('sketch');
+const page = document.getElementById('page');
+const rc = rough.svg(svg);
+const INK = '#2b2925', RED = '#b5543b', GREEN = '#5d7a52', BLUE = '#2f5d9e', AMBER = '#b08a3e';
+let seed = 7;
+const add = el => svg.appendChild(el);
+
+function text(s, x, y, size, o = {}) {
+  const d = document.createElement('div');
+  d.className = 't' + (o.caveat ? ' caveat' : '') + (o.w ? ' c' : '');
+  d.style.left = x + 'px'; d.style.top = y + 'px'; d.style.fontSize = size + 'px';
+  if (o.w) { d.style.width = o.w + 'px'; d.style.whiteSpace = 'normal'; }
+  d.style.transform = `rotate(${o.rot ?? 0}deg)`;
+  d.innerHTML = s; page.appendChild(d);
+}
+function rrect(x, y, w, h, r) {
+  return `M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+}
+function phone(x, y, w, h, color) {
+  add(rc.path(rrect(x, y, w, h, 42), { stroke: color, strokeWidth: 4, roughness: 1.3, bowing: 1, seed: seed++ }));
+  add(rc.line(x + w/2 - 45, y + 30, x + w/2 + 45, y + 30, { stroke: color, strokeWidth: 4, roughness: 1.2, seed: seed++ }));
+  add(rc.line(x + w/2 - 55, y + h - 22, x + w/2 + 55, y + h - 22, { stroke: color, strokeWidth: 3, roughness: 1.2, seed: seed++ }));
+}
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: INK, strokeWidth: 3, roughness: 1.5, bowing: 1.1, seed: seed++, ...o }));
+}
+const hach = c => ({ fill: c, fillStyle: 'hachure', hachureGap: 14, fillWeight: 1.4 });
+function bubble(x, y, w, h, color, filled) {
+  add(rc.path(rrect(x, y, w, h, 16), { stroke: color, strokeWidth: 3, roughness: 1.1, seed: seed++, ...(filled ? hach(filled) : {}) }));
+  // scribbled "text" line inside
+  add(rc.line(x + 16, y + h/2, x + w - 18 - (seed % 3) * 12, y + h/2 + 1, { stroke: color, strokeWidth: 2, roughness: 2, seed: seed++ }));
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 16;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: INK, strokeWidth: 3, roughness: 1.2, bowing: 1, seed: seed++, ...o };
+  add(rc.curve(pts, opt));
+  const n = pts.length; head(pts[n-2][0], pts[n-2][1], pts[n-1][0], pts[n-1][1], opt);
+}
+function underline(x1, x2, y, color, sw = 3) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: sw, roughness: 2.2, bowing: 2, seed: seed++ }));
+}
+
+// ---------- title ----------
+text('three ways to thread an agent', 60, 34, 76, { caveat: true, rot: -0.8 });
+underline(64, 780, 134, RED, 3.5);
+
+// ---------- 1. Instinct (red) ----------
+const P1 = { x: 40, y: 300, w: 290, h: 800 };
+text('Instinct', P1.x, P1.y - 90, 50, { w: P1.w, rot: -1 });
+underline(P1.x + 70, P1.x + 220, P1.y - 28, RED);
+phone(P1.x, P1.y, P1.w, P1.h, RED);
+{
+  const widths = [150, 110, 175, 95, 140, 165, 100, 130, 155, 90, 145, 120];
+  let y = P1.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const bx = right ? P1.x + P1.w - 22 - w : P1.x + 22;
+    bubble(bx, y, w, 40, right ? RED : INK, right ? 'rgba(181,84,59,0.12)' : null);
+    y += 56;
+  });
+}
+text('one iMessage thread', P1.x - 10, P1.y + P1.h + 16, 36, { w: P1.w + 20, rot: 0.8 });
+
+// ---------- 2. Muse (green) ----------
+const P2 = { x: 375, y: 330, w: 370, h: 740 };
+text('Muse', P2.x, P2.y - 92, 50, { w: P2.w, rot: 0.7 });
+underline(P2.x + 125, P2.x + 245, P2.y - 30, GREEN);
+phone(P2.x, P2.y, P2.w, P2.h, GREEN);
+{
+  const widths = [150, 110, 160, 95, 140, 120, 150, 100, 135, 115];
+  let y = P2.y + 62;
+  widths.forEach((w, i) => {
+    const right = i % 2 === 1;
+    const colR = P2.x + 205;
+    const bx = right ? colR - w : P2.x + 22;
+    bubble(bx, y, w, 38, right ? GREEN : INK, right ? 'rgba(93,122,82,0.12)' : null);
+    y += 58;
+  });
+  // side boxes
+  const sx = P2.x + 232, sw = 115;
+  const s1 = { y: P2.y + 150, h: 130 }, s2 = { y: P2.y + 430, h: 150 };
+  [s1, s2].forEach(s => {
+    box(sx, s.y, sw, s.h, { stroke: GREEN, strokeWidth: 3.5, ...hach('rgba(93,122,82,0.10)') });
+    for (let k = 0; k < Math.floor((s.h - 20) / 36); k++) {
+      const bw = k % 2 ? 60 : 72;
+      const bx = k % 2 ? sx + sw - 12 - bw : sx + 12;
+      add(rc.path(rrect(bx, s.y + 16 + k * 36, bw, 24, 10), { stroke: GREEN, strokeWidth: 2.5, roughness: 1, seed: seed++ }));
+    }
+  });
+  arrow([[P2.x + 175, P2.y + 140], [P2.x + 210, P2.y + 120], [sx - 6, s1.y + 30]], { stroke: GREEN });
+  arrow([[P2.x + 190, P2.y + 370], [P2.x + 225, P2.y + 400], [sx - 6, s2.y + 40]], { stroke: GREEN });
+  text('side chat', sx - 22, s2.y + s2.h + 18, 34, { w: sw + 44, rot: -1 });
+}
+text('main thread', P2.x, P2.y + P2.h + 16, 36, { w: P2.w, rot: -0.6 });
+
+// ---------- 3. Grok Bot (blue) ----------
+const P3 = { x: 790, y: 280, w: 370, h: 830 };
+text('Grok Bot', P3.x, P3.y - 90, 50, { w: P3.w, rot: -0.5 });
+underline(P3.x + 100, P3.x + 270, P3.y - 28, BLUE);
+phone(P3.x, P3.y, P3.w, P3.h, BLUE);
+{
+  const bx = P3.x + 28, by = P3.y + 62, bw = 230, bh = 128;
+  box(bx, by, bw, bh, { stroke: BLUE, strokeWidth: 4, ...hach('rgba(47,93,158,0.12)') });
+  text('chief of<br>staff', bx, by + 16, 44, { w: bw, rot: -0.8 });
+  const kids = ['research', 'logging', 'diligence', 'errands'];
+  const kx = P3.x + 150, kw = 195, kh = 78;
+  kids.forEach((k, i) => {
+    const ky = P3.y + 250 + i * 128 + (i % 2) * 8;
+    box(kx + (i % 2 ? 6 : -4), ky, kw, kh, { stroke: INK, strokeWidth: 3 });
+    text(k, kx + (i % 2 ? 6 : -4), ky + 18, 36, { w: kw, rot: i % 2 ? 0.8 : -0.7 });
+    const sx = P3.x + 116 - i * 26, kyc = ky + kh / 2, ex = kx - 12 + (i % 2 ? 6 : -4);
+    arrow([[sx, by + bh + 6], [sx + 2, kyc - 40], [(sx + ex) / 2, kyc - 3], [ex, kyc]], { stroke: BLUE });
+  });
+}
+
+// ---------- margin notes ----------
+text('text it like<br>a person', 55, 1250, 44, { caveat: true, rot: -1 });
+arrow([[120, 1245], [95, 1195], [135, 1150]], { stroke: RED, roughness: 1.4 });
+
+text('branches when<br>it gets crowded', 470, 1255, 44, { caveat: true, rot: 0.8 });
+arrow([[660, 1255], [720, 1200], [700, 1120], [690, 960]], { stroke: GREEN, roughness: 1.4 });
+
+text('one boss,<br>many hands', 900, 1250, 44, { caveat: true, rot: -0.9 });
+arrow([[890, 1280], [820, 1200], [835, 560], [880, 480]], { stroke: BLUE, roughness: 1.4 });
+</script>
+</body>
+</html>

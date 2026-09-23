@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git: NEVER commit or push
+
+**Do not run `git commit` or `git push` in this repo, ever, even if the task sounds like
+"publish" or "make it live".** Hadi commits and pushes himself. Make the file changes, verify
+the build, and stop. Report that the changes are ready to commit.
+
 ## Build Commands
 
 ```bash
