@@ -7,7 +7,6 @@ date: 2026-09-22
 readtime: 10
 slug: personal-agents-are-a-ux-innovation
 comments: true
-draft: true
 ---
 
 # Instinct and Muse Are UX Innovations. That's the Whole Point.
