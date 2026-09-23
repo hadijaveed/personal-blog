@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>keep the harness home</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 1200px; overflow: hidden; }
+body { font-family: 'Patrick Hand', cursive; color: #2b2925; -webkit-font-smoothing: antialiased;
+  background-color: #fbfaf6;
+  background-image: radial-gradient(circle, rgba(58,55,51,0.13) 1.1px, transparent 1.3px);
+  background-size: 28px 28px; background-position: 14px 14px; }
+.page { width: 1200px; height: 1200px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1200px; height: 1200px; pointer-events: none; }
+.t { position: absolute; line-height: 1.1; white-space: nowrap; }
+.title { font-family: 'Caveat', cursive; font-weight: 700; font-size: 66px; left: 56px; top: 34px; }
+.lbl { font-size: 44px; }
+.chip { font-size: 37px; }
+.sub { font-size: 34px; }
+.note { font-family: 'Caveat', cursive; font-weight: 700; font-size: 40px; line-height: 1.0; }
+.c { text-align: center; }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+  <div class="t title" style="transform: rotate(-0.8deg);">for a company, keep the harness home</div>
+
+  <div class="t lbl c" style="left: 290px; top: 262px; width: 240px; transform: rotate(-0.6deg);">your server</div>
+
+  <div class="t chip" style="left: 96px; top: 404px; transform: rotate(-1deg);">emails with patient names</div>
+  <div class="t chip" style="left: 598px; top: 418px; transform: rotate(0.9deg);">EHR</div>
+  <div class="t chip" style="left: 128px; top: 522px; transform: rotate(0.8deg);">Slack</div>
+  <div class="t chip" style="left: 348px; top: 530px; transform: rotate(-0.7deg);">contracts</div>
+
+  <div class="t c" style="left: 96px; top: 680px; width: 560px; transform: rotate(-0.4deg);">
+    <div class="lbl">the harness</div>
+    <div class="sub" style="margin-top: 8px;">browser, memory, loops, logins</div>
+  </div>
+
+  <div class="t lbl c" style="left: 850px; top: 488px; width: 280px; transform: rotate(0.5deg);">Anthropic or<br>OpenAI API</div>
+
+  <div class="t note" style="left: 800px; top: 790px; color: #b5543b; transform: rotate(-1deg);">only the model call<br>leaves, under a BAA</div>
+  <div class="t note" style="left: 830px; top: 250px; transform: rotate(0.8deg);">no training,<br>no profile of you</div>
+
+  <div class="t lbl c" style="left: 800px; top: 978px; width: 340px; transform: rotate(0.6deg); text-shadow: 0 0 6px #fbfaf6, 0 0 3px #fbfaf6, 0 0 2px #fbfaf6;">consumer agent app</div>
+  <div class="t note" style="left: 870px; top: 1108px; color: #b5543b; transform: rotate(-0.8deg);">can't sign that</div>
+</div>
+
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const G = '#3a3733', RED = '#b5543b', GREEN = '#5d7a52';
+let seed = 7;
+const add = el => svg.appendChild(el);
+const base = o => ({ stroke: G, strokeWidth: 3, roughness: 1.5, bowing: 1.2, seed: seed++, ...o });
+function box(x, y, w, h, o = {}) { add(rc.rectangle(x, y, w, h, base(o))); }
+function line(a, b, c, d, o = {}) { add(rc.line(a, b, c, d, base(o))); }
+function head(px, py, x, y, o) {
+  const a = Math.atan2(y - py, x - px), L = 20;
+  line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), o);
+  line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), o);
+}
+function arrow(pts, o = {}) {
+  add(rc.curve(pts, base(o)));
+  const n = pts.length; head(pts[n - 2][0], pts[n - 2][1], pts[n - 1][0], pts[n - 1][1], o);
+}
+
+// title underline
+line(60, 120, 900, 114, { stroke: RED, strokeWidth: 3, roughness: 2.2 });
+
+// house: fill, then strokes with a door gap on the right wall
+const house = [[60, 370], [410, 150], [760, 370], [760, 1010], [60, 1010]];
+add(rc.polygon(house, { stroke: 'transparent', fill: 'rgba(93,122,82,0.11)', fillStyle: 'hachure', hachureGap: 16, fillWeight: 1.4, seed: seed++ }));
+const H = { strokeWidth: 4 };
+line(40, 382, 410, 146, H); line(410, 146, 780, 382, H);
+line(60, 370, 760, 370, { strokeWidth: 3 });
+line(60, 370, 60, 1010, H); line(60, 1010, 760, 1010, H);
+line(760, 370, 760, 700, H); line(760, 800, 760, 1010, H);
+line(760, 700, 740, 700, { strokeWidth: 3 }); line(760, 800, 740, 800, { strokeWidth: 3 });
+
+// chips
+box(80, 396, 462, 70, { strokeWidth: 3 });
+box(580, 408, 112, 70, { strokeWidth: 3 });
+box(110, 514, 130, 70, { strokeWidth: 3 });
+box(330, 522, 194, 70, { strokeWidth: 3 });
+
+// harness
+box(84, 660, 584, 170, { stroke: RED, strokeWidth: 4, fill: 'rgba(181,84,59,0.10)', fillStyle: 'hachure', hachureGap: 14, fillWeight: 1.2 });
+
+// cloud
+add(rc.path('M 830 610 A 58 58 0 0 1 848 488 A 82 82 0 0 1 978 432 A 78 78 0 0 1 1112 472 A 70 70 0 0 1 1150 610 A 170 50 0 0 1 830 610 Z',
+  base({ strokeWidth: 3.5 })));
+
+// the one red arrow: harness -> door -> cloud
+arrow([[668, 750], [760, 752], [880, 720], [950, 632]], { stroke: RED, strokeWidth: 3, roughness: 1.2 });
+
+// margin note arrows
+arrow([[820, 355], [870, 400], [930, 430]], { strokeWidth: 2.5, roughness: 1.2 });
+arrow([[920, 1106], [940, 1090], [955, 1068]], { stroke: RED, strokeWidth: 2.5, roughness: 1.2 });
+
+// consumer app box + red X
+box(800, 966, 340, 84, { strokeWidth: 3 });
+line(790, 956, 1150, 1060, { stroke: RED, strokeWidth: 3.5, roughness: 1.8 });
+line(1150, 956, 790, 1060, { stroke: RED, strokeWidth: 3.5, roughness: 1.8 });
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>01 · The metered era</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --good: #15803d;
+  --good-bg: #ecfdf5;
+  --bad: #b45309;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title {
+  font-size: 44px; font-weight: 600;
+  letter-spacing: -0.025em; line-height: 1.1;
+  margin-bottom: 14px;
+}
+.subtitle {
+  font-size: 19px; color: var(--muted);
+  font-weight: 400; max-width: 860px; line-height: 1.5;
+}
+.canvas { position: absolute; inset: 230px 80px 60px 80px; }
+.node {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow);
+}
+.node .name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.node .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
+.node.primary {
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+  padding: 22px 32px;
+}
+.node.primary .name { font-size: 20px; color: var(--accent); margin-bottom: 6px; }
+.node.primary .meta { color: #9a4a1a; font-weight: 500; }
+.node.good {
+  background: var(--good-bg);
+  border: 2px solid var(--good);
+}
+.node.good .name { color: var(--good); }
+.tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+  letter-spacing: 0.02em;
+}
+.panel-label {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">01 / 03 · the metered era</div>
+  <div class="title">The subsidy runs out.</div>
+  <div class="subtitle">Today every task costs the same because the labs eat the difference. When the frontier gets metered, routing stops being an optimization and becomes the economics.</div>
+
+  <div class="canvas">
+    <svg class="lines" viewBox="0 0 1440 580" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+        </marker>
+        <marker id="arrow-good" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+        </marker>
+      </defs>
+
+      <!-- divider -->
+      <path d="M 720 20 L 720 540" stroke="#d8d2c4" stroke-width="1.5" stroke-dasharray="6 8" fill="none"/>
+
+      <!-- left: one arrow, everything into one model -->
+      <path d="M 330 150 L 330 250" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrow-accent)"/>
+
+      <!-- right: split into two -->
+      <path d="M 1110 150 L 1110 205" stroke="#c2410c" stroke-width="1.8" fill="none"/>
+      <path d="M 1110 205 L 960 205 L 960 265" stroke="#c2410c" stroke-width="1.8" fill="none" marker-end="url(#arrow-accent)"/>
+      <path d="M 1110 205 L 1275 205 L 1275 265" stroke="#15803d" stroke-width="1.8" fill="none" marker-end="url(#arrow-good)"/>
+    </svg>
+
+    <div class="panel-label" style="left: 40px; top: 0px;">today · subsidized</div>
+    <div class="panel-label" style="left: 810px; top: 0px;">next · metered</div>
+
+    <!-- LEFT PANEL -->
+    <div class="node" style="left: 160px; top: 60px; width: 340px;">
+      <div class="name">Every task</div>
+      <div class="meta">small fix · refactor · question · deep review</div>
+    </div>
+
+    <div class="node primary" style="left: 130px; top: 260px; width: 400px;">
+      <div class="name">One frontier model</div>
+      <div class="meta">flat subscription · the lab eats the loss</div>
+    </div>
+
+    <div class="tag" style="left: 200px; top: 420px;">same brain for everything</div>
+
+    <!-- RIGHT PANEL -->
+    <div class="node" style="left: 940px; top: 60px; width: 340px;">
+      <div class="name">Every task</div>
+      <div class="meta">small fix · refactor · question · deep review</div>
+    </div>
+
+    <div class="node primary" style="left: 810px; top: 275px; width: 290px;">
+      <div class="name">Frontier model</div>
+      <div class="meta">judgment · reviews · hard problems</div>
+    </div>
+
+    <div class="node good" style="left: 1140px; top: 275px; width: 270px;">
+      <div class="name">Cheaper models</div>
+      <div class="meta">bulk execution · well spec'd work</div>
+    </div>
+
+    <div class="tag" style="left: 830px; top: 425px;">$$$ per token</div>
+    <div class="tag" style="left: 1185px; top: 425px;">pennies</div>
+    <div class="tag" style="left: 985px; top: 500px;">routing = the economics</div>
+  </div>
+
+  <div class="brand">right model, right task · 01</div>
+</div>
+</body>
+</html>

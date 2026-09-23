@@ -1,0 +1,98 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>the UX I'd want</title>
+<link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Kalam:wght@400;700&display=block" rel="stylesheet">
+<style>
+@font-face { font-family: 'Virgil'; src: url('https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/excalidraw-assets/Virgil.woff2') format('woff2'); font-display: block; }
+html,body{margin:0;padding:0;background:#fff;}
+#c{position:relative;width:1200px;height:1500px;overflow:hidden;background:#ffffff;}
+#svg{position:absolute;left:0;top:0;}
+.t{position:absolute;font-family:'Virgil','Gloria Hallelujah','Kalam',cursive;color:#1e1e1e;line-height:1.25;display:flex;align-items:center;}
+.l{justify-content:flex-start;text-align:left;}
+.m{justify-content:center;text-align:center;}
+</style></head>
+<body><div id="c"><svg id="svg" width="1200" height="1500"></svg></div>
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const C=document.getElementById('c'), svg=document.getElementById('svg'), rc=rough.svg(svg);
+let seed=1;
+const INK='#1e1e1e', BLUE='#a5d8ff', GREY='#e9ecef', YEL='#ffec99', RED='#ffc9c9';
+function add(n){svg.appendChild(n);}
+function rr(x,y,w,h,r,fill,sw){
+  const p=`M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+  const o={roughness:1.1,bowing:1,strokeWidth:sw||3,stroke:INK,seed:seed++};
+  if(fill){o.fill=fill;o.fillStyle='solid';}
+  add(rc.path(p,o));
+}
+function line(pts,sw){add(rc.linearPath(pts,{roughness:1,bowing:1,strokeWidth:sw||3,stroke:INK,seed:seed++}));}
+function head(tip,from){
+  const a=Math.atan2(tip[1]-from[1],tip[0]-from[0]);
+  for(const s of [0.45,-0.45]){
+    line([[tip[0]-18*Math.cos(a+s),tip[1]-18*Math.sin(a+s)],tip]);
+  }
+}
+function arrow(pts){
+  if(pts.length===2){line(pts);} else add(rc.curve(pts,{roughness:1,bowing:1,strokeWidth:3,stroke:INK,seed:seed++}));
+  head(pts[pts.length-1],pts[pts.length-2]);
+}
+function txt(s,x,y,w,h,size,cls){
+  const d=document.createElement('div');d.className='t '+(cls||'m');
+  Object.assign(d.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px',fontSize:size+'px'});
+  d.innerHTML=s;C.appendChild(d);
+}
+function box(s,x,y,w,h,fill,size,r){rr(x,y,w,h,r||24,fill);txt(s,x+20,y,w-40,h,size||32);}
+function check(x,y){line([[x,y+14],[x+11,y+27],[x+32,y-4]],3.5);}
+function dot(cx,cy){add(rc.circle(cx,cy,20,{roughness:1.1,strokeWidth:2.5,stroke:INK,fill:GREY,fillStyle:'solid',seed:seed++}));}
+
+// title
+txt("the UX I'd want",56,22,700,92,66,'l');
+
+// callouts above the window
+txt("branches only when needed",52,152,520,56,36,'l');
+arrow([[200,212],[214,300],[190,420]]);
+txt("things a text bubble<br>can't show",770,120,410,100,36,'l');
+arrow([[930,222],[1000,320],[975,422]]);
+
+// window
+rr(36,248,1128,906,28,null,3.2);
+line([[38,312],[1162,310]]);
+dot(80,281);dot(118,280);dot(156,282);
+
+// search
+box("search threads",320,330,470,68,GREY,32,22);
+// column dividers
+line([[818,418],[816,1132]],2.5);
+
+// left column
+box("main",62,438,208,70,BLUE,34);
+box("laptop<br>research",62,530,208,106,null,32);
+box("insurance",62,658,208,70,null,32);
+
+// center thread
+box("cancel the gym,<br>we moved",468,432,330,112,BLUE,32);
+box("done, $95 back",318,566,300,72,GREY,32);
+box("flight moved to 6:10,<br>pushed the car<br>to 4:30",314,662,468,178,YEL,35);
+rr(318,868,480,244,26,RED);
+txt("approve $340<br>fare change?",338,878,440,110,36);
+box("yes",390,1016,140,66,null,32,20);
+box("no",588,1018,140,66,null,32,20);
+
+// right column
+txt("done today",846,430,300,64,42,'l');
+check(848,520);txt("gym cancelled",892,506,262,56,32,'l');
+check(848,598);txt("pediatrician<br>booked",892,580,262,96,32,'l');
+check(850,712);txt("receipt saved",892,696,262,56,32,'l');
+
+// callouts below the window
+txt("it messages you first",272,1176,440,56,36,'l');
+arrow([[292,1178],[270,1000],[284,860],[310,790]]);
+txt("asks only for<br>money or risk",830,1178,320,100,36,'l');
+arrow([[900,1172],[850,1150],[804,1104]]);
+
+// phone
+rr(84,1286,112,196,20,null);
+line([[122,1306],[158,1307]],2.5);
+add(rc.circle(140,1458,14,{roughness:1,strokeWidth:2.5,stroke:INK,seed:seed++}));
+arrow([[132,1280],[104,1226],[132,1170],[170,1110]]);
+txt("front door stays<br>iMessage or WhatsApp",226,1318,520,110,36,'l');
+</script></body></html>
