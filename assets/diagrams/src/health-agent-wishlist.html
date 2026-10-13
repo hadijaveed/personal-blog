@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>the health agent I want</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Kalam:wght@400;700&display=block">
+<style>
+@font-face { font-family: 'Virgil'; src: url('https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/excalidraw-assets/Virgil.woff2') format('woff2'); font-display: block; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 1480px; overflow: hidden; }
+body { font-family: 'Virgil', 'Gloria Hallelujah', 'Kalam', cursive; color: #1e1e1e; -webkit-font-smoothing: antialiased; background: #ffffff; }
+.page { width: 1200px; height: 1480px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1200px; height: 1480px; pointer-events: none; }
+.t { position: absolute; line-height: 1.1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.title { position: absolute; font-size: 58px; left: 0; width: 1200px; top: 36px; text-align: center; white-space: nowrap; }
+.lbl { font-size: 42px; }
+.sub { font-size: 32px; }
+.note { font-size: 36px; line-height: 1.25; }
+.red { color: #c2410c; }
+.green { color: #5d7a52; }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+  <div class="title" >the health agent I want</div>
+  <div class="t lbl" style="left:80px;top:170px;width:460px;height:150px;">all my records</div>
+  <div class="t lbl" style="left:660px;top:335px;width:460px;height:150px;">memory that<br>lasts years</div>
+  <div class="t lbl" style="left:80px;top:525px;width:460px;height:150px;">wearables +<br>Apple Health</div>
+  <div class="t lbl" style="left:660px;top:715px;width:460px;height:150px;">care tailored<br>to me</div>
+  <div class="t lbl" style="left:80px;top:905px;width:460px;height:150px;">loops in my PCP</div>
+  <div class="t lbl" style="left:660px;top:1095px;width:460px;height:170px;">my PT + other<br>providers I see</div>
+  <div class="t lbl red" style="left:0px;top:1310px;width:1200px;height:90px;">from day one, not day 30</div>
+</div>
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const INK = '#1e1e1e', RED = '#c2410c', GREEN = '#2f9e44', AMBER = '#e8a317', BLUE = '#1971c2', PLUM = '#7048e8';
+const FILL = { red: '#ffc9c9', green: '#b2f2bb', amber: '#ffec99', blue: '#a5d8ff', plum: '#d0bfff' };
+let seed = 11;
+const add = el => svg.appendChild(el);
+const base = o => ({ stroke: INK, strokeWidth: 3, roughness: 1, bowing: 1, seed: seed++, ...o });
+function box(x, y, w, h, tint, o = {}) {
+  const r = 22;
+  const d = `M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+  const extra = tint ? { fill: FILL[tint], fillStyle: 'solid' } : { fill: '#ffffff', fillStyle: 'solid' };
+  add(rc.path(d, base({ ...extra, ...o })));
+}
+function blob(cx, cy, w, h, tint, o = {}) {
+  const extra = tint ? { fill: FILL[tint], fillStyle: 'solid' } : {};
+  add(rc.ellipse(cx, cy, w, h, base({ ...extra, ...o })));
+}
+function line(a, b, c, d, o = {}) { add(rc.line(a, b, c, d, base(o))); }
+function head(px, py, x, y, o) {
+  const a = Math.atan2(y - py, x - px), L = 20;
+  line(x, y, x - L * Math.cos(a - 0.45), y - L * Math.sin(a - 0.45), o);
+  line(x, y, x - L * Math.cos(a + 0.45), y - L * Math.sin(a + 0.45), o);
+}
+function arrow(pts, o = {}) {
+  const oo = { roughness: 0.9, strokeWidth: 3, ...o };
+  add(rc.curve(pts, base(oo)));
+  const n = pts.length; head(pts[n - 2][0], pts[n - 2][1], pts[n - 1][0], pts[n - 1][1], { ...oo, strokeLineDash: undefined });
+}
+function underline() {}
+
+underline(60, 640, 118);
+
+box(80,170,460,150,'blue');
+box(660,335,460,150,'plum');
+box(80,525,460,150,'amber');
+box(660,715,460,150,'red');
+box(80,905,460,150,'green');
+box(660,1095,460,170,'green');
+arrow([[550,240],[640,250],[720,325]]);
+arrow([[650,445],[590,505],[520,518]]);
+arrow([[550,600],[640,612],[720,705]]);
+arrow([[650,825],[590,890],[520,900]]);
+arrow([[550,980],[640,995],[720,1085]]);
+
+</script>
+</body>
+</html>

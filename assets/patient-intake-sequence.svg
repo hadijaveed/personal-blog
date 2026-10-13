@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .box { fill: #f0f4ff; stroke: #3454d1; stroke-width: 2; rx: 16; ry: 16; }
+    .label { font-size: 18px; font-weight: 600; fill: #1f2a56; }
+    .caption { font-size: 14px; fill: #3454d1; }
+  </style>
+  <rect x="80" y="100" width="140" height="90" class="box" />
+  <text x="150" y="150" text-anchor="middle" class="label">Patient</text>
+
+  <rect x="260" y="100" width="160" height="90" class="box" />
+  <text x="340" y="140" text-anchor="middle" class="label">AI Call / IVR</text>
+
+  <rect x="460" y="100" width="160" height="90" class="box" />
+  <text x="540" y="140" text-anchor="middle" class="label">Acuity</text>
+  <text x="540" y="170" text-anchor="middle" class="label">Classifier</text>
+
+  <rect x="660" y="40" width="160" height="90" class="box" />
+  <text x="740" y="85" text-anchor="middle" class="label">Nurse</text>
+
+  <rect x="660" y="180" width="160" height="90" class="box" />
+  <text x="740" y="225" text-anchor="middle" class="label">Care Record</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,3 L0,6 z" fill="#3454d1" />
+    </marker>
+  </defs>
+
+  <line x1="220" y1="145" x2="260" y2="145" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="240" y="125" text-anchor="middle" class="caption">Symptom story</text>
+
+  <line x1="420" y1="145" x2="460" y2="145" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="440" y="125" text-anchor="middle" class="caption">Transcript</text>
+
+  <line x1="620" y1="145" x2="660" y2="225" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="640" y="205" text-anchor="middle" class="caption">Structured payload</text>
+
+  <line x1="620" y1="145" x2="660" y2="85" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="640" y="95" text-anchor="middle" class="caption">High acuity</text>
+
+  <line x1="540" y1="190" x2="300" y2="210" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="390" y="210" text-anchor="middle" class="caption">Expectation message</text>
+
+  <line x1="705" y1="130" x2="705" y2="180" stroke="#3454d1" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="725" y="155" class="caption">Warm transfer</text>
+</svg>

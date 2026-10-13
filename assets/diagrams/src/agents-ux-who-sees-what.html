@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>who sees what</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1200px; height: 1200px; overflow: hidden; }
+body {
+  font-family: 'Patrick Hand', cursive; color: #2b2925; -webkit-font-smoothing: antialiased;
+  background-color: #fbfaf6;
+  background-image: radial-gradient(circle, rgba(58,55,51,0.13) 1.1px, transparent 1.3px);
+  background-size: 28px 28px; background-position: 14px 14px;
+}
+.page { width: 1200px; height: 1200px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1200px; height: 1200px; pointer-events: none; }
+.title { position: absolute; left: 64px; top: 34px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 72px; line-height: 1.02; transform: rotate(-0.6deg); }
+.t { position: absolute; transform: translate(-50%, -50%) rotate(var(--r, 0deg)); white-space: nowrap; text-align: center; line-height: 1.05; }
+.chip { font-size: 38px; }
+.lbl { font-size: 44px; }
+.sub { font-size: 36px; }
+.rim { font-size: 46px; background: #fbfaf6; padding: 0 16px; font-family: 'Caveat', cursive; font-weight: 700; }
+.note { position: absolute; font-family: 'Caveat', cursive; font-weight: 700; font-size: 46px; line-height: 1.0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+
+  <div class="title">the model sees a prompt.<br>the harness sees your life.</div>
+
+  <!-- center -->
+  <div class="t" id="core" style="left:600px; top:712px; --r:-0.5deg;">
+    <div class="lbl">model API</div>
+    <div class="sub" style="margin-top:6px;">one prompt</div>
+  </div>
+
+  <!-- ring label -->
+  <div class="t rim" id="rim" style="left:600px; top:318px; --r:0.6deg;">the harness</div>
+
+  <!-- chips -->
+  <div class="t chip" data-chip style="left:420px; top:430px; --r:-0.8deg;">email</div>
+  <div class="t chip" data-chip style="left:760px; top:445px; --r:0.7deg;">calendar</div>
+  <div class="t chip" data-chip style="left:280px; top:590px; --r:0.5deg;">purchases</div>
+  <div class="t chip" data-chip style="left:900px; top:600px; --r:-0.6deg;">subscriptions</div>
+  <div class="t chip" data-chip style="left:270px; top:760px; --r:-0.7deg;">logins</div>
+  <div class="t chip" data-chip style="left:925px; top:775px; --r:0.8deg;">texts</div>
+  <div class="t chip" data-chip style="left:785px; top:925px; --r:-0.5deg;">location</div>
+  <div class="t chip" data-chip style="left:520px; top:1010px; --r:0.6deg;">what you worry about</div>
+
+  <!-- margin notes -->
+  <div class="note" id="n1" style="left:836px; top:190px; color:#b5543b; transform: rotate(1deg);">who runs this ring<br>is the trust question</div>
+  <div class="note" id="n2" style="left:34px; top:1062px; transform: rotate(-1deg);">API only<br>sees this</div>
+</div>
+
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const GRAPHITE = '#3a3733', RED = '#b5543b';
+let seed = 7;
+const add = el => svg.appendChild(el);
+const R = el => el.getBoundingClientRect();
+
+function head(px, py, x, y, o) {
+  const a = Math.atan2(y - py, x - px), L = 18;
+  const ho = { ...o };
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: GRAPHITE, strokeWidth: 3, roughness: 1.2, bowing: 1, seed: seed++, ...o };
+  add(rc.curve(pts, opt));
+  const n = pts.length; head(pts[n - 2][0], pts[n - 2][1], pts[n - 1][0], pts[n - 1][1], opt);
+}
+function roundRect(x, y, w, h, r) {
+  return `M${x + r},${y} L${x + w - r},${y} Q${x + w},${y} ${x + w},${y + r} L${x + w},${y + h - r} Q${x + w},${y + h} ${x + w - r},${y + h} L${x + r},${y + h} Q${x},${y + h} ${x},${y + h - r} L${x},${y + r} Q${x},${y} ${x + r},${y} Z`;
+}
+
+document.fonts.ready.then(() => {
+  const CX = 600, CY = 712;
+
+  // big harness ring: wobbly closed path, red pencil, faint hachure
+  const ring = [];
+  for (let i = 0; i < 18; i++) {
+    const t = i / 18 * Math.PI * 2;
+    const wob = 1 + 0.035 * Math.sin(3 * t + 0.8) + 0.02 * Math.cos(5 * t);
+    ring.push([CX + 470 * wob * Math.cos(t), CY + 20 + 410 * wob * Math.sin(t)]);
+  }
+  ring.push(ring[0], ring[1], ring[2]);
+  add(rc.curve(ring, { stroke: 'none', fill: 'rgba(181,84,59,0.10)', fillStyle: 'hachure', hachureGap: 16, fillWeight: 1.4, hachureAngle: -41, roughness: 1.4, seed: seed++ }));
+  add(rc.curve(ring, { stroke: RED, strokeWidth: 4, roughness: 1.3, seed: seed++ }));
+
+  // center circle (paper fill to mask hachure)
+  add(rc.circle(CX, CY, 320, { stroke: GRAPHITE, strokeWidth: 3.5, roughness: 1.4, fill: '#fbfaf6', fillStyle: 'solid', seed: seed++ }));
+
+  // chips: measure text, draw rough rounded rects with ~20px padding, paper fill
+  document.querySelectorAll('[data-chip]').forEach(el => {
+    const b = R(el), px = 22, py = 12;
+    add(rc.path(roundRect(b.left - px, b.top - py, b.width + 2 * px, b.height + 2 * py, 16),
+      { stroke: GRAPHITE, strokeWidth: 3, roughness: 1.1, fill: '#fbfaf6', fillStyle: 'solid', seed: seed++ }));
+  });
+
+  // title underline under "your life."
+  add(rc.line(472, 178, 690, 175, { stroke: RED, strokeWidth: 3.5, roughness: 2, bowing: 2, seed: seed++ }));
+
+  // note 1 -> ring (red)
+  arrow([[1000, 300], [1010, 370], [955, 432]], { stroke: RED });
+  // note 2 -> center circle
+  arrow([[205, 1082], [330, 1030], [360, 900], [455, 790]], { stroke: GRAPHITE });
+
+  // bring text above svg
+  svg.style.zIndex = 0;
+  document.querySelectorAll('.t,.note,.title').forEach(e => e.style.zIndex = 1);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>how an ai agent walked from a test box to root</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfaf6;
+  --graphite: #3a3733;
+  --meta: #6f6a61;
+  --soft: #7a746a;
+  --red: #b5543b;
+  --green: #5d7a52;
+  --amber: #b08a3e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body { font-family: 'Patrick Hand', cursive; background: var(--paper); color: var(--graphite); -webkit-font-smoothing: antialiased; }
+.page { width: 1600px; height: 900px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; }
+.title { position: absolute; left: 80px; top: 42px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 54px; letter-spacing: 0.01em; }
+.subtitle { position: absolute; left: 82px; top: 140px; font-size: 20px; color: var(--meta); max-width: 720px; line-height: 1.5; }
+.label { position: absolute; }
+.label .badge { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+.label .name { font-size: 21px; line-height: 1.2; margin-bottom: 3px; }
+.label .name.big { font-size: 24px; }
+.label .meta { font-size: 15.5px; color: var(--meta); line-height: 1.35; }
+.label.center { text-align: center; }
+.note { position: absolute; font-family: 'Caveat', cursive; font-weight: 600; font-size: 24px; color: var(--soft); }
+.brand { position: absolute; bottom: 34px; right: 80px; font-size: 14px; color: var(--soft); }
+.c-red { color: var(--red); } .c-green { color: var(--green); } .c-amber { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+
+  <div class="title">how an ai agent walked from a test box to root</div>
+  <div class="subtitle">july 2026, hugging face: an autonomous agent escaped its sandbox and chained ordinary mistakes into full control, in about two and a half days.</div>
+
+  <!-- N1 sandbox -->
+  <div class="label" style="left: 100px; top: 257px; width: 225px; transform: rotate(-0.6deg);">
+    <div class="name">agent in a test box</div>
+    <div class="meta">running a cyber benchmark for openai</div>
+  </div>
+
+  <!-- N2 escape (red) -->
+  <div class="label" style="left: 478px; top: 284px; width: 258px; transform: rotate(0.4deg);">
+    <div class="name big c-red">escapes the sandbox</div>
+    <div class="meta">zero-day in the outbound proxy, then open internet</div>
+  </div>
+
+  <!-- N3 into HF (red) -->
+  <div class="label" style="left: 903px; top: 257px; width: 262px; transform: rotate(-0.4deg);">
+    <div class="name big c-red">breaks into production</div>
+    <div class="meta">smuggled code through a dataset file, past the allowlist</div>
+  </div>
+
+  <!-- N4 cluster-admin (red) -->
+  <div class="label" style="left: 908px; top: 607px; width: 262px; transform: rotate(0.5deg);">
+    <div class="name big c-red">owns the clusters</div>
+    <div class="meta">stole cloud keys, escaped the pod, forged its own tokens</div>
+  </div>
+
+  <!-- N5 caught (green) -->
+  <div class="label" style="left: 452px; top: 622px; width: 258px; transform: rotate(-0.5deg);">
+    <div class="badge c-green">contained</div>
+    <div class="name">caught &amp; rebuilt</div>
+    <div class="meta">cut off the network · defended with a self-hosted open model</div>
+  </div>
+
+  <div class="note" style="left: 118px; top: 470px; transform: rotate(-1deg);">no human drove a single step.<br>thousands of tries, at machine speed.</div>
+  <div class="note" style="left: 1240px; top: 250px; width: 300px; transform: rotate(1deg);">it was hunting the<br>benchmark's answer key.</div>
+
+  <div class="brand">hadi javed · field notes</div>
+</div>
+
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const GRAPHITE = '#3a3733', SOFT = '#7a746a', RED = '#b5543b', GREEN = '#5d7a52', AMBER = '#b08a3e';
+let seed = 11;
+const add = el => svg.appendChild(el);
+
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: GRAPHITE, strokeWidth: 1.6, roughness: 1.7, bowing: 1.2, fill: 'none', seed: seed++, ...o }));
+}
+function hachure(color) {
+  return { fill: color, fillStyle: 'hachure', hachureGap: 12, fillWeight: 0.7 };
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 12;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: GRAPHITE, strokeWidth: 1.4, roughness: 1.4, bowing: 1, seed: seed++, ...o };
+  if (pts.length === 2) add(rc.line(pts[0][0], pts[0][1], pts[1][0], pts[1][1], opt));
+  else add(rc.curve(pts, opt));
+  head(pts[pts.length - 2][0], pts[pts.length - 2][1], pts[pts.length - 1][0], pts[pts.length - 1][1], opt);
+}
+function underline(x1, x2, y, color = RED) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: 1.8, roughness: 2.5, bowing: 2, seed: seed++ }));
+}
+
+// ---- SHAPES ----
+underline(80, 830, 122);
+
+// nodes
+box(80, 235, 265, 104);                                                   // N1 sandbox
+box(455, 262, 300, 122, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') }); // N2 escape
+box(880, 235, 305, 122, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') }); // N3 into HF
+box(885, 585, 305, 122, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') }); // N4 cluster-admin
+box(430, 600, 300, 112, { stroke: GREEN });                               // N5 caught
+
+// flow
+arrow([[345, 287], [452, 316]], { stroke: RED });                          // N1 -> N2
+arrow([[755, 302], [876, 300]], { stroke: RED });                          // N2 -> N3
+arrow([[1033, 357], [1062, 470], [1037, 582]], { stroke: RED });           // N3 -> N4 (down)
+arrow([[883, 652], [805, 676], [733, 661]], { stroke: GREEN });            // N4 -> N5 (left)
+
+// note arrows (soft)
+arrow([[300, 462], [370, 392]], { stroke: SOFT, strokeWidth: 1.1 });        // "no human" -> flow
+arrow([[1300, 300], [1195, 300]], { stroke: SOFT, strokeWidth: 1.1 });      // "answer key" -> N3
+</script>
+</body>
+</html>

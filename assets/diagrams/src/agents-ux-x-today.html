@@ -1,0 +1,95 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Kalam:wght@400;700&display=block" rel="stylesheet">
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<style>
+@font-face { font-family: 'Virgil'; src: url('https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/excalidraw-assets/Virgil.woff2') format('woff2'); font-display: block; }
+html,body{margin:0;padding:0;background:#ffffff;}
+#canvas{position:relative;width:1200px;height:1500px;overflow:hidden;background:#ffffff;
+  font-family:'Virgil','Gloria Hallelujah','Kalam',cursive;color:#1e1e1e;}
+svg{position:absolute;left:0;top:0;}
+.t{position:absolute;line-height:1.25;color:#1e1e1e;}
+.title{font-size:66px;left:0;width:1200px;text-align:center;top:40px;}
+.label{font-size:56px;}
+.call{font-size:40px;width:500px;}
+.ui{font-size:32px;text-align:center;}
+</style></head>
+<body>
+<div id="canvas">
+<svg id="s" width="1200" height="1500"></svg>
+
+<div class="t title">today: three surfaces</div>
+
+<div class="t label" style="left:660px;top:250px;">Instinct</div>
+<div class="t call" style="left:660px;top:335px;">lives in iMessage. nothing to install, nothing to search.</div>
+
+<div class="t label" style="left:640px;top:705px;">Muse</div>
+<div class="t call" style="left:640px;top:790px;">its own app. blank canvas, one more download.</div>
+
+<div class="t label" style="left:680px;top:1150px;">Grok Bot</div>
+<div class="t call" style="left:680px;top:1235px;width:470px;">many threads, one boss. built for work.</div>
+
+<!-- UI text -->
+<div class="t ui" style="left:412px;top:767px;width:106px;">side</div>
+<div class="t ui" style="left:412px;top:857px;width:106px;">side</div>
+<div class="t ui" style="left:255px;top:1190px;width:300px;">chief of staff</div>
+</div>
+<script>
+const svg=document.getElementById('s');
+const rc=rough.svg(svg);
+let seed=1;
+const INK='#1e1e1e';
+const C={blue:'#a5d8ff',green:'#b2f2bb',purple:'#d0bfff',white:'#ffffff'};
+function rrPath(x,y,w,h,r){r=Math.min(r,w/2,h/2);
+ return `M${x+r} ${y} L${x+w-r} ${y} A${r} ${r} 0 0 1 ${x+w} ${y+r} L${x+w} ${y+h-r} A${r} ${r} 0 0 1 ${x+w-r} ${y+h} L${x+r} ${y+h} A${r} ${r} 0 0 1 ${x} ${y+h-r} L${x} ${y+r} A${r} ${r} 0 0 1 ${x+r} ${y} Z`;}
+function box(x,y,w,h,fill,r=24,sw=3){
+ svg.appendChild(rc.path(rrPath(x,y,w,h,r),{seed:seed++,roughness:1.1,bowing:1,strokeWidth:sw,stroke:INK,
+   fill:fill,fillStyle:'solid'}));}
+function line(x1,y1,x2,y2,sw=3){svg.appendChild(rc.line(x1,y1,x2,y2,{seed:seed++,roughness:1,bowing:1,strokeWidth:sw,stroke:INK}));}
+function circle(x,y,d,fill){svg.appendChild(rc.circle(x,y,d,{seed:seed++,roughness:1,strokeWidth:2.5,stroke:INK,fill:fill,fillStyle:'solid'}));}
+function head(x,y,ang){const L=18,a=0.45;
+ line(x,y,x-L*Math.cos(ang-a),y-L*Math.sin(ang-a));line(x,y,x-L*Math.cos(ang+a),y-L*Math.sin(ang+a));}
+function arrow(x1,y1,x2,y2){line(x1,y1,x2,y2);head(x2,y2,Math.atan2(y2-y1,x2-x1));}
+function carrow(pts){svg.appendChild(rc.curve(pts,{seed:seed++,roughness:1,strokeWidth:3,stroke:INK}));
+ const a=pts[pts.length-2],b=pts[pts.length-1];head(b[0],b[1],Math.atan2(b[1]-a[1],b[0]-a[0]));}
+
+/* Row 1: Instinct phone, Messages thread */
+{const x=150,y=195,w=300,h=400;
+ box(x,y,w,h,C.blue,40);
+ line(x+110,y+26,x+190,y+26,4);             // notch
+ box(x+22,y+60,150,48,C.white,22,2.5);      // in
+ box(x+128,y+128,150,48,C.white,22,2.5);    // out
+ box(x+22,y+196,170,48,C.white,22,2.5);
+ box(x+148,y+264,130,48,C.white,22,2.5);
+ box(x+22,y+h-66,w-44,44,C.white,22,2.5);   // input bar
+ circle(x+w-46,y+h-44,26,C.blue);
+}
+/* Row 2: Muse standalone app */
+{const x=80,y=650,w=330,h=410;
+ box(x+w-12,y+105,120,70,C.green,18);       // tab 1 behind edge
+ box(x+w-12,y+195,120,70,C.green,18);       // tab 2
+ box(x,y,w,h,C.green,40);
+ line(x+120,y+24,x+210,y+24,4);             // notch
+ box(x+20,y+44,w-40,50,C.white,16,2.5);     // top bar
+ line(x+40,y+69,x+80,y+69,3);
+ box(x+20,y+112,w-40,h-132,C.white,18,2.5); // chat area
+ box(x+38,y+140,160,48,C.green,22,2.5);
+ box(x+130,y+212,160,48,C.green,22,2.5);
+ box(x+38,y+284,190,48,C.green,22,2.5);
+}
+/* Row 3: Grok Bot desktop window */
+{const x=45,y=1100,w=560,h=360;
+ box(x,y,w,h,C.purple,24);
+ line(x,y+52,x+w,y+52);
+ circle(x+32,y+27,18,C.white);circle(x+60,y+27,18,C.white);circle(x+88,y+27,18,C.white);
+ line(x+160,y+52,x+160,y+h);               // sidebar edge
+ for(let i=0;i<4;i++){box(x+18,y+78+i*66,124,44,C.white,14,2.5);}
+ box(x+195,y+80,330,72,C.white,20);         // chief of staff
+ box(x+205,y+250,130,80,C.white,18);
+ box(x+385,y+250,130,80,C.white,18);
+ carrow([[x+300,y+155],[x+282,y+200],[x+272,y+244]]);
+ carrow([[x+420,y+155],[x+440,y+200],[x+450,y+244]]);
+}
+</script>
+</body></html>

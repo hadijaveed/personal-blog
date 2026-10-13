@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111111;--accent:#c2410c;--bg:#ffffff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1500px;background:var(--bg);}
+  body{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    color:var(--ink);
+    padding:48px 40px;
+    display:flex;
+    flex-direction:column;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1{font-size:64px;font-weight:700;line-height:1.12;letter-spacing:-0.5px;margin-bottom:36px;}
+  .funnel{flex:1;display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .band{
+    border:3px solid var(--ink);
+    border-radius:16px;
+    padding:24px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex:1;
+  }
+  .b1{width:1120px}
+  .b2{width:1045px}
+  .b3{width:970px}
+  .b4{width:895px}
+  .b5{width:820px;border-color:var(--accent);border-width:5px;}
+  .stage{font-size:42px;font-weight:600;line-height:1.1;white-space:nowrap;}
+  .val{display:flex;align-items:baseline;gap:14px;white-space:nowrap;}
+  .num{font-size:56px;font-weight:700;line-height:1;}
+  .tail{font-size:32px;font-weight:500;line-height:1;}
+  .b5 .stage,.b5 .num,.b5 .tail{color:var(--accent);}
+  .b5 .tail{font-size:36px;font-weight:600;}
+  .foot{
+    margin-top:30px;
+    font-size:32px;
+    font-weight:500;
+    line-height:1.25;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+  <h1>Where patients fall out</h1>
+  <div class="funnel">
+    <div class="band b1">
+      <div class="stage">Eligible</div>
+      <div class="val"><span class="num">3.9%</span><span class="tail">become members</span></div>
+    </div>
+    <div class="band b2">
+      <div class="stage">Reached</div>
+      <div class="val"><span class="num">86%</span><span class="tail">do not answer</span></div>
+    </div>
+    <div class="band b3">
+      <div class="stage">Consented</div>
+      <div class="val"><span class="num">35%</span><span class="tail">of referrals complete</span></div>
+    </div>
+    <div class="band b4">
+      <div class="stage">Month one</div>
+      <div class="val"><span class="num">44</span><span class="tail">days vs 4</span></div>
+    </div>
+    <div class="band b5">
+      <div class="stage">Month twelve</div>
+      <div class="val"><span class="tail">half the money waits here</span></div>
+    </div>
+  </div>
+  <div class="foot">Numbers from five different studies. They do not multiply.</div>
+</body>
+</html>

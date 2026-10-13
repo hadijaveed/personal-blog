@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111111;--accent:#c2410c;--bg:#ffffff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1200px;background:var(--bg);}
+  body{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    color:var(--ink);
+    padding:48px 40px;
+    display:flex;
+    flex-direction:column;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1{font-size:64px;font-weight:700;line-height:1.12;letter-spacing:-0.5px;margin-bottom:36px;}
+  .rows{flex:1;display:flex;flex-direction:column;gap:26px;}
+  .row{
+    flex:1;
+    border:3px solid var(--ink);
+    border-radius:16px;
+    padding:30px 34px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .lbl{font-size:42px;font-weight:700;line-height:1.1;}
+  .sub{font-size:32px;font-weight:500;line-height:1.28;margin-top:16px;}
+  .kicker{
+    margin-top:30px;
+    font-size:36px;
+    font-weight:600;
+    line-height:1.25;
+    color:var(--accent);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+  <h1>Three problems every site has to solve</h1>
+  <div class="rows">
+    <div class="row">
+      <div class="lbl">Capture</div>
+      <div class="sub">Find the patient the day they need it, not months later</div>
+    </div>
+    <div class="row">
+      <div class="lbl">Activate</div>
+      <div class="sub">Reach out in a name they know, within days</div>
+    </div>
+    <div class="row">
+      <div class="lbl">Keep</div>
+      <div class="sub">Make month twelve worth answering</div>
+    </div>
+  </div>
+  <div class="kicker">The idea is right. Execution is the whole business.</div>
+</body>
+</html>

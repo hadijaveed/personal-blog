@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>you delegate. it runs the loop.</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Kalam:wght@400;700&display=block">
+<style>
+@font-face { font-family: 'Virgil'; src: url('https://unpkg.com/@excalidraw/excalidraw@0.17.6/dist/excalidraw-assets/Virgil.woff2') format('woff2'); font-display: block; }
+html,body{margin:0;padding:0;background:#ffffff;}
+#c{position:relative;width:1200px;height:1200px;overflow:hidden;background:#ffffff;}
+svg{position:absolute;left:0;top:0;}
+.t{position:absolute;font-family:'Virgil','Gloria Hallelujah','Kalam',cursive;color:#1e1e1e;text-align:center;line-height:1.2;display:flex;align-items:center;justify-content:center;}
+.title{font-size:66px;left:0;width:1200px;top:36px;height:90px;}
+.n{font-size:42px;}
+.s{font-size:34px;}
+.call{font-size:38px;}
+</style></head><body>
+<div id="c">
+<svg id="svg" width="1200" height="1200"></svg>
+<div class="t title">you delegate. it runs the loop.</div>
+<div class="t n" style="left:60px;top:170px;width:320px;height:140px;">you text<br>one line</div>
+<div class="t n" style="left:770px;top:170px;width:340px;height:140px;">it plans<br>the steps</div>
+<div class="t n" style="left:780px;top:450px;width:370px;height:150px;">the browser<br>does the work</div>
+<div class="t n" style="left:710px;top:760px;width:420px;height:200px;">asks you only<br>for money<br>or risk</div>
+<div class="t n" style="left:70px;top:900px;width:350px;height:140px;">comes back<br>done</div>
+<div class="t n" style="left:40px;top:520px;width:340px;height:170px;">keeps<br>watching</div>
+<div class="t s" style="left:232px;top:375px;width:170px;height:60px;justify-content:flex-start;">heads up</div>
+<div class="t call" style="left:420px;top:470px;width:340px;height:170px;">no skills<br>to write,<br>no cron to set</div>
+</div>
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg=document.getElementById('svg');const rc=rough.svg(svg);let seed=1;
+const base={roughness:1.1,bowing:1,strokeWidth:3,stroke:'#1e1e1e'};
+function rr(x,y,w,h,fill,r=24){
+  const d=`M${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h-r} Q${x+w},${y+h} ${x+w-r},${y+h} L${x+r},${y+h} Q${x},${y+h} ${x},${y+h-r} L${x},${y+r} Q${x},${y} ${x+r},${y} Z`;
+  const o=Object.assign({},base,{seed:seed++});
+  if(fill){o.fill=fill;o.fillStyle='solid';}
+  svg.appendChild(rc.path(d,o));
+}
+function arrow(x1,y1,cx,cy,x2,y2,dash){
+  const o={roughness:1,bowing:1,strokeWidth:3,stroke:'#1e1e1e',seed:seed++};
+  if(dash)o.strokeLineDash=[10,10];
+  svg.appendChild(rc.path(`M${x1},${y1} Q${cx},${cy} ${x2},${y2}`,o));
+  const a=Math.atan2(y2-cy,x2-cx),L=18,s=0.45;
+  const h={roughness:1,bowing:1,strokeWidth:3,stroke:'#1e1e1e'};
+  svg.appendChild(rc.line(x2,y2,x2-L*Math.cos(a-s),y2-L*Math.sin(a-s),Object.assign({seed:seed++},h)));
+  svg.appendChild(rc.line(x2,y2,x2-L*Math.cos(a+s),y2-L*Math.sin(a+s),Object.assign({seed:seed++},h)));
+}
+rr(60,170,320,140,'#a5d8ff');
+rr(770,170,340,140,null);
+rr(780,450,370,150,'#ffec99');
+rr(710,760,420,200,'#ffc9c9');
+rr(70,900,350,140,'#b2f2bb');
+svg.appendChild(rc.ellipse(210,605,340,170,Object.assign({},base,{seed:seed++,fill:'#d0bfff',fillStyle:'solid'})));
+arrow(395,235,575,175,755,235);          // 1 -> 2
+arrow(1000,322,1045,385,1000,440);       // 2 -> 3
+arrow(960,612,990,690,945,748);          // 3 -> 4
+arrow(700,880,600,985,435,965);          // 4 -> 5
+arrow(225,888,265,790,225,703,true);     // 5 -> 6 dashed
+arrow(195,508,165,415,200,322);          // 6 -> 1
+</script>
+</body></html>

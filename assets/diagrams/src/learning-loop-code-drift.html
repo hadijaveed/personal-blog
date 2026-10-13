@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>learning loop · code drift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfaf6;
+  --graphite: #3a3733;
+  --meta: #6f6a61;
+  --soft: #7a746a;
+  --red: #b5543b;
+  --green: #5d7a52;
+  --amber: #b08a3e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body { font-family: 'Patrick Hand', cursive; background: var(--paper); color: var(--graphite); -webkit-font-smoothing: antialiased; }
+.page { width: 1600px; height: 900px; position: relative; }
+svg#sketch { position: absolute; inset: 0; width: 1600px; height: 900px; pointer-events: none; }
+.title { position: absolute; left: 80px; top: 42px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 54px; letter-spacing: 0.01em; }
+.subtitle { position: absolute; left: 82px; top: 140px; font-size: 20px; color: var(--meta); max-width: 880px; line-height: 1.5; }
+.label { position: absolute; }
+.label .badge { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+.label .name { font-size: 21px; line-height: 1.2; margin-bottom: 2px; }
+.label .name.big { font-size: 24px; }
+.label .meta { font-size: 15.5px; color: var(--meta); line-height: 1.35; }
+.label.center { text-align: center; }
+.note { position: absolute; font-family: 'Caveat', cursive; font-weight: 600; font-size: 24px; color: var(--soft); }
+.brand { position: absolute; bottom: 34px; right: 80px; font-size: 14px; color: var(--soft); }
+.c-red { color: var(--red); } .c-green { color: var(--green); } .c-amber { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg id="sketch"></svg>
+
+  <div class="title">schema drift does not wait for you</div>
+  <div class="subtitle">skills cite the code they came from: path, line, snippet. when commits land, the loop re-checks every citation against the diff.</div>
+
+  <!-- github repo -->
+  <div class="label" style="left: 110px; top: 440px; width: 220px; transform: rotate(-0.5deg);">
+    <div class="name">github repo</div>
+    <div class="meta">new commits · diff since last scan</div>
+  </div>
+
+  <!-- drift audit -->
+  <div class="label" style="left: 452px; top: 432px; width: 275px; transform: rotate(0.4deg);">
+    <div class="name big c-red">drift audit</div>
+    <div class="meta">re-resolves every path : line : snippet</div>
+  </div>
+
+  <!-- diamond question -->
+  <div class="label center" style="left: 845px; top: 420px; width: 200px; transform: rotate(-0.5deg);">
+    <div class="badge">re-verify</div>
+    <div class="name">is the skill still true?</div>
+  </div>
+
+  <!-- still true -->
+  <div class="label" style="left: 1240px; top: 262px; width: 270px; transform: rotate(0.5deg);">
+    <div class="badge c-green">still true</div>
+    <div class="name">nothing to do</div>
+    <div class="meta">citations re-pinned to head</div>
+  </div>
+
+  <!-- changed / removed -->
+  <div class="label" style="left: 1235px; top: 642px; width: 280px; transform: rotate(-0.5deg);">
+    <div class="badge c-amber">changed / removed</div>
+    <div class="name">"code drift: customer-churn"</div>
+    <div class="meta">edit suggestion → review queue</div>
+  </div>
+
+  <div class="note" style="left: 350px; top: 620px; transform: rotate(-1deg);">models · migrations · schemas also probed for brand-new facts</div>
+
+  <div class="brand">byaan learning loop · 02</div>
+</div>
+
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+const svg = document.getElementById('sketch');
+const rc = rough.svg(svg);
+const GRAPHITE = '#3a3733', SOFT = '#7a746a', RED = '#b5543b', GREEN = '#5d7a52', AMBER = '#b08a3e';
+let seed = 11;
+const add = el => svg.appendChild(el);
+
+function box(x, y, w, h, o = {}) {
+  add(rc.rectangle(x, y, w, h, { stroke: GRAPHITE, strokeWidth: 1.6, roughness: 1.7, bowing: 1.2, fill: 'none', seed: seed++, ...o }));
+}
+function hachure(color) {
+  return { fill: color, fillStyle: 'hachure', hachureGap: 12, fillWeight: 0.7 };
+}
+function diamond(cx, cy, r, o = {}) {
+  add(rc.polygon([[cx, cy - r], [cx + r, cy], [cx, cy + r], [cx - r, cy]], { stroke: GRAPHITE, strokeWidth: 1.7, roughness: 1.7, fill: 'none', seed: seed++, ...o }));
+}
+function head(px, py, x, y, o) {
+  const ho = { ...o }; delete ho.strokeLineDash;
+  const a = Math.atan2(y - py, x - px), L = 12;
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5), ho));
+  ho.seed = seed++; add(rc.line(x, y, x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5), ho));
+}
+function arrow(pts, o = {}) {
+  const opt = { stroke: GRAPHITE, strokeWidth: 1.4, roughness: 1.4, bowing: 1, seed: seed++, ...o };
+  if (pts.length === 2) add(rc.line(pts[0][0], pts[0][1], pts[1][0], pts[1][1], opt));
+  else add(rc.curve(pts, opt));
+  head(pts[pts.length - 2][0], pts[pts.length - 2][1], pts[pts.length - 1][0], pts[pts.length - 1][1], opt);
+}
+function underline(x1, x2, y, color = RED) {
+  add(rc.line(x1, y, x2, y, { stroke: color, strokeWidth: 1.8, roughness: 2.5, bowing: 2, seed: seed++ }));
+}
+
+underline(80, 690, 122);
+
+box(90, 420, 255, 104);
+box(425, 414, 320, 112, { stroke: RED, ...hachure('rgba(181,84,59,0.10)') });
+diamond(945, 470, 148);
+box(1215, 246, 305, 104, { stroke: GREEN });
+box(1210, 626, 315, 112, { stroke: AMBER });
+
+arrow([[345, 470], [417, 468]], { stroke: RED });
+arrow([[745, 468], [788, 470]], { stroke: RED });
+arrow([[1022, 390], [1130, 322], [1207, 292]], { stroke: GREEN });
+arrow([[1022, 548], [1130, 618], [1202, 660]], { stroke: AMBER });
+
+// next scan starts from the new head
+arrow([[1340, 744], [860, 850], [400, 776], [216, 528]], { stroke: AMBER, strokeLineDash: [7, 7], strokeWidth: 1.3 });
+
+// note arrow → drift audit bottom
+arrow([[540, 614], [566, 532]], { stroke: SOFT, strokeWidth: 1.1 });
+</script>
+</body>
+</html>

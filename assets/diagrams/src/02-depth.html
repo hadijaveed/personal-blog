@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>02 · Depth first</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f3;
+  --card: #ffffff;
+  --ink: #1a1916;
+  --muted: #8a8580;
+  --line: #d8d2c4;
+  --accent: #c2410c;
+  --accent-bg: #fef3e6;
+  --you: #15803d;
+  --you-bg: #ecfdf5;
+  --shadow: 0 1px 2px rgba(26,25,22,0.04), 0 4px 12px rgba(26,25,22,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: hidden; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.page { width: 1600px; height: 900px; padding: 60px 80px; position: relative; }
+.step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.title { font-size: 44px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+.subtitle { font-size: 19px; color: var(--muted); max-width: 760px; line-height: 1.5; }
+
+.canvas { position: absolute; inset: 230px 80px 60px 80px; }
+
+.node {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow);
+}
+.node .name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.node .meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.node.dimmed { opacity: 0.32; }
+
+.active {
+  position: absolute;
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+  border-radius: 18px;
+  padding: 32px 40px;
+  box-shadow: 0 8px 32px rgba(194,65,12,0.10);
+}
+.active .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+.active .name {
+  font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 6px;
+}
+.active .meta {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9a4a1a;
+}
+
+.you {
+  position: absolute;
+  background: var(--you-bg);
+  border: 1.5px solid var(--you);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--you);
+  letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 8px;
+}
+.you::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--you); box-shadow: 0 0 0 4px rgba(21,128,61,0.18);
+}
+
+.checklist {
+  position: absolute;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  width: 320px;
+}
+.checklist .head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 12px;
+}
+.checklist ul { list-style: none; }
+.checklist li {
+  font-size: 14px;
+  padding: 6px 0;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--ink);
+}
+.checklist li::before {
+  content: ''; width: 14px; height: 14px;
+  border: 1.5px solid var(--accent);
+  border-radius: 4px;
+  background: var(--accent);
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path d='M3 7 L6 10 L11 4' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size: contain;
+}
+.tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+}
+
+svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.brand {
+  position: absolute; bottom: 36px; right: 80px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="step">step 02 / 04 · depth first</div>
+  <div class="title">Zoom in. One slice at a time.</div>
+  <div class="subtitle">Pick the riskiest fork. Sit in that thread. Read every diff. Catch the wrong abstraction on day three, not day eleven.</div>
+
+  <div class="canvas">
+    <svg class="lines" viewBox="0 0 1440 580" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+        </marker>
+        <marker id="arrowg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+        </marker>
+      </defs>
+      <!-- you in loop arrow -->
+      <path d="M 280 220 L 380 220" stroke="#15803d" stroke-width="1.8" fill="none" marker-end="url(#arrow2)"/>
+      <!-- arrows from active to checklist boxes -->
+      <path d="M 920 180 L 1060 110" stroke="#c2410c" stroke-width="1.5" fill="none" marker-end="url(#arrowg)" stroke-dasharray="0"/>
+      <path d="M 920 240 L 1060 290" stroke="#c2410c" stroke-width="1.5" fill="none" marker-end="url(#arrowg)"/>
+      <!-- dimmed siblings -->
+    </svg>
+
+    <!-- dimmed siblings top -->
+    <div class="node dimmed" style="left: 0px; top: 0px; width: 220px;">
+      <div class="name">Express · auth</div>
+      <div class="meta">queued</div>
+    </div>
+    <div class="node dimmed" style="left: 0px; top: 480px; width: 220px;">
+      <div class="name">React · chat UI</div>
+      <div class="meta">queued</div>
+    </div>
+
+    <!-- you label -->
+    <div class="you" style="left: 80px; top: 200px;">you in the loop</div>
+
+    <!-- active fork -->
+    <div class="active" style="left: 400px; top: 140px; width: 520px;">
+      <div class="label">active fork</div>
+      <div class="name">FastAPI · agent loop</div>
+      <div class="meta">test endpoints · trace tool calls · verify data layer</div>
+    </div>
+
+    <!-- right side checklists -->
+    <div class="checklist" style="left: 1060px; top: 30px;">
+      <div class="head">what i actually do</div>
+      <ul>
+        <li>read every diff</li>
+        <li>hit the API by hand</li>
+        <li>print intermediate state</li>
+      </ul>
+    </div>
+
+    <div class="checklist" style="left: 1060px; top: 260px;">
+      <div class="head">what i catch</div>
+      <ul>
+        <li>wrong auth boundary</li>
+        <li>schema drift</li>
+        <li>hallucinated tool calls</li>
+      </ul>
+    </div>
+
+    <div class="tag" style="left: 400px; top: 480px;">one thread. no sub-agents.</div>
+  </div>
+
+  <div class="brand">shipping fast with claude code · 02</div>
+</div>
+</body>
+</html>
